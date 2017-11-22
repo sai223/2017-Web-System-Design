@@ -35,7 +35,7 @@ Angular2 - Notify Service Manual
 Component간에 데이터를 주고받을 수 있다.
 
 #### 데이터를 보내는 Component에서 사용 예시
-> <pre><code>
+<pre><code>
 import { NotifyService } from './notify-service';
 
 export class SendComponent {
@@ -47,7 +47,7 @@ export class SendComponent {
 </code></pre>
 
 #### 데이터를 받는 Component에서 사용 예시
-> <pre><code>
+<pre><code>
 import { OnInit } from '@angular/core';
 import { NotifyService } from './notify-service';
 import { Subscription } from 'rxjs/Subscription';
