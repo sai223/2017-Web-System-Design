@@ -27,6 +27,8 @@ Git Manual
 > 4. 용량 때문에 node_modules 폴더를 제외하고 올리는 것이 좋다. add할 때 node_modules 폴더만 제외하거나, 혹은 아래의 방법을 이용.
 >> 1. local 폴더에서 **touch .gitignore** 실행하면 .gitignore라는 확장자가 없는 빈 파일이 생성된다.
 >> 2. 해당 파일에 **node_modules/** 라고 적어두면 add할 때 자동으로 제외된다.
+
+*****
 *****
 
 Angular2 - Notify Service Manual
@@ -66,7 +68,39 @@ export class ReceiveComponent implements OnInit {
     }
 }
 </code></pre>
+
+*****
 *****
 
 Angular2 - Confirm Service Manual
----------------------------------
+--------------------------------
+#### 설명
+윈도우 Confirm 박스를 이용하여 사용자로부터 True/False 를 입력받을 수 있다.<br>
+사용자가 '확인'을 누를 경우 true를, '취소'를 누를 경우 false를 반환한다. 이를 이용하여 동적인 logic을 부여할 수 있다.
+
+#### Confirm Service 사용 예시
+<pre><code>
+import { ConfirmService } from './confirm-service';
+
+export class ComponentName {
+    constructor(private confirmService: ConfirmService) {}
+
+    canDeactive(msg: string) {
+        switch (msg) {
+            case 'delete':
+                return window.confirm('정말 삭제하시겠습니까?');
+            case 'update':
+                return window.confirm('정말 수정하시겠습니가?');
+             ...
+        }
+        return true;
+    }
+    func() {
+        if(this.canDeactive('delete') === true) {
+            // 삭제한다.
+        }else {
+            // 삭제하지 않는다.
+        }
+    }
+}
+</code></pre>
