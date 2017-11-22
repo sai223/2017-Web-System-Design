@@ -27,3 +27,46 @@ Git Manual
 > 4. 용량 때문에 node_modules 폴더를 제외하고 올리는 것이 좋다. add할 때 node_modules 폴더만 제외하거나, 혹은 아래의 방법을 이용.
 >> 1. local 폴더에서 **touch .gitignore** 실행하면 .gitignore라는 확장자가 없는 빈 파일이 생성된다.
 >> 2. 해당 파일에 **node_modules/** 라고 적어두면 add할 때 자동으로 제외된다.
+*****
+
+Angular2 - Notify Service Manual
+--------------------------------
+#### 설명
+Component간에 데이터를 주고받을 수 있다.
+
+#### 데이터를 보내는 Component에서 사용 예시
+> <pre><code>
+import { NotifyService } from './notify-service';
+
+export class SendComponent {
+    constructor(private notifyService: NotifyService) {}
+    notifyFunction() {
+        this.notifyService.notifyOther({from: 'SendComponent', to: 'ReceiveComponent', content: {data: 'example'}});
+    }
+}
+</code></pre>
+
+#### 데이터를 받는 Component에서 사용 예시
+> <pre><code>
+import { OnInit } from '@angular/core';
+import { NotifyService } from './notify-service';
+import { Subscription } from 'rxjs/Subscription';
+
+export class ReceiveComponent implements OnInit {
+    constructor(
+        private subscription: Subscription,
+        private notifyService: NotifyService
+    ) {}
+    ngOnInit() {
+        this.subscription = this.notifyService.notifyObservable$.subscribe((res) => {
+            if(res.from === 'SendComponent' && res.to === 'ReceiveComponent') {
+                console.log(res.content.data);
+            }
+        });
+    }
+}
+</code></pre>
+*****
+
+Angular2 - Confirm Service Manual
+---------------------------------
