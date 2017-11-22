@@ -19,7 +19,7 @@ Git Manual
 >> * git pull origin master
 *****
 #### Local --> Git
-> 1. **<pre>git add *</pre>** 또는 **git add 파일명/폴더명** : add 대상을 stage area에 올린다.
+> 1. __git add *__ 또는 **git add 파일명/폴더명** : add 대상을 stage area에 올린다.
 >> **git status** : 작업 도중에 현재까지 변경된 사항 등의 정보를 알 수 있다.
 > 2. **git commit -m "commit message"** : stage area에 있는 내용을 local repository에 올린다.
 >> commit message naming 규칙 : YYYYMMDD-이름-설명 (예시: 20171122-이인태-README.md 수정)
