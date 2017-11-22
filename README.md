@@ -2,4 +2,4 @@
 Repository for Final Project
 
 Kihong Ki,
-intae
+intil
