@@ -1,0 +1,26 @@
+.searchEngine{
+  padding: 10px;
+  background-color: lavender;
+}
+.subjectType{
+  float: left;
+  margin-right: 20px;
+}
+.subjectDay{
+  float: left;
+  margin-right: 20px;
+}
+.subjectTime{
+
+}
+.major{
+  float: left;
+  margin-right: 20px;
+}
+.subjectName{
+  float: left;
+  margin-right: 20px;
+}
+.professorName{
+
+}
