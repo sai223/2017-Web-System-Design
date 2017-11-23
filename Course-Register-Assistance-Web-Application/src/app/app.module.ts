@@ -8,13 +8,14 @@ import { AppComponent } from './app.component';
 import { HttpService } from './http-service';
 import { NotifyService } from './notify-service';
 import { ConfirmService } from './confirm-service';
+
 import {SearchEngineComponent} from './searchEngine.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchEngineComponent
+    SearchEngineComponent,
   ],
   imports: [
     BrowserModule,
