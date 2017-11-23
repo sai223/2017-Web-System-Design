@@ -41,7 +41,9 @@ Component간에 데이터를 주고받을 수 있다.
 import { NotifyService } from './notify-service';
 
 export class SendComponent {
-    constructor(private notifyService: NotifyService) {}
+    constructor(
+        private notifyService: NotifyService
+    ) {}
     notifyFunction() {
         this.notifyService.notifyOther({from: 'SendComponent', to: 'ReceiveComponent', content: {data: 'example'}});
     }
@@ -55,8 +57,8 @@ import { NotifyService } from './notify-service';
 import { Subscription } from 'rxjs/Subscription';
 
 export class ReceiveComponent implements OnInit {
+    private subscription: Subscription;
     constructor(
-        private subscription: Subscription,
         private notifyService: NotifyService
     ) {}
     ngOnInit() {
