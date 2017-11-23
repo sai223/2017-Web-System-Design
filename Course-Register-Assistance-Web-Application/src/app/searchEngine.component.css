@@ -2,32 +2,43 @@
   padding: 10px;
   background-color: lavender;
 }
+.firstRow{
+  padding: 5px;
+}
 .subjectType{
   float: left;
   margin-right: 20px;
 }
-.subjectDay{
-  float: left;
-  margin-right: 20px;
-}
-.subjectTime{
-
-}
 .major{
-  float: left;
   margin-right: 20px;
+}
+.secondRow{
+  margin-top: 10px;
+  padding:5px;
 }
 .subjectName{
   float: left;
   margin-right: 20px;
 }
 .professorName{
+  margin-right: 20px;
+}
+.thirdRow{
+  margin-top: 10px;
+}
+.subjectDay{
+  float: left;
+  margin-right: 20px;
+}
+.subjectTime{
+  float: left;
+  margin-right: 20px;
+}
+.searchButton{
+  float: left;
+  margin-right: 20px;
+}
+.enrollButton{
+}
 
-}
-.firstRow{
-  padding: 2px;
-}
-.secondRow{
-  padding:2px;
-}
 
