@@ -8,7 +8,6 @@ import { SugangLogin } from './sugangLogin.component'
 
 import { HttpService } from './http-service';
 import { NotifyService } from './notify-service';
-import { ConfirmService } from './confirm-service';
 
 import {SearchEngineComponent} from './searchEngine.component';
 
@@ -27,7 +26,6 @@ import {SearchEngineComponent} from './searchEngine.component';
   providers: [
     HttpService,
     NotifyService,
-    ConfirmService
   ],
   bootstrap: [AppComponent]
 })
