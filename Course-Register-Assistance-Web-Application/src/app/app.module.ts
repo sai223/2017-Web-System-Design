@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { SugangLogin } from './sugangLogin.component'
 
 import { HttpService } from './http-service';
 import { NotifyService } from './notify-service';
@@ -16,6 +17,7 @@ import {SearchEngineComponent} from './searchEngine.component';
   declarations: [
     AppComponent,
     SearchEngineComponent,
+    SugangLogin
   ],
   imports: [
     BrowserModule,
