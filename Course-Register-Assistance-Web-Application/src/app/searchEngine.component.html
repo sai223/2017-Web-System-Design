@@ -1,28 +1,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng2-bootstrap/x.x.x/ng2-bootstrap.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 
-<div class = "searchEngine">
-
+<div class="container" id = "searchEngine">
   <div class="firstRow">
     <table>
       <tr>
         <td>
           <div class = "subjectType">
-            교과구분 <select name = "교과구분" class="form-control">
-            <option value="">선택</option>
-            <option value="">전공과목</option>
-            <option value="">교양과목</option>
-            <option value="">기초과목</option>
-            <option value="">공학기초</option>
-            <option value="">영역별교양</option>
-            <option value="">학점교류</option>
-            <option value="">공학인증교양</option>
-          </select>
+            <label class="col-sm-2 control-label" for="subjectType">교과구분
+              <select name = "교과구분" class="form-control" id="subjectType">
+                  <option value="">선택</option>
+                  <option value="">전공과목</option>
+                  <option value="">교양과목</option>
+                  <option value="">기초과목</option>
+                  <option value="">공학기초</option>
+                  <option value="">영역별교양</option>
+                  <option value="">학점교류</option>
+                  <option value="">공학인증교양</option>
+              </select></label>
           </div>
         </td>
         <td>
           <div class = "major">
-            전공 <select name = "전공" class="form-control">
+            <label class="col-sm-2 control-label" for="major">전공
+              <select name = "전공" class="form-control" id="major">
             <option value="">선택</option>
             <option value="기계공학전공(과)">기계공학전공(과)</option>
             <option value="산업공학전공(과)">산업공학전공(과)</option>
@@ -71,12 +72,13 @@
             <option value="일본지역연구전공(과)">일본지역연구전공(과)</option>
             <option value="인문사회데이터분석전공(과)">인문사회데이터분석전공(과)</option>
             <option value="융합시스템공학전공(과)">융합시스템공학전공(과)</option>
-          </select>
+              </select></label>
           </div>
         </td>
         <td>
           <div class = "subjectDay">
-            요일 <select name = "요일" class="form-control">
+            <label class="col-sm-2 control-label" for="subjectDay">요일
+              <select name = "요일" class="form-control" id="subjectDay">
             <option value="">선택</option>
             <option value="">월</option>
             <option value="">화</option>
@@ -85,12 +87,13 @@
             <option value="">금</option>
             <option value="">토</option>
             <option value="">일</option>
-          </select>
+              </select></label>
           </div>
         </td>
         <td>
           <div class = "subjectTime">
-            강의교시 <select name = "강의교시" class="form-control">
+            <label class="col-sm-2 control-label" for="subjectTime">강의교시
+              <select name = "강의교시" class="form-control" id="subjectTime">
             <option value="">선택</option>
             <option value="">A(9:00-10:15)</option>
             <option value="">B(10:30-11:45)</option>
@@ -100,15 +103,14 @@
             <option value="">F(4:30-5:45)</option>
             <option value="">G(6:00-7:15)</option>
             <option value="">H(7:30-8:45)</option>
-          </select>
+              </select></label>
           </div>
         </td>
       </tr>
     </table>
   </div>
-
-  <div class="secondRow">
-<table>
+<div class="secondRow">
+  <table>
   <tr>
     <td>
       <div class = "subjectName">

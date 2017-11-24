@@ -1,53 +1,39 @@
-.searchEngine{
+#searchEngine{
   padding: 10px;
-  background-color: lavender;
+  background-color: azure;
 }
 .firstRow{
-  padding: 5px;
 }
 .subjectType{
-  float: left;
-  margin-right: 20px;
 }
 .major{
-  margin-right: 20px;
+}
+.subjectDay{
+}
+.subjectTime{
 }
 .secondRow{
   margin-top: 10px;
-  padding:5px;
 }
 .subjectName{
-  float: left;
-  margin-right: 20px;
 }
 .professorName{
-  margin-right: 20px;
 }
-.thirdRow{
-  margin-top: 10px;
-}
-.subjectDay{
-  float: left;
-  margin-right: 20px;
-}
-.subjectTime{
-  float: left;
-  margin-right: 20px;
-}
-
 input{
   width: 150px;
   height: 30px;
-  font-size: 10pt;
+  font-size: 9pt;
 }
 select{
   width: 100px;
-  height: 35px;
+  height: 32px;
   font-size: 10pt;
 }
 button{
-  width: 100px;
+  width: 70px;
   height: 30px;
   font-size: 10pt;
   margin-right: 20px;
+  background-color: lightblue;
 }
+
