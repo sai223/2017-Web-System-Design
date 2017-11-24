@@ -7,7 +7,7 @@
       <tr>
         <td>
           <div class = "subjectType">
-            <label class="col-sm-2 control-label" for="subjectType">교과구분
+            <label for="subjectType">교과구분
               <select name = "교과구분" class="form-control" id="subjectType">
                   <option value="">선택</option>
                   <option value="">전공과목</option>
@@ -22,7 +22,7 @@
         </td>
         <td>
           <div class = "major">
-            <label class="col-sm-2 control-label" for="major">전공
+            <label for="major">전공
               <select name = "전공" class="form-control" id="major">
             <option value="">선택</option>
             <option value="기계공학전공(과)">기계공학전공(과)</option>
@@ -77,7 +77,7 @@
         </td>
         <td>
           <div class = "subjectDay">
-            <label class="col-sm-2 control-label" for="subjectDay">요일
+            <label  for="subjectDay">요일
               <select name = "요일" class="form-control" id="subjectDay">
             <option value="">선택</option>
             <option value="">월</option>
@@ -92,7 +92,7 @@
         </td>
         <td>
           <div class = "subjectTime">
-            <label class="col-sm-2 control-label" for="subjectTime">강의교시
+            <label  for="subjectTime">강의교시
               <select name = "강의교시" class="form-control" id="subjectTime">
             <option value="">선택</option>
             <option value="">A(9:00-10:15)</option>
@@ -114,13 +114,13 @@
   <tr>
     <td>
       <div class = "subjectName">
-        <label class="col-sm-2 control-label" for="subjectName">과목명
+        <label for="subjectName">과목명
           <input type="text" id="subjectName" class="form-control"></label>
       </div>
     </td>
     <td>
       <div class="professorName">
-        <label class="col-sm-2 control-label" for="professorName">교수명
+        <label for="professorName">교수명
           <input type="text" id="professorName" class="form-control"></label>
       </div>
     </td>
@@ -134,5 +134,7 @@
 </table>
 </div>
 </div>
+
+<app-list [searchList]="searchList"></app-list>
 
 

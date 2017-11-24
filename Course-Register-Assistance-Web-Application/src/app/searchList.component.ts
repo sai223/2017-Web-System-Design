@@ -1,10 +1,17 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Subject} from './Subject';
 
 @Component({
-  selector: 'app-searchlist',
-  templateUrl: './searchEngine.component.html',
-  styleUrls: ['./searchEngine.component.css']
+  selector: 'app-list',
+  templateUrl: './searchList.component.html',
+  styleUrls: ['./searchList.component.css']
 })
 
-export class SearchListComponent {
+export class SearchListComponent implements OnInit {
+  constructor() {
+  }
+  @Input() searchList: Subject[] = [];
+  ngOnInit() {
+    console.log(this.searchList);
+  }
 }

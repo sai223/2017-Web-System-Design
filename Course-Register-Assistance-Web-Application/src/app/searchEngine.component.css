@@ -18,9 +18,16 @@
 .subjectName{
 }
 .professorName{
+  margin-left: 30px;
+  margin-right: 130px;
 }
-input{
-  width: 150px;
+#subjectName{
+  width: 200px;
+  height: 30px;
+  font-size: 9pt;
+}
+#professorName{
+  width: 130px;
   height: 30px;
   font-size: 9pt;
 }
