@@ -74,19 +74,15 @@ export class ReceiveComponent implements OnInit {
 *****
 *****
 
-Angular2 - Confirm Service Manual
+Angular2 - Confirm Usage Manual
 --------------------------------
 #### 설명
 윈도우 Confirm 박스를 이용하여 사용자로부터 True/False 를 입력받을 수 있다.<br>
 사용자가 '확인'을 누를 경우 true를, '취소'를 누를 경우 false를 반환한다. 이를 이용하여 동적인 logic을 부여할 수 있다.
 
-#### Confirm Service 사용 예시
+#### Confirm 사용 예시
 <pre><code>
-import { ConfirmService } from './confirm-service';
-
 export class ComponentName {
-    constructor(private confirmService: ConfirmService) {}
-
     canDeactive(msg: string) {
         switch (msg) {
             case 'delete':
