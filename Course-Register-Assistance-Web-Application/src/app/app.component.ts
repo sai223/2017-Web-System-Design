@@ -1,5 +1,7 @@
 import {Component, OnInit, ViewChild, TemplateRef, ViewContainerRef, EmbeddedViewRef} from '@angular/core';
 
+import {NotifyService} from './notify-service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -12,10 +14,13 @@ export class AppComponent implements OnInit {
   @ViewChild('Timetable_Logout') Timetable_Logout: TemplateRef<any>;
   currentPage: Number; // 1: 수강신청 페이지, 2: 시간표 조회 페이지
   loginState: Boolean; // true: 로그인 상태, false: 로그아웃 상태
+  userID: string;
+  userPassword: string;
   currentTemplate: TemplateRef<any>;
   currentView: EmbeddedViewRef<any>;
   constructor(
     private vcr: ViewContainerRef,
+    private notifyService: NotifyService
   ) {}
   ngOnInit() {
     this.currentPage = 1;
@@ -29,6 +34,14 @@ export class AppComponent implements OnInit {
   }
   changeLoginState(st: boolean) {
     this.loginState = st;
+    /*
+    세션을 이용한 로그인 과정이 여기에 들어간다.
+     */
+    this.notifyService.notifyOther({from: 'app.component', to: 'handle-temporary-sugang-list.component', content: {
+      state: (st === true) ? 'Login' : 'Logout',
+      id: this.userID
+    }});
+    this.userPassword = '';
     this.removeTemplate();
     this.createTemplate();
   }

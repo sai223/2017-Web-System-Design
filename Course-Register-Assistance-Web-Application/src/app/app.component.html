@@ -3,23 +3,39 @@
   <button (click)="changeCurrentPage(1)">수강신청</button>
   <button (click)="changeCurrentPage(2)">시간표 조회</button>
 </div>
-<div>
-  <button (click)="changeLoginState(true)">로그인</button>
-  <button (click)="changeLoginState(false)">로그아웃</button>
-</div>
 
 <ng-template #Sugang_Login>
-  수강신청 - 로그인 페이지 <!-- <app-sugang-login></app-sugang-login> 이런식으로 사용하면-->
-  <app-sugang-login></app-sugang-login>
+  수강신청 - 로그인 페이지
+  <div>
+    {{userID}}님 안녕하세요.
+    <button (click)="changeLoginState(false)">로그아웃</button>
+  </div>
 </ng-template>
+
 <ng-template #Sugang_Logout>
-  수강신청 - 로그아웃 페이지 <!-- <app-sugang-logout></app-sugang-logout>-->
+  수강신청 - 로그아웃 페이지
+  <div>
+    아이디: <input type="text" [(ngModel)]="userID">
+    비밀번호: <input type="password" [(ngModel)]="userPassword">
+    <button (click)="changeLoginState(true)">로그인</button>
+  </div>
 </ng-template>
+
 <ng-template #Timetable_Login>
   시간표 조회 - 로그인 페이지
+  <div>
+    {{userID}}님 안녕하세요.
+    <button (click)="changeLoginState(false)">로그아웃</button>
+  </div>
   <app-engine></app-engine>
 </ng-template>
+
 <ng-template #Timetable_Logout>
   시간표 조회 - 로그아웃 페이지
+  <div>
+    아이디: <input type="text" [(ngModel)]="userID">
+    비밀번호: <input type="text" [(ngModel)]="userPassword">
+    <button (click)="changeLoginState(true)">로그인</button>
+  </div>
   <app-engine></app-engine>
 </ng-template>
