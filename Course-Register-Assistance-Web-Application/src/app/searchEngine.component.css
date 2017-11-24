@@ -34,11 +34,20 @@
   float: left;
   margin-right: 20px;
 }
-.searchButton{
-  float: left;
+
+input{
+  width: 150px;
+  height: 30px;
+  font-size: 10pt;
+}
+select{
+  width: 100px;
+  height: 35px;
+  font-size: 10pt;
+}
+button{
+  width: 100px;
+  height: 30px;
+  font-size: 10pt;
   margin-right: 20px;
 }
-.enrollButton{
-}
-
-
