@@ -10,7 +10,9 @@
     <th>교수명</th>
     <th>강의시간</th>
   </tr>
-<tr *ngFor="let subject of searchList">
+<tr *ngFor="let subject of searchList"
+(click)="choice(subject)"
+>
     <td>{{subject.major}}</td>
     <td>{{subject.subjectName}}</td>
     <td>{{subject.subjectNumber}}</td>
