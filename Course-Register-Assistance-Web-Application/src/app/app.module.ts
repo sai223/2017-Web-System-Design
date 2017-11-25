@@ -6,18 +6,18 @@ import { AppComponent } from './app.component';
 
 import { HttpService } from './http-service';
 import { NotifyService } from './notify-service';
-import {ServerService} from "./server-service";
 
 import {SearchEngineComponent} from './searchEngine.component';
 import {SearchListComponent} from './searchList.component';
-
+import {HandleSugangListComponent} from './handle-sugangList.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchEngineComponent,
     SearchListComponent,
-    SearchEngineComponent
+    SearchEngineComponent,
+    HandleSugangListComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +27,6 @@ import {SearchListComponent} from './searchList.component';
   providers: [
     HttpService,
     NotifyService,
-    ServerService
   ],
   bootstrap: [AppComponent]
 })

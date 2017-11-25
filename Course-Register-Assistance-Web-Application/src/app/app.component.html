@@ -7,7 +7,7 @@
 <ng-template #Sugang_Login>
   수강신청 - 로그인 페이지
   <div>
-    {{userName}}님 안녕하세요.
+    <b>{{userName}}</b>님 안녕하세요.
     <button (click)="changeLoginState(false)">로그아웃</button>
   </div>
 </ng-template>
@@ -24,7 +24,7 @@
 <ng-template #Timetable_Login>
   시간표 조회 - 로그인 페이지
   <div>
-    {{userName}}님 안녕하세요.
+    <b>{{userName}}</b>님 안녕하세요.
     <button (click)="changeLoginState(false)">로그아웃</button>
   </div>
   <app-engine></app-engine>
