@@ -41,9 +41,7 @@ Component간에 데이터를 주고받을 수 있다.
 import { NotifyService } from './notify-service';
 
 export class SendComponent {
-    constructor(
-        private notifyService: NotifyService
-    ) {}
+    constructor(private notifyService: NotifyService) {}
     notifyFunction() {
         this.notifyService.notifyOther({from: 'SendComponent', to: 'ReceiveComponent', content: {data: 'example'}});
     }
@@ -57,8 +55,8 @@ import { NotifyService } from './notify-service';
 import { Subscription } from 'rxjs/Subscription';
 
 export class ReceiveComponent implements OnInit {
-    private subscription: Subscription;
     constructor(
+        private subscription: Subscription,
         private notifyService: NotifyService
     ) {}
     ngOnInit() {
@@ -74,15 +72,19 @@ export class ReceiveComponent implements OnInit {
 *****
 *****
 
-Angular2 - Confirm Usage Manual
+Angular2 - Confirm Service Manual
 --------------------------------
 #### 설명
 윈도우 Confirm 박스를 이용하여 사용자로부터 True/False 를 입력받을 수 있다.<br>
 사용자가 '확인'을 누를 경우 true를, '취소'를 누를 경우 false를 반환한다. 이를 이용하여 동적인 logic을 부여할 수 있다.
 
-#### Confirm 사용 예시
+#### Confirm Service 사용 예시
 <pre><code>
+import { ConfirmService } from './confirm-service';
+
 export class ComponentName {
+    constructor(private confirmService: ConfirmService) {}
+
     canDeactive(msg: string) {
         switch (msg) {
             case 'delete':
@@ -104,3 +106,10 @@ export class ComponentName {
 </code></pre>
 
 **박승현 수정**
+
+**계정 정보**
+ 이름  id  pw
+박승현 psh 2013
+고보원 kbw 2014
+김기홍 kkh 2012
+이인태 lit 2012

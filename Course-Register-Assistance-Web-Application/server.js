@@ -3,6 +3,8 @@ const  path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 
+var session = require('express-session');
+
 //라우트를 받아온다. 변경해야함(했음 memo로)
 const test = require('./server/routes/test');
 // 수강신청 라우트
@@ -18,9 +20,17 @@ app.use(bodyParser.urlencoded({extended : false}));
 //ng build 명령 실행시 생성되는 static 리소스 폴더 경로 및 이름 설정
 app.use(express.static(path.join(__dirname,'dist')));
 
+//session 설정
+app.use(session({
+  secret : 'dsdfsdfwerwer!!!sdfsdfs', // session id 보안 아무값이나 넣어도된다.
+  resave: false, //session Id를 접속할때마다 새로발급을 하지 말라
+  saveUnintialized: true //session을 사용하기전까지는 발급을 하지말라
+}));
+
 //test.js를 'localhost:3000/test' 에 대한 라우터로 설정
 app.use('/test',test);
 
+// router 설정
 app.use('/sugangAssit',sugangAssit);
 app.use('/timetable',timetable);
 
