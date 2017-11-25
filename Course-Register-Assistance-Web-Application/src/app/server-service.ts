@@ -10,4 +10,7 @@ export class ServerService {
     const info = JSON.stringify({id: id, pw: pw});
     return this.http.post('/sugangAssit/login', JSON.parse(info));
   }
+  analyzeSession(){
+    return this.http.get('/sugangAssit');
+  }
 }

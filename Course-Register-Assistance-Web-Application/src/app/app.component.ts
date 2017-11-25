@@ -29,6 +29,18 @@ export class AppComponent implements OnInit {
     this.currentPage = 1;
     this.loginState = false;
     this.createTemplate();
+
+    //세션 관련 추가
+    //같은 브라우져에서 접속시 로그인되어있던 사용자 이름 불러옴 -> JSON.parse(JSON.stringify(result)).userName
+    this.serverService.analyzeSession().subscribe(result =>{
+      console.log(JSON.stringify(result)+'dddddddd');
+      if (JSON.parse(JSON.stringify(result)).boolean == true) {
+        console.log('세션유지 같은 브라우저 접속자: '+ JSON.parse(JSON.stringify(result)).userName);
+        this.userName = JSON.parse(JSON.stringify(result)).userName;
+      } else {
+        console.log('세션 ㄴㄴ');
+      }
+    })
   }
   changeCurrentPage(no: Number) {
     this.currentPage = no;
@@ -40,17 +52,17 @@ export class AppComponent implements OnInit {
     this.loginState = st;
 
     if ( st === true ) {
-
+      // 아이디 비번을 입력하고 로그인 버튼을 눌러오면 서버에서 판단하여 있는 정보면 JSON.parse(JSON.stringify(result)).boolean가 True,
+      // 없는 정보면 False를 불러옵니다
+      // 맞는 정보면 그사람의 이름을 JSON.parse(JSON.stringify(result)).userName 로 받아옵니다.
+      // 아이디나 비번이 틀렸을시 userName은 '' 이며 이는 JSON.parse(JSON.stringify(result)).boolean는 false입니다
       this.serverService.searchClientInfo(this.userID, this.userPassword).subscribe(result => {
-        if (result === 'Wrong Info') {
-          console.log('없는 ID입니다');
-          this.loginState = false;
-          this.removeTemplate();
-          this.createTemplate();
+        console.log(JSON.stringify(result));
+        if (JSON.parse(JSON.stringify(result)).boolean == true) {
+          console.log('있는 정보입니다. 접속자: '+ JSON.parse(JSON.stringify(result)).userName);
+          this.userName = JSON.parse(JSON.stringify(result)).userName;
         } else {
-          this.userName = JSON.stringify(result);
-          this.removeTemplate();
-          this.createTemplate();
+          console.log('없는 정보입니다.');
         }
       });
     }
