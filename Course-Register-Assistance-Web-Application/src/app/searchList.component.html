@@ -12,7 +12,8 @@
     </tr>
     <tr *ngFor="let subject of searchList_R"
         (click)="choice(subject)"
-    >
+        [ngClass]="{'click': selectedSubject === subject,
+        'noClick': selectedSubject !== subject}">
       <td>{{subject.major}}</td>
       <td>{{subject.subjectName}}</td>
       <td>{{subject.subjectNumber}}</td>

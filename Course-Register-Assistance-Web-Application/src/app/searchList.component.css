@@ -23,3 +23,10 @@ table.listTable td {
   vertical-align: top;
   border-bottom: 1px solid #ccc;
 }
+
+.click{
+  background-color: greenyellow;
+}
+.noClick{
+  background-color: white;
+}
