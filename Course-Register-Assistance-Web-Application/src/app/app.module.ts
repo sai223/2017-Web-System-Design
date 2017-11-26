@@ -10,14 +10,17 @@ import { NotifyService } from './notify-service';
 import {SearchEngineComponent} from './searchEngine.component';
 import {SearchListComponent} from './searchList.component';
 import {HandleSugangListComponent} from './handle-sugangList.component';
+import {SugangListComponent} from './sugangList.component';
+import {ServerTimeAlarmComponent} from './serverTime-Alarm.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SearchEngineComponent,
     SearchListComponent,
-    SearchEngineComponent,
-    HandleSugangListComponent
+    HandleSugangListComponent,
+    SugangListComponent,
+    ServerTimeAlarmComponent
   ],
   imports: [
     BrowserModule,

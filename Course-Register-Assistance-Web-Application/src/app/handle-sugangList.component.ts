@@ -13,6 +13,8 @@ import {Sugang} from './Sugang';
 
 export class HandleSugangListComponent implements OnInit {
   sugangList: Sugang[];
+  currentSugangName: string;
+  currentSugangNumber: string;
   private subscription: Subscription;
   constructor(
     private notifyService: NotifyService,
@@ -37,9 +39,8 @@ export class HandleSugangListComponent implements OnInit {
     * 이렇게 sugang 리스트를 만들어지면, 이것을 2-way binding 하고 있는 'sugangList.component'가 변화한다.
     * */
     this.httpService.getAllSubjects(id).subscribe(result => {
-      let temp_no = 1; // 초기 우선순위값은 그냥 1부터 차례로 부여한다.
       for (let subject of result['subjects']) { // 서버로부터 받은 subject 배열을 가지고 sugangList를 만든다.
-        let sugang = new Sugang(false, temp_no++, subject.subjectName, subject.subjectNumber);
+        let sugang = new Sugang(this.sugangList.length, false, subject.subjectName, subject.subjectNumber);
         this.sugangList.push(sugang);
       }
     });
@@ -53,9 +54,14 @@ export class HandleSugangListComponent implements OnInit {
   }
   sugangListAddition() {
     // 추가버튼 누르면 sugangList에 반영한다.
+    let sugang = new Sugang(this.sugangList.length, true, this.currentSugangName, this.currentSugangNumber);
+    this.sugangList.push(sugang);
+    this.currentSugangName = '';
+    this.currentSugangNumber = '';
   }
-  sugangListDeletion() {
+  sugangListDeletion(index: number) { // 삭제 버튼을 누른 sugang의 priority가 넘어온다. 사실 priority가 index나 마찬가지.
     // 삭제버튼 누르면 sugangList에 반영한다.
-    // 단, 로그인 했을 때 가져온 sugang값은 삭제할 수 없다.
+    // 단, 로그인 했을 때 초기에 가져왔떤 sugang값에 대해서는 삭제를 할 수 없고, 삭제버튼도 없다.
+    this.sugangList.splice(index, 1);
   }
 }

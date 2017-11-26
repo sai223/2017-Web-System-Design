@@ -1,11 +1,11 @@
 export class Sugang {
+  priority: number;
   isTemporary: boolean;
-  priority: Number;
   sugangName: string;
   sugangNumber: string;
-  constructor(t: boolean, p: Number, sName: string, sNumber: string) {
-    this.isTemporary = t;
+  constructor(p: number, t: boolean, sName: string, sNumber: string) {
     this.priority = p;
+    this.isTemporary = t;
     this.sugangName = sName;
     this.sugangNumber = sNumber;
   }
