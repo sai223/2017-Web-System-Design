@@ -9,9 +9,25 @@ import {Subjects} from './mock.subjectList';
 })
 
 export class SearchEngineComponent implements OnInit {
-  searchList: Subject[] = [];
+  searchList_T: Subject[] = [];
+  selectedSubject: Subject;
+  enrollList_T: Subject[] = [];
   ngOnInit() {
-    this.searchList = Subjects;
-    console.log(this.searchList);
+    this.selectedSubject = new Subject();
+    this.searchList_T = Subjects;
+    console.log(this.searchList_T);
+  }
+  chosenSubject(subject: Subject) {
+    this.selectedSubject = subject;
+  }
+  enroll(subject: Subject) {
+    this.enrollList_T.push(subject);
+  }
+  deleteSubject(subject: Subject) {
+    for( let i = 0; i < this.enrollList_T.length; i++) {
+      if (this.enrollList_T[i] === subject) {
+        this.enrollList_T.splice(i, 1);
+      }
+    }
   }
 }

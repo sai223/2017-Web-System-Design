@@ -12,6 +12,7 @@ import {SearchListComponent} from './searchList.component';
 import {HandleSugangListComponent} from './handle-sugangList.component';
 import {SugangListComponent} from './sugangList.component';
 import {ServerTimeAlarmComponent} from './serverTime-Alarm.component';
+import {TimetableComponent} from './timetable.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {ServerTimeAlarmComponent} from './serverTime-Alarm.component';
     SearchListComponent,
     HandleSugangListComponent,
     SugangListComponent,
-    ServerTimeAlarmComponent
+    ServerTimeAlarmComponent,
+    TimetableComponent
   ],
   imports: [
     BrowserModule,

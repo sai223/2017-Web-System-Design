@@ -1,0 +1,23 @@
+div.subjectSearchList{
+  width: 70%;
+  height: 70%;
+}
+table.listTable {
+  border-collapse: collapse;
+  text-align: left;
+  line-height: 1.5;
+  margin : 20px 10px;
+}
+table.listTable th {
+  width: 150px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  border: 1px solid #ccc;
+}
+table.listTable td {
+  width: 350px;
+  padding: 10px;
+  vertical-align: top;
+  border: 1px solid #ccc;
+}
