@@ -11,6 +11,9 @@ const test = require('./server/routes/test');
 const sugangAssit = require('./server/routes/sugangAssit');
 // 시간표조회 라우트
 const timetable = require('./server/routes/timetable');
+// db 라우트
+const datebase = require('./server/database/clientInfoModel');
+
 const app = express();
 
 //POST 데이터 파싱 설정
@@ -33,6 +36,7 @@ app.use('/test',test);
 // router 설정
 app.use('/sugangAssit',sugangAssit);
 app.use('/timetable',timetable);
+app.use('/db',datebase);
 
 //모든 경로에 대한 라우터 설정 및 반환 파일 경로 설정
 app.get('*',function(req,res){
