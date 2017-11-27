@@ -21,7 +21,15 @@ export class SearchEngineComponent implements OnInit {
     this.selectedSubject = subject;
   }
   enroll(subject: Subject) {
+    // 검사하고 넣기
+    for (let i = 0; i < this.enrollList_T.length; i++){
+      if(this.enrollList_T[i] === subject){
+        alert('시간표 중복입니다.');
+        return;
+      }
+    }
     this.enrollList_T.push(subject);
+    // 검사 표 만들기
   }
   deleteSubject(subject: Subject) {
     for( let i = 0; i < this.enrollList_T.length; i++) {
