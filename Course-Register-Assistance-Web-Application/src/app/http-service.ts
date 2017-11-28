@@ -15,8 +15,8 @@ export class HttpService {
       id: id
     });
   }
-  analyzeSession() { // 흠.. 어떤 용도인지?
-    return this.http.get('/sugangAssit');
+  analyzeSession() { // 페이지 시작할때 세션 유무 확인하기
+    return this.http.get('/sessionCheck');
   }
   getAllSubjects(id: string) {
     return this.http.post('/getAllSubjects', {

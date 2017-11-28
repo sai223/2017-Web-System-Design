@@ -25,26 +25,21 @@ export class AppComponent implements OnInit {
     private vcr: ViewContainerRef,
     private notifyService: NotifyService,
     private httpService: HttpService
-  ) {}
+  ) {console.log('실행합니까');}
   ngOnInit() {
     this.currentPage = 1;
     this.loginState = false;
     this.createTemplate();
 
     // 세션 관련 코드
-    /*
-    //세션 관련 추가
-    //같은 브라우져에서 접속시 로그인되어있던 사용자 이름 불러옴 -> JSON.parse(JSON.stringify(result)).userName
-    this.serverService.analyzeSession().subscribe(result =>{
-      console.log(JSON.stringify(result)+'dddddddd');
+    this.httpService.analyzeSession().subscribe(result => {
       if (JSON.parse(JSON.stringify(result)).boolean == true) {
-        console.log('세션유지 같은 브라우저 접속자: '+ JSON.parse(JSON.stringify(result)).userName);
+        console.log('세션 유지 같은 브라우저 접속자: '+ JSON.parse(JSON.stringify(result)).userName);
         this.userName = JSON.parse(JSON.stringify(result)).userName;
       } else {
-        console.log('세션 ㄴㄴ');
+        console.log('첫접속 브라우저');
       }
     })
-    */
   }
   changeCurrentPage(no: Number) {
     this.currentPage = no;

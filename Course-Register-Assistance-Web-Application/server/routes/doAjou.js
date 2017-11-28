@@ -3,7 +3,7 @@ const router = express.Router();
 var mongoose = require('mongoose');
 const ClientInfo = require('../database/clientInfoModel');
 const SugangInfo = require('../database/sugangInfoModel');
-const SugangAssitList = require('../database/sugangAssitListModel');
+const SugangListbyUserModel = require('../database/sugangListbyUserModel');
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/test');
@@ -12,59 +12,159 @@ var db = mongoose.connection;
 db.on('error', function(err) {
   console.log("error: " + err);
 });
+
 db.on('connected', function() {
   console.log("Connected successfully to server");
 });
-/*
-var sal = new SugangAssitList();
-sal.userID = 'psh7'
-sal.subjectInfo = {subjectName: '알고', subjectCode: 'D123'};
-sal.save(function(err, savedDocument) { if (err)
-  return console.error(err);
-  console.log(savedDocument);
+
+//DB 초기화 하실때 사용하세요
+/*--------------------------------------------------------------------
+ClientInfo.remove({}, function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('ClientInfo 삭제 완료');
+    }
+  }
+);
+SugangListbyUserModel.remove({}, function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('SugangAssitList 삭제 완료');
+    }
+  }
+);
+SugangInfo.remove({}, function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('SugangInfo 삭제 완료');
+    }
+  }
+);
+---------------------------------------------------------------------*/
+
+// DB에 Test Data 넣으실때 사용하세요
+/*--------------------------------------------------------------------
+var ci = new ClientInfo();
+ci.userID = 'psh';
+ci.userPassword = '2013';
+ci.userName = '박승현';
+ci.save(function(err,document) {
+      if (err)
+        return console.error(err);
+      console.log('계정 박승현 생성');
 });
-*/
-SugangAssitList.findOne({userID: 'psh6'}, function (err, info){
-  if (err) {
-    return console.log("err " + err);
-  }
-  if(!info){
-    const cliInfo=JSON.stringify({userName: '', boolean: false});
-    console.log('1');
-  } else {
-    info.subjectInfo.push({subjectName: '객프',subjectCode: 'K013'});
-    console.log('2');
-  }
-})
-SugangAssitList.find(function(err, info) {
+var ci1 = new ClientInfo();
+ci1.userID = 'kbw';
+ci1.userPassword = '2014';
+ci1.userName = '고보원';
+ci1.save(function(err,document) {
   if (err)
     return console.error(err);
-  console.log('리스트정보: '+info);
+  console.log('계정 고보원 생성');
 });
+var ci2 = new ClientInfo();
+ci2.userID = 'kkh';
+ci2.userPassword = '2012';
+ci2.userName = '김기홍';
+ci2.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('계정 김기홍 생성');
+});
+var ci3 = new ClientInfo();
+ci3.userID = 'lit';
+ci3.userPassword = '2012';
+ci3.userName = '이인태';
+ci3.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('계정 이인태생성');
+});
+
+ClientInfo.find(function (err,info) {
+  if (err) {
+    return console.log("err " + err);
+  } else {
+    console.log('현재 ClientInfo 저장되어있는 Data: '+info);
+  }
+});
+
+var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', day: '월C 금C', time: '60', subjectName: '웹시스템설계',
+  professorName: '오상윤'});
+var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', day: '화B 금B', time: '60', subjectName: '확률과통계1',
+  professorName: '조영종'});
+var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', day: '화A 금C', time: '60', subjectName: '과학기술과법',
+  professorName: '박승현'});
+si.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('웹시설 강의 생성');
+});
+si1.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('확통 강의 생성');
+});
+si2.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('과기법 강의 생성');
+});
+
+SugangInfo.find(function (err,info) {
+  if (err) {
+    return console.log("err " + err);
+  } else {
+    console.log('현재 SugangInfo 저장되어있는 Data: '+info);
+  }
+});
+---------------------------------------------------------------------*/
 /*
-SugangAssitList.update({userID: 'psh4'},function (err, info) {
+
+SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
   if (err) {
     return console.log(err);
   }
-  info.subjectInfo.push(new({subjectName: '과기법',subjectCode: 'Z123'}));
+  SugangInfo.findOne({professorName: '박승현'},function (err,info2) {
+    if (err) {
+      return console.log("err " + err);
+    } else {
+      info1.subjectInfo.push(info2);
+      info1.save(function(err,document) {
+        if (err)
+          return console.error(err);
+        console.log(document)
+      });
+
+    }
+  })
 })
+
 */
 
-router.get('/',function (req,res) {
+// 페이지 시작할때 마다 세션 체크 -------------------------------------------------------------------
+router.get('/sessionCheck',function (req,res) {
   ClientInfo.findOne({userID: req.session.user_ID}, function (err, info){
     if (err) {
       return console.log("err " + err);
     }
     if(!info){
-      const cliInfo=JSON.stringify({userName: '', boolean: false});
-      res.send(JSON.parse(cliInfo));
+      console.log('세션 발급');
+      const cliInfo = {userName: '', boolean: false};
+      res.send(cliInfo);
     } else {
-      const cliInfo = JSON.stringify({userName: info.userName, boolean: true});
-      res.send(JSON.parse(cliInfo));
+      console.log('현 세션 사용자의 이름: '+info.userName);
+      const cliInfo = {userName: info.userName, boolean: true};
+      res.send(cliInfo);
     }
   })
 });
-router.post('/login',function(req,res){
+
+// log-in 기능 --------------------------------------------------------------------------------
+router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
   //console.log(req.sessionID);
   sess = req.session;
   ClientInfo.findOne({userID: req.body.id, userPassword: req.body.pw}, function (err, info) {
@@ -73,38 +173,80 @@ router.post('/login',function(req,res){
     }
     console.log(info);
     if(!info){ //로그인 정보가 틀렸을 경우
-      const cliInfo=JSON.stringify({userName: '', boolean: false});
-      res.send(JSON.parse(cliInfo));
+      const cliInfo= {userName: '', boolean: false};
+      res.send(cliInfo);
     } else{ // 로그인 정보가 맞는 경우
-      sess.user_ID = info.userID;
-      console.log(sess.user_ID+'현브라우져 접속한사람의 ID');
-      const cliInfo=JSON.stringify({userName: info.userName, boolean: true});
-      res.send(JSON.parse(cliInfo));
+      sess.user_ID = info.userID; // 현 세션에 로그인한사람의 이름을 넣음
+      console.log('로그인한 사용자의 이름: '+info.userName);
+      console.log('세션 사용자의 이름: '+sess.user_ID);
+      const cliInfo = {userName: info.userName, boolean: true} ;
+      res.send(cliInfo);
     }
   })
 });
-router.post('/addSugangListItem', function (req,res) { //추가버튼 //req 로 수강과목(subjectName) 과목코드(subjectCode) 보내면
-  SugangAssitList.findOne({userID: req.session.user_ID}, function (err, info){ //세션ID 로 확인
+// log-out 기능 --------------------------------------------------------------------------------
+router.get('/logout',function (req,res) { //세션 파괴만하면 될듯
+  req.session.destroy();
+  req.redirect('/');
+});
+// 접속자의 과목리스트 불러오기 -----------------------------------------------------------------------
+router.get('getAllSubjects',function (req,res) { // req() res(allSubject)
+  SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
     if (err) {
       return console.log("err " + err);
     }
-    if(!info){ //SugangAssitList에 내 정보가 없을때 새로운 객체 생성
+    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때
+      console.log('aaaa');
+      res.send();
+    } else { //SugangListbyUserModel에 내 정보가 있을때
+      var allSubject = infoList.subjectInfo;
+      console.log('dddd');
+      res.send(allSubject);
+    }
+  })
+});
+// 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
+router.post('/addSubject', function (req,res) { //추가버튼 req(nickname,subjectName,subjectNumber) res(addOK)
+  SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인
+    if (err) {
+      return console.log("err " + err);
+    }
+    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 새로운 객체(계정) 생성
       var sal = new SugangAssitList();
       sal.userID = req.session.user_ID;
-      sal.subjectInfo.subjectName = req.body.subjectName;
-      sal.subjectInfo.subjectCode = req.body.subjectCode;
-      sal.save(function(err, savedDocument) { if (err)
-        return console.error(err);
-        console.log('SugangAssitList에 새 정보 생성: '+savedDocument);
+
+      SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err,infoSubject) { //입력한 과목코드로 DB에서 정보 찾기
+        if (err) {
+          return console.log("err " + err);
+        }
+        if(!infoSubject){//입력한 과목코드를 찾을 수 없을때
+          res.send({addOK: false});
+        } else { //과목코드를 올바르게 입력했을경우
+          sal.subjectInfo = new SugangInfo(infoSubject);
+          sal.save(function(err, savedDocument) {
+            if (err)
+              return console.error(err);
+            console.log('SugangListbyUserModel에 새 정보 생성: ' + savedDocument);
+            res.send({addOK: true});
+          });
+        }
       });
 
-    } else { //SugangAssitList에 내 정보가 있을때  과목 추가
-      SugangAssitList.update({userID: req.session.user_ID},function (err, info) {
+    } else { //SugangListbyUserModel에 내 정보가 있을때  과목 추가 ( infoList == true 일 경우 )
+      SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, infoSubject) { //입력한 과목코드 DB에서 정보 찾기
         if (err) {
           return console.log(err);
         }
-        info.subjectInfo[info.subjectInfo.length] = {subjectName: req.body.subjectName,subjectCode: req.body.subjectCode};
-        //info.subjectInfo.push({subjectName: req.body.subjectName,subjectCode: req.body.subjectCode});
+        if(!infoSubject){
+          res.send({addOK: false});
+        } else{
+          infoList.subjectInfo.push(infoSubject);
+          infoList.save(function(err,document) {
+            if (err)
+              return console.error(err);
+            console.log(document);
+          });
+        }
       })
     }
   })
