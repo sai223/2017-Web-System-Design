@@ -6,8 +6,8 @@ var SugangInfoSchema = new Schema({ // 강의정보
   subjectName: String, //과목명
   subjectNumber: String, //과목번호
   subjectType: String, //교과구분
-  credit: number, //학점
-  time: number, //총 강의시간
+  credit: Number, //학점
+  time: Number, //총 강의시간
   professorName: String, //교수명
   subjectTime: String //과목시간
 });

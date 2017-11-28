@@ -92,12 +92,12 @@ ClientInfo.find(function (err,info) {
   }
 });
 
-var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', day: '월C 금C', time: '60', subjectName: '웹시스템설계',
-  professorName: '오상윤'});
-var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', day: '화B 금B', time: '60', subjectName: '확률과통계1',
-  professorName: '조영종'});
-var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', day: '화A 금C', time: '60', subjectName: '과학기술과법',
-  professorName: '박승현'});
+var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', day: '월C 금C', time: 60, subjectName: '웹시스템설계',
+  professorName: '오상윤', credit: 3, subjectNumber: 'X123'});
+var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', day: '화B 금B', time: 60, subjectName: '확률과통계1',
+  professorName: '조영종', credit: 3, subjectNumber: 'C123'});
+var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', day: '화A 금C', time: 60, subjectName: '과학기술과법',
+  professorName: '박승현', credit: 3, subjectNumber: 'D123'});
 si.save(function(err,document) {
   if (err)
     return console.error(err);
@@ -121,14 +121,24 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
+
 ---------------------------------------------------------------------*/
 /*
-
+// 리스트에 계정생성 test
+var slu = new SugangListbyUserModel({userID: 'psh'})
+slu.save(function (err,document) {
+  if (err)
+    return console.error(err);
+  console.log('리스트계정 생성');
+})
+*/
+/*
+// 계정 psh의 리스트에 X123 과목 넣어보기 test
 SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
   if (err) {
     return console.log(err);
   }
-  SugangInfo.findOne({professorName: '박승현'},function (err,info2) {
+  SugangInfo.findOne({subjectNumber: 'D123'},function (err,info2) {
     if (err) {
       return console.log("err " + err);
     } else {
@@ -142,7 +152,24 @@ SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
     }
   })
 })
-
+*/
+/*
+// list 정보 불러오기 test
+SugangListbyUserModel.findOne({userID:'psh'},function (err, info1){
+  if (err) {
+    return console.log(err);
+  }
+  else console.log(info1.subjectInfo);
+});
+*/
+/*
+// list에서 과목 삭제하기 test  // '계정 psh의 리스트에서 과목코드로 해당 과목만 삭제'
+SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {subjectNumber: 'X123'}}}, function (err, infoList){
+  if (err) {
+    return console.log("err " + err);
+  }
+  console.log('Delete 완료')
+})
 */
 
 // 페이지 시작할때 마다 세션 체크 -------------------------------------------------------------------
@@ -197,6 +224,7 @@ router.get('getAllSubjects',function (req,res) { // req() res(allSubject)
     }
     if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때
       console.log('aaaa');
+      var allSubject = {};
       res.send();
     } else { //SugangListbyUserModel에 내 정보가 있을때
       var allSubject = infoList.subjectInfo;
@@ -249,6 +277,17 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(nickname,subj
         }
       })
     }
+  })
+})
+// 수강신청페이지에서 삭제버튼 -----------------------------------------------------------------------
+router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
+  SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
+    if (err) {
+      return console.log("err " + err);
+    }
+    console.log('Delete 완료')
+    //res로 뭘줘야지
+    res.send('해당과목삭제완료');
   })
 })
 module.exports = router;
