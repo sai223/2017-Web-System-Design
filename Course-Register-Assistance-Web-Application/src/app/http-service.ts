@@ -10,10 +10,8 @@ export class HttpService {
       pw: pw
     });
   }
-  logOut(id: string) {
-    return this.http.post('/logout', {
-      id: id
-    });
+  logOut() {
+    return this.http.get('/logout');
   }
   analyzeSession() { // 페이지 시작할때 세션 유무 확인하기
     return this.http.get('/sessionCheck');

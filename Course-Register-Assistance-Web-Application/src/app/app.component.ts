@@ -25,23 +25,27 @@ export class AppComponent implements OnInit {
     private vcr: ViewContainerRef,
     private notifyService: NotifyService,
     private httpService: HttpService
-  ) {
-    //console.log('실행합니까');
-    //this.currentPage = 1;
-    //this.loginState = false;
-  }
+  ) {}
   ngOnInit() {
     this.createTemplate();
     // 세션 관련 코드
-    console.log('1');
     this.httpService.analyzeSession().subscribe(result => {
       if (JSON.parse(JSON.stringify(result)).boolean == true) {
         console.log('세션 유지 같은 브라우저 접속자: '+ JSON.parse(JSON.stringify(result)).userName);
         this.userName = JSON.parse(JSON.stringify(result)).userName;
+        this.handleSession();
       } else {
         console.log('첫접속 브라우저');
       }
     });
+  }
+  handleSession(){
+    this.loginState = true;
+    this.notifyService.notifyOther({from: 'app.component', to: 'handle-sugangList.component', content: {
+      state: 'Login',
+    }});
+    this.destroyTemplate();
+    this.createTemplate();
   }
   changeCurrentPage(no: number) {
     this.currentPage = no;
@@ -50,7 +54,6 @@ export class AppComponent implements OnInit {
   }
   changeLoginState(st: boolean) {
     if ( st === true ) { // 로그인 버튼을 눌렀을 경우
-      console.log('3');
       this.httpService.logIn(this.userID, this.userPassword).subscribe(result => {
         // result는 {userName, boolean} 형태
         if (result['boolean'] === true) { // 로그인 성공
@@ -61,44 +64,30 @@ export class AppComponent implements OnInit {
             state: 'Login',
             id: this.userID
           }});
-          console.log('5');
         }else { // 로그인 실패
           alert('계정 정보가 존재하지 않습니다.');
           this.userPassword = '';
         }
-        console.log(this.loginState);
-        console.log('4');
         this.destroyTemplate();
         this.createTemplate();
       });
     }else { // 로그아웃 버튼을 눌렀을 경우
-      console.log("3-1");
-      this.httpService.logOut(this.userID).subscribe(result => {
+      this.httpService.logOut().subscribe(result => {
         this.userName = '';
         this.notifyService.notifyOther({from: 'app.component', to: 'handle-sugangList.component', content: {
           state: 'Logout',
           id: this.userID
         }});
         this.loginState = false;
-        console.log(this.loginState);
-        console.log('4');
         this.destroyTemplate();
         this.createTemplate();
       });
     }
-    /*
-    console.log(this.loginState);
-    console.log('4');
-    this.destroyTemplate();
-    this.createTemplate();
-    */
   }
   destroyTemplate() {
     this.currentView.destroy();
   }
   createTemplate() {
-    alert(this.loginState);
-    console.log('2');
     if (this.currentPage === 1) {
       if (this.loginState === true) {
         this.currentTemplate = this.Sugang_Login;

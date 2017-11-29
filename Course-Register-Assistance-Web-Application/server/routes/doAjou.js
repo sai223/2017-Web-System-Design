@@ -219,9 +219,9 @@ router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
   })
 });
 // log-out 기능 --------------------------------------------------------------------------------
-router.post('/logout',function (req,res) { //세션 파괴만하면 될듯 //
+router.get('/logout',function (req,res) { //세션 파괴만하면 될듯 //
   req.session.destroy();
-  req.redirect('/');
+  res.send({});
 });
 // 접속자의 과목리스트 불러오기 -----------------------------------------------------------------------
 router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
@@ -230,12 +230,16 @@ router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
       return console.log("err " + err);
     }
     if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때
-      console.log('aaaa');
+      var newUser = new SugangListbyUserModel({userID: 'psh'})
+      newUser.save(function (err,document) {
+        if (err)
+          return console.error(err);
+        console.log('리스트계정 생성');
+      })
       var emptySubject = [];
       res.send(emptySubject); // [] 이런식을 전송되면 되나 물어보기
     } else { //SugangListbyUserModel에 내 정보가 있을때
       var allSubject = infoList.subjectInfo; //
-      console.log('dddd');
       console.log(allSubject);
       res.send(allSubject); // [{},{},{}]이런식으로 전송되는지 확인해야됨
     }

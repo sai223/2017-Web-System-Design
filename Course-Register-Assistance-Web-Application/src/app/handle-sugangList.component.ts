@@ -23,18 +23,15 @@ export class HandleSugangListComponent implements OnInit {
 
   ) {}
   ngOnInit() {
-    alert('handle slc');
 
     this.subscription = this.notifyService.notifyObservable$.subscribe((res) => {
       //console.log('체인지로긴스테이트');
       if (res.from === 'app.component' && res.to === 'handle-sugangList.component') {
         if (res.content.state === 'Login') {
           this.isLogin =true;
-           console.log('로그인');
           this.handleLogin();
         }else if (res.content.state === 'Logout') {
           this.isLogin = false;
-          console.log('로그아웃');
           this.handleLogout();
         }
       }
@@ -47,7 +44,7 @@ export class HandleSugangListComponent implements OnInit {
     * priority값은 우선순위 값이고, isTemporary값은 실제로 subject로 추가된 것인지, 아니면 사용자가 임시로 추가한 것인지 구분하기 위함이다.
     * 이렇게 sugang 리스트를 만들어지면, 이것을 2-way binding 하고 있는 'sugangList.component'가 변화한다.
     * */
-    //console.log('adsfadsf');
+
     this.httpService.getAllSubjects().subscribe(result => {
       /*
       for (let subject of result['subjects']) { // 서버로부터 받은 subject 배열을 가지고 sugangList를 만든다.
@@ -56,18 +53,12 @@ export class HandleSugangListComponent implements OnInit {
       }
       */
       console.log(result);
-      console.log(typeof result);
-      console.log(JSON.stringify(result));
+      //console.log(typeof result);
+      //console.log(JSON.stringify(result));
       Object.keys(result).forEach(key => {
         console.log(result[key].subjectName);
 
       })
-
-      /*
-      for (let subject of result) {
-        console.log(subject);
-      }
-      */
     });
   }
   handleLogout() {
