@@ -84,14 +84,6 @@ ci3.save(function(err,document) {
   console.log('계정 이인태생성');
 });
 
-ClientInfo.find(function (err,info) {
-  if (err) {
-    return console.log("err " + err);
-  } else {
-    console.log('현재 ClientInfo 저장되어있는 Data: '+info);
-  }
-});
-
 var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', day: '월C 금C', time: 60, subjectName: '웹시스템설계',
   professorName: '오상윤', credit: 3, subjectNumber: 'X123'});
 var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', day: '화B 금B', time: 60, subjectName: '확률과통계1',
@@ -121,9 +113,24 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
-
 ---------------------------------------------------------------------*/
+
 /*
+ClientInfo.find(function (err,info) {
+  if (err) {
+    return console.log("err " + err);
+  } else {
+    console.log('현재 ClientInfo 저장되어있는 Data: '+info);
+  }
+});
+SugangInfo.find(function (err,info) {
+  if (err) {
+    return console.log("err " + err);
+  } else {
+    console.log('현재 SugangInfo 저장되어있는 Data: '+info);
+  }
+});
+
 // 리스트에 계정생성 test
 var slu = new SugangListbyUserModel({userID: 'psh'})
 slu.save(function (err,document) {
@@ -138,7 +145,7 @@ SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
   if (err) {
     return console.log(err);
   }
-  SugangInfo.findOne({subjectNumber: 'D123'},function (err,info2) {
+  SugangInfo.findOne({subjectNumber: 'X123'},function (err,info2) {
     if (err) {
       return console.log("err " + err);
     } else {
@@ -212,29 +219,30 @@ router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
   })
 });
 // log-out 기능 --------------------------------------------------------------------------------
-router.get('/logout',function (req,res) { //세션 파괴만하면 될듯
+router.post('/logout',function (req,res) { //세션 파괴만하면 될듯 //
   req.session.destroy();
   req.redirect('/');
 });
 // 접속자의 과목리스트 불러오기 -----------------------------------------------------------------------
-router.get('getAllSubjects',function (req,res) { // req() res(allSubject)
+router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
   SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
     if (err) {
       return console.log("err " + err);
     }
     if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때
       console.log('aaaa');
-      var allSubject = {};
-      res.send();
+      var emptySubject = [];
+      res.send(emptySubject); // [] 이런식을 전송되면 되나 물어보기
     } else { //SugangListbyUserModel에 내 정보가 있을때
-      var allSubject = infoList.subjectInfo;
+      var allSubject = infoList.subjectInfo; //
       console.log('dddd');
-      res.send(allSubject);
+      console.log(allSubject);
+      res.send(allSubject); // [{},{},{}]이런식으로 전송되는지 확인해야됨
     }
   })
 });
 // 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
-router.post('/addSubject', function (req,res) { //추가버튼 req(nickname,subjectName,subjectNumber) res(addOK)
+router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
   SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인
     if (err) {
       return console.log("err " + err);
@@ -248,14 +256,14 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(nickname,subj
           return console.log("err " + err);
         }
         if(!infoSubject){//입력한 과목코드를 찾을 수 없을때
-          res.send({addOK: false});
+          res.send({isAddSuccess: false});
         } else { //과목코드를 올바르게 입력했을경우
           sal.subjectInfo = new SugangInfo(infoSubject);
           sal.save(function(err, savedDocument) {
             if (err)
               return console.error(err);
             console.log('SugangListbyUserModel에 새 정보 생성: ' + savedDocument);
-            res.send({addOK: true});
+            res.send({isAddSuccess: true});
           });
         }
       });
@@ -266,7 +274,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(nickname,subj
           return console.log(err);
         }
         if(!infoSubject){
-          res.send({addOK: false});
+          res.send({isAddSuccess: false});
         } else{
           infoList.subjectInfo.push(infoSubject);
           infoList.save(function(err,document) {
@@ -289,5 +297,9 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
     //res로 뭘줘야지
     res.send('해당과목삭제완료');
   })
+})
+// 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
+router.get('/searchSubject',function (req,res) { // req(subjectType,major,day,time,subjectName,professorName) res(Subject[])
+
 })
 module.exports = router;

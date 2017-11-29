@@ -15,42 +15,62 @@ export class HandleSugangListComponent implements OnInit {
   sugangList: Sugang[];
   currentSugangName: string;
   currentSugangNumber: string;
+  isLogin: boolean;
   private subscription: Subscription;
   constructor(
     private notifyService: NotifyService,
     private httpService: HttpService
+
   ) {}
   ngOnInit() {
+    alert('handle slc');
+
     this.subscription = this.notifyService.notifyObservable$.subscribe((res) => {
+      //console.log('체인지로긴스테이트');
       if (res.from === 'app.component' && res.to === 'handle-sugangList.component') {
         if (res.content.state === 'Login') {
-          this.handleLogin(res.content.id);
+          this.isLogin =true;
+           console.log('로그인');
+          this.handleLogin();
         }else if (res.content.state === 'Logout') {
-          this.handleLogout(res.content.id);
+          this.isLogin = false;
+          console.log('로그아웃');
+          this.handleLogout();
         }
       }
     });
   }
-  handleLogin(id: string) {
+  handleLogin() {
     /*
     * 로그인 신호가 오면, id값을 가지고 서버에서 subject 배열을 가져와서 sugangList에 넣는다.
     * sugangList를 굳이 따로 만들어주는 이유는, 첫번째 페이지인 여기서는 'priority'값과 'isTemporary'값이 추가로 필요하기 때문이다.
     * priority값은 우선순위 값이고, isTemporary값은 실제로 subject로 추가된 것인지, 아니면 사용자가 임시로 추가한 것인지 구분하기 위함이다.
     * 이렇게 sugang 리스트를 만들어지면, 이것을 2-way binding 하고 있는 'sugangList.component'가 변화한다.
     * */
-    this.httpService.getAllSubjects(id).subscribe(result => {
+    //console.log('adsfadsf');
+    this.httpService.getAllSubjects().subscribe(result => {
       /*
       for (let subject of result['subjects']) { // 서버로부터 받은 subject 배열을 가지고 sugangList를 만든다.
         let sugang = new Sugang(this.sugangList.length, false, subject.subjectName, subject.subjectNumber);
         this.sugangList.push(sugang);
       }
       */
-      for (let subject of result['allSubject']) {
+      console.log(result);
+      console.log(typeof result);
+      console.log(JSON.stringify(result));
+      Object.keys(result).forEach(key => {
+        console.log(result[key].subjectName);
+
+      })
+
+      /*
+      for (let subject of result) {
         console.log(subject);
       }
+      */
     });
   }
-  handleLogout(id: string) {
+  handleLogout() {
     /* 로그아웃하면, 더이상 sugang 리스트 기능을 제공하지 않는다.
     * 따라서 sugang 리스트를 빈값으로 초기화 한다.
     * 그러면 마찬가지로 2-way binding하고 있는 'sugangList.component' 역시 변한다.
