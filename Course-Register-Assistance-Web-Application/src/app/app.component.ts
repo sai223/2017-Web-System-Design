@@ -33,6 +33,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.createTemplate();
     // 세션 관련 코드
+    console.log('1');
     this.httpService.analyzeSession().subscribe(result => {
       if (JSON.parse(JSON.stringify(result)).boolean == true) {
         console.log('세션 유지 같은 브라우저 접속자: '+ JSON.parse(JSON.stringify(result)).userName);
@@ -49,10 +50,10 @@ export class AppComponent implements OnInit {
   }
   changeLoginState(st: boolean) {
     if ( st === true ) { // 로그인 버튼을 눌렀을 경우
+      console.log('3');
       this.httpService.logIn(this.userID, this.userPassword).subscribe(result => {
         // result는 {userName, boolean} 형태
         if (result['boolean'] === true) { // 로그인 성공
-          console.log('vvvv');
           this.userPassword = '';
           this.loginState = true;
           this.userName = result['userName']; // userName 할당
@@ -60,12 +61,18 @@ export class AppComponent implements OnInit {
             state: 'Login',
             id: this.userID
           }});
+          console.log('5');
         }else { // 로그인 실패
           alert('계정 정보가 존재하지 않습니다.');
           this.userPassword = '';
         }
+        console.log(this.loginState);
+        console.log('4');
+        this.destroyTemplate();
+        this.createTemplate();
       });
     }else { // 로그아웃 버튼을 눌렀을 경우
+      console.log("3-1");
       this.httpService.logOut(this.userID).subscribe(result => {
         this.userName = '';
         this.notifyService.notifyOther({from: 'app.component', to: 'handle-sugangList.component', content: {
@@ -73,18 +80,25 @@ export class AppComponent implements OnInit {
           id: this.userID
         }});
         this.loginState = false;
+        console.log(this.loginState);
+        console.log('4');
+        this.destroyTemplate();
+        this.createTemplate();
       });
     }
+    /*
     console.log(this.loginState);
-    console.log('login ddd')
+    console.log('4');
     this.destroyTemplate();
     this.createTemplate();
+    */
   }
   destroyTemplate() {
     this.currentView.destroy();
   }
   createTemplate() {
     alert(this.loginState);
+    console.log('2');
     if (this.currentPage === 1) {
       if (this.loginState === true) {
         this.currentTemplate = this.Sugang_Login;
