@@ -19,8 +19,6 @@ export class HttpService {
     return this.http.get('/sessionCheck');
   }
   getAllSubjects(id: string) {
-    return this.http.post('/getAllSubjects', {
-      id: id
-    });
+    return this.http.get('/getAllSubjects');
   }
 }

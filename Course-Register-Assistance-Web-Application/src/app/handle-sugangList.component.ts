@@ -39,9 +39,14 @@ export class HandleSugangListComponent implements OnInit {
     * 이렇게 sugang 리스트를 만들어지면, 이것을 2-way binding 하고 있는 'sugangList.component'가 변화한다.
     * */
     this.httpService.getAllSubjects(id).subscribe(result => {
+      /*
       for (let subject of result['subjects']) { // 서버로부터 받은 subject 배열을 가지고 sugangList를 만든다.
         let sugang = new Sugang(this.sugangList.length, false, subject.subjectName, subject.subjectNumber);
         this.sugangList.push(sugang);
+      }
+      */
+      for (let subject of result['allSubject']) {
+        console.log(subject);
       }
     });
   }

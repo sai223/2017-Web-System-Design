@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
       } else {
         console.log('첫접속 브라우저');
       }
-    })
+    });
   }
   changeCurrentPage(no: Number) {
     this.currentPage = no;
