@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 
 import {Subscription} from 'rxjs/Subscription';
 import {NotifyService} from './notify-service';
@@ -11,7 +11,7 @@ import {Sugang} from './Sugang';
   styleUrls: ['./handle-sugangList.component.css']
 })
 
-export class HandleSugangListComponent implements OnInit {
+export class HandleSugangListComponent implements OnInit, OnDestroy {
   sugangList: Sugang[];
   currentSugangName: string;
   currentSugangNumber: string;
@@ -23,12 +23,10 @@ export class HandleSugangListComponent implements OnInit {
 
   ) {}
   ngOnInit() {
-
     this.subscription = this.notifyService.notifyObservable$.subscribe((res) => {
-      //console.log('체인지로긴스테이트');
       if (res.from === 'app.component' && res.to === 'handle-sugangList.component') {
         if (res.content.state === 'Login') {
-          this.isLogin =true;
+          this.isLogin = true;
           this.handleLogin();
         }else if (res.content.state === 'Logout') {
           this.isLogin = false;
@@ -36,6 +34,9 @@ export class HandleSugangListComponent implements OnInit {
         }
       }
     });
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
   handleLogin() {
     /*
@@ -53,12 +54,10 @@ export class HandleSugangListComponent implements OnInit {
       }
       */
       console.log(result);
-      //console.log(typeof result);
-      //console.log(JSON.stringify(result));
       Object.keys(result).forEach(key => {
         console.log(result[key].subjectName);
 
-      })
+      });
     });
   }
   handleLogout() {

@@ -14,8 +14,8 @@ export class AppComponent implements OnInit {
   @ViewChild('Sugang_Logout') Sugang_Logout: TemplateRef<any>;
   @ViewChild('Timetable_Login') Timetable_Login: TemplateRef<any>;
   @ViewChild('Timetable_Logout') Timetable_Logout: TemplateRef<any>;
-  currentPage: number =1 ; // 1: 수강신청 페이지, 2: 시간표 조회 페이지
-  loginState: boolean =false; // true: 로그인 상태, false: 로그아웃 상태
+  currentPage: number; // 1: 수강신청 페이지, 2: 시간표 조회 페이지
+  loginState: boolean; // true: 로그인 상태, false: 로그아웃 상태
   userID: string;
   userPassword: string;
   userName: string;
@@ -27,6 +27,8 @@ export class AppComponent implements OnInit {
     private httpService: HttpService
   ) {}
   ngOnInit() {
+    this.currentPage = 1;
+    this.loginState = false;
     this.createTemplate();
     // 세션 관련 코드
     this.httpService.analyzeSession().subscribe(result => {
