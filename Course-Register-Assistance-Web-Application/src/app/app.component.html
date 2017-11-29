@@ -10,6 +10,7 @@
     <b>{{userName}}</b>님 안녕하세요.
     <button (click)="changeLoginState(false)">로그아웃</button>
   </div>
+  <app-suganglist *ngIf="sugangList" [sugangList]="sugangList"></app-suganglist>
 </ng-template>
 
 <ng-template #Sugang_Logout>
@@ -19,10 +20,6 @@
     비밀번호: <input type="password" [(ngModel)]="userPassword">
     <button (click)="changeLoginState(true)">로그인</button>
   </div>
-
-  <app-handle-suganglist></app-handle-suganglist>
-  <app-servertime-alarm></app-servertime-alarm>
-
 </ng-template>
 
 <ng-template #Timetable_Login>

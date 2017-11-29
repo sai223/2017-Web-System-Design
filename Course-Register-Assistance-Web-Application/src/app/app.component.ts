@@ -1,8 +1,10 @@
 import {Component, OnInit, ViewChild, TemplateRef, ViewContainerRef, EmbeddedViewRef} from '@angular/core';
 
-
 import {NotifyService} from './notify-service';
 import {HttpService} from './http-service';
+
+import {Subject} from './Subject';
+import {Sugang} from './Sugang';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,8 @@ export class AppComponent implements OnInit {
   @ViewChild('Sugang_Logout') Sugang_Logout: TemplateRef<any>;
   @ViewChild('Timetable_Login') Timetable_Login: TemplateRef<any>;
   @ViewChild('Timetable_Logout') Timetable_Logout: TemplateRef<any>;
+  enrollList_T: Subject[] = [];
+  sugangList: Sugang[] = [];
   currentPage: number; // 1: 수강신청 페이지, 2: 시간표 조회 페이지
   loginState: boolean; // true: 로그인 상태, false: 로그아웃 상태
   userID: string;
@@ -41,11 +45,17 @@ export class AppComponent implements OnInit {
       }
     });
   }
-  handleSession(){
+  handleSession() {
     this.loginState = true;
-    this.notifyService.notifyOther({from: 'app.component', to: 'handle-sugangList.component', content: {
-      state: 'Login',
-    }});
+    this.httpService.getAllSubjects().subscribe(result => {
+      let no = 0;
+      Object.keys(result).forEach(key => {
+        this.enrollList_T.push(result[key]);
+        let sugang = new Sugang(no, result[key].subjectName, result[key].subjectNumber);
+        this.sugangList[no] = sugang;
+        no++;
+      });
+    });
     this.destroyTemplate();
     this.createTemplate();
   }
@@ -55,35 +65,49 @@ export class AppComponent implements OnInit {
     this.createTemplate();
   }
   changeLoginState(st: boolean) {
-    if ( st === true ) { // 로그인 버튼을 눌렀을 경우
-      this.httpService.logIn(this.userID, this.userPassword).subscribe(result => {
-        // result는 {userName, boolean} 형태
-        if (result['boolean'] === true) { // 로그인 성공
-          this.userPassword = '';
-          this.loginState = true;
-          this.userName = result['userName']; // userName 할당
-          this.notifyService.notifyOther({from: 'app.component', to: 'handle-sugangList.component', content: {
-            state: 'Login',
-            id: this.userID
-          }});
-        }else { // 로그인 실패
-          alert('계정 정보가 존재하지 않습니다.');
-          this.userPassword = '';
-        }
+    if (this.currentPage === 1) { // 수강신청 페이지일 경우
+      if ( st === true ) { // 로그인 버튼을 눌렀을 경우
+        this.httpService.logIn(this.userID, this.userPassword).subscribe(result => {
+          if (result['boolean'] === true) { // 로그인 성공
+            this.userPassword = '';
+            this.loginState = true;
+            this.userName = result['userName']; // userName 할당
+            this.httpService.getAllSubjects().subscribe(result => {
+              let no = 0;
+              Object.keys(result).forEach(key => {
+                this.enrollList_T.push(result[key]);
+                let sugang = new Sugang(no, result[key].subjectName, result[key].subjectNumber);
+                this.sugangList[no] = sugang;
+                no++;
+              });
+            });
+          }else { // 로그인 실패
+            alert('계정 정보가 존재하지 않습니다.');
+            this.userPassword = '';
+          }
+          this.destroyTemplate();
+          this.createTemplate();
+        });
+      }else if (st === false) { // 로그아웃 버튼을 눌렀을 경우
+        this.httpService.logOut().subscribe(result => {
+          this.userName = '';
+          this.loginState = false;
+          this.enrollList_T = [];
+          this.sugangList = [];
+          this.destroyTemplate();
+          this.createTemplate();
+        });
+      }
+    }else if (this.currentPage === 2) { // 시간표 조회 페이지일 경우
+      if (st === true) { // 로그인 버튼을 눌렀을 경우
+        this.loginState = true;
         this.destroyTemplate();
         this.createTemplate();
-      });
-    }else { // 로그아웃 버튼을 눌렀을 경우
-      this.httpService.logOut().subscribe(result => {
-        this.userName = '';
-        this.notifyService.notifyOther({from: 'app.component', to: 'handle-sugangList.component', content: {
-          state: 'Logout',
-          id: this.userID
-        }});
+      }else if (st === false) { // 로그아웃 버튼을 눌렀을 경우
         this.loginState = false;
         this.destroyTemplate();
         this.createTemplate();
-      });
+      }
     }
   }
   destroyTemplate() {

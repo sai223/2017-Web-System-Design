@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {Input, Component} from '@angular/core';
+
 import {Sugang} from './Sugang';
 
 @Component({
@@ -9,4 +10,6 @@ import {Sugang} from './Sugang';
 
 export class SugangListComponent {
   @Input() sugangList: Sugang[];
+  currentSugangName: string;
+  currentSugangNumber: string;
 }

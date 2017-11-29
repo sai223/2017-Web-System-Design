@@ -9,9 +9,8 @@ import { NotifyService } from './notify-service';
 
 import {SearchEngineComponent} from './searchEngine.component';
 import {SearchListComponent} from './searchList.component';
-import {HandleSugangListComponent} from './handle-sugangList.component';
-import {SugangListComponent} from './sugangList.component';
 import {ServerTimeAlarmComponent} from './serverTime-Alarm.component';
+import {SugangListComponent} from './sugangList.component';
 import {TimetableComponent} from './timetable.component';
 
 @NgModule({
@@ -19,9 +18,8 @@ import {TimetableComponent} from './timetable.component';
     AppComponent,
     SearchEngineComponent,
     SearchListComponent,
-    HandleSugangListComponent,
-    SugangListComponent,
     ServerTimeAlarmComponent,
+    SugangListComponent,
     TimetableComponent
   ],
   imports: [
