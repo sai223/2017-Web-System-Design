@@ -1,16 +1,46 @@
 #outerDiv{
+  margin-top: 30px;
   border-radius: 25px;
-  background-color: lightyellow;
-  padding: 20px;
-  width: 200px;
-  height: 150px;
+  border: 1px solid gray;
+  background-color: antiquewhite;
+  width: 500px;
+  height: 500px;
+  box-sizing: border-box;
 }
 #titleDiv{
-
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  height: 50px;
+  background-color: white;
+  border-radius: 25px 25px 1px 1px;
+  border: 1px solid gray;
+  margin-bottom: 20px;
+  box-sizing: inherit;
 }
-#innerDiv{
-
+#contentDiv{
+  width: 100%;
+  height: 400px;
+  box-sizing: inherit;
 }
-#deleteDiv{
-
+.sugangInput{
+  border: none;
+  border-color: transparent;
+  text-align: center;
+  font-size: 15px;
+  background-color: mintcream;
+  display: inline-block;
+}
+#sugangDiv{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 50px;
+  margin-right: 50px;
+  border-radius: 40px 40px 40px 40px;
+  border: 1px solid black;
+  background-color: mintcream;
+  width: 400px;
+  height: 40px;
+  text-align: center;
 }

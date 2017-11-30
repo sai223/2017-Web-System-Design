@@ -253,7 +253,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
     if (err) {
       return console.log("err " + err);
     }
-    if(req.body.isNickname = true){ //첫페이지에서 올 경우 (isNickname => boolean , Nickname은 사용자 편의를 위한 과목명 ex) 확률과통계 -> 확통,ㅎㅌ)
+    if(req.body.isNickname == true){ //첫페이지에서 올 경우 (isNickname => boolean , Nickname은 사용자 편의를 위한 과목명 ex) 확률과통계 -> 확통,ㅎㅌ)
       sugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, courseInfo) { //과목코드로 과목 존재 확인
         if (err) {
           return console.log("err " + err);

@@ -19,6 +19,13 @@ export class HttpService {
   getAllSubjects() {
     console.log('겟올섭젝');
     return this.http.get('/getAllSubjects');
-
+  }
+  addSubject(isNickname: boolean, subjectName: string, subjectNumber: string) {
+    console.log('애드섭젝');
+    return this.http.post('/addSubject', {
+      isNickname: isNickname,
+      subjectName: subjectName,
+      subjectNumber: subjectNumber
+    });
   }
 }

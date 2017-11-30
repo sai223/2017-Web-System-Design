@@ -1,18 +1,18 @@
 <div>
-  교과목: <input type="text" [(ngModel)]="currentSugangName">
-  과목 번호: <input type="text" [(ngModel)]="currentSugangNumber">
-  <button>추가</button>
+  <input type="text" [(ngModel)]="currentSugangName" placeholder="교과목">
+  <input type="text" [(ngModel)]="currentSugangNumber" placeholder="과목 번호">
+  <button (click)="addSugang()">추가</button>
 </div>
 <div id="outerDiv">
   <div id="titleDiv">
     수강신청 리스트
   </div>
-  <div id="innerDiv">
-    <li *ngFor="let sugang of sugangList">
-      {{sugang.sugangName}} // {{sugang.sugangNumber}}
-    </li>
-  </div>
-  <div id="deleteDiv">
-
+  <div id="contentDiv">
+    <div id="sugangDiv" *ngFor="let sugang of sugangList">
+      <button (click)="deleteSugang(sugang.priority)">삭제</button>
+      <input class="sugangInput" type="text" size="10" [value]="sugang.sugangName" readonly>
+      <input [attr.id]="'copy-' + sugang.priority" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
+      <button (click)="copyClick(sugang.priority)">복사</button>
+    </div>
   </div>
 </div>
