@@ -145,7 +145,7 @@ SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
   if (err) {
     return console.log(err);
   }
-  SugangInfo.findOne({subjectNumber: 'X123'},function (err,info2) {
+  SugangInfo.findOne({subjectNumber: 'D123'},function (err,info2) {
     if (err) {
       return console.log("err " + err);
     } else {
@@ -159,16 +159,16 @@ SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
     }
   })
 })
-*/
+
 /*
 // list 정보 불러오기 test
-SugangListbyUserModel.findOne({userID:'psh'},function (err, info1){
+SugangListbyUserModel.find(function (err, info1){
   if (err) {
     return console.log(err);
   }
-  else console.log(info1.subjectInfo);
+  else console.log(info1);
 });
-*/
+
 /*
 // list에서 과목 삭제하기 test  // '계정 psh의 리스트에서 과목코드로 해당 과목만 삭제'
 SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {subjectNumber: 'X123'}}}, function (err, infoList){
@@ -199,13 +199,13 @@ router.get('/sessionCheck',function (req,res) {
 
 // log-in 기능 --------------------------------------------------------------------------------
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
-  //console.log(req.sessionID);
+                                        //console.log(req.sessionID);
   sess = req.session;
   ClientInfo.findOne({userID: req.body.id, userPassword: req.body.pw}, function (err, info) {
     if (err) {
       return console.log("err " + err);
     }
-    console.log(info);
+    //console.log(info);
     if(!info){ //로그인 정보가 틀렸을 경우
       const cliInfo= {userName: '', boolean: false};
       res.send(cliInfo);
@@ -225,19 +225,20 @@ router.get('/logout',function (req,res) { //세션 파괴만하면 될듯 //
 });
 // 접속자의 과목리스트 불러오기 -----------------------------------------------------------------------
 router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
+  console.log('getallsubject');
   SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
     if (err) {
       return console.log("err " + err);
     }
-    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때
-      var newUser = new SugangListbyUserModel({userID: 'psh'})
+    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 리스트에 새로운 계정 생성
+      var newUser = new SugangListbyUserModel({userID: req.session.user_ID})
       newUser.save(function (err,document) {
         if (err)
           return console.error(err);
-        console.log('리스트계정 생성');
+        console.log('리스트계정 생성: '+document);
       })
-      var emptySubject = [];
-      res.send(emptySubject); // [] 이런식을 전송되면 되나 물어보기
+      var allSubject = newUser.subjectInfo;
+      res.send(allSubject); // [] 이런식을 전송되면 되나 물어보기
     } else { //SugangListbyUserModel에 내 정보가 있을때
       var allSubject = infoList.subjectInfo; //
       console.log(allSubject);
@@ -247,11 +248,59 @@ router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
 });
 // 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
 router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
+  console.log('addsubject');
   SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인
     if (err) {
       return console.log("err " + err);
     }
-    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 새로운 객체(계정) 생성
+    if(req.body.isNickname = true){ //첫페이지에서 올 경우 (isNickname => boolean , Nickname은 사용자 편의를 위한 과목명 ex) 확률과통계 -> 확통,ㅎㅌ)
+      sugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, courseInfo) { //과목코드로 과목 존재 확인
+        if (err) {
+          return console.log("err " + err);
+        }
+        if(!courseInfo){ // 잘못된 입력값(과목코드)
+          var isAddSuccess = false;
+          res.send(isAddSuccess); // 클라이언트쪽에서 alert호출 요망
+        } else { //올바른 입력값(과목코드)
+          var isAddSuccess = true;
+
+          courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)
+          infoList.subjectInfo.push(courseInfo);
+          infoList.save(function(err,document) {
+            if (err)
+              return console.error(err);
+            console.log('해당과목 저장 성공');
+            console.log(document)
+          });
+
+          res.send(isAddSuccess);
+        }
+      })
+    } else { // 두번째 페이지에서 올 경우
+      sugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, courseInfo) {
+        if (err) {
+          return console.log("err " + err);
+        }
+        if(!courseInfo){ // 잘못된 입력값(과목코드)
+          var isAddSuccess = false;
+          res.send(isAddSuccess); // 클라이언트쪽에서 alert호출 요망
+        } else { //올바른 입력값(과목코드)
+          var isAddSuccess = true;
+
+          courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)
+          infoList.subjectInfo.push(courseInfo);
+          infoList.save(function(err,document) {
+            if (err)
+              return console.error(err);
+            console.log('해당과목 저장 성공');
+            console.log(document)
+          });
+          res.send(isAddSuccess); // 올바른 입력값(과목코드)
+        }
+      })
+    }
+    /*
+    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 새로운 객체(계정) 생성  생략되도될듯
       var sal = new SugangAssitList();
       sal.userID = req.session.user_ID;
 
@@ -289,6 +338,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
         }
       })
     }
+    */
   })
 })
 // 수강신청페이지에서 삭제버튼 -----------------------------------------------------------------------
@@ -299,7 +349,7 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
     }
     console.log('Delete 완료')
     //res로 뭘줘야지
-    res.send('해당과목삭제완료');
+    res.send({});
   })
 })
 // 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
