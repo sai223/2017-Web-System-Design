@@ -47,6 +47,11 @@ export class AppComponent implements OnInit {
   }
   handleSession() {
     this.loginState = true;
+    this.getAllSubject();
+    this.destroyTemplate();
+    this.createTemplate();
+  }
+  getAllSubject() {
     this.httpService.getAllSubjects().subscribe(result => {
       let no = 0;
       Object.keys(result).forEach(key => {
@@ -56,8 +61,6 @@ export class AppComponent implements OnInit {
         no++;
       });
     });
-    this.destroyTemplate();
-    this.createTemplate();
   }
   changeCurrentPage(no: number) {
     this.currentPage = no;
@@ -72,15 +75,7 @@ export class AppComponent implements OnInit {
             this.userPassword = '';
             this.loginState = true;
             this.userName = result['userName']; // userName 할당
-            this.httpService.getAllSubjects().subscribe(result => {
-              let no = 0;
-              Object.keys(result).forEach(key => {
-                this.enrollList_T.push(result[key]);
-                let sugang = new Sugang(no, result[key].subjectName, result[key].subjectNumber);
-                this.sugangList[no] = sugang;
-                no++;
-              });
-            });
+            this.getAllSubject();
           }else { // 로그인 실패
             alert('계정 정보가 존재하지 않습니다.');
             this.userPassword = '';

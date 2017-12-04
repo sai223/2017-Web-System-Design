@@ -28,4 +28,10 @@ export class HttpService {
       subjectNumber: subjectNumber
     });
   }
+  deleteSubject(subjectNumber: string) {
+    console.log('딜릿섭젝');
+    return this.http.post('deleteSubject', {
+      subjectNumber: subjectNumber
+    });
+  }
 }

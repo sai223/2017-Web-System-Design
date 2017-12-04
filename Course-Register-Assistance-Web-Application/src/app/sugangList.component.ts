@@ -29,21 +29,25 @@ export class SugangListComponent implements AfterViewInit {
     this.elementRef.nativeElement.appendChild(s);
   }
   copyClick(no: number) {
-    copyServiceObject.copyFunc(no);
-  }
-  addSugang() {
-    alert('추가 구현 예정');
-    /*
-    this.httpService.addSubject(true, this.currentSugangName, this.currentSugangNumber).subscribe(result => {
-      if (result == true) {
-        // app.component에 보낸다. 그러면 app.component에서 getAllSubject해서 업데이트 함.
-      }else {
-        // 안보내고, 오류 메세지 띄운다.
-      }
-    });
-    */
-  }
-  deleteSugang() {
-    alert('삭제 구현 예정');
-  }
+  copyServiceObject.copyFunc(no);
+}
+addSugang() {
+  this.httpService.addSubject(true, this.currentSugangName, this.currentSugangNumber).subscribe(result => {
+    if (result == true) {
+      // app.component에 보낸다. 그러면 app.component에서 getAllSubject해서 업데이트 함.
+      this.currentSugangName = '';
+      this.currentSugangNumber = '';
+      this.updateSugangList.emit('update');
+    }else {
+      // 안보내고, 오류 메세지 띄운다.
+      this.currentSugangNumber = '';
+      alert('과목 번호는 올바른 값을 입력해야 합니다.');
+    }
+  });
+}
+deleteSugang(no: string) {
+  this.httpService.deleteSubject(no).subscribe(result => {
+    this.updateSugangList.emit('update');
+  });
+}
 }

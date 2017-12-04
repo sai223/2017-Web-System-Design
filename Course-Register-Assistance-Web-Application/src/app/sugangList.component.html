@@ -9,7 +9,7 @@
   </div>
   <div id="contentDiv">
     <div id="sugangDiv" *ngFor="let sugang of sugangList">
-      <button (click)="deleteSugang(sugang.priority)">삭제</button>
+      <button (click)="deleteSugang(sugang.sugangNumber)">삭제</button>
       <input class="sugangInput" type="text" size="10" [value]="sugang.sugangName" readonly>
       <input [attr.id]="'copy-' + sugang.priority" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
       <button (click)="copyClick(sugang.priority)">복사</button>

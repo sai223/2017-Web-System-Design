@@ -10,7 +10,7 @@
     <b>{{userName}}</b>님 안녕하세요.
     <button (click)="changeLoginState(false)">로그아웃</button>
   </div>
-  <app-suganglist *ngIf="sugangList" [sugangList]="sugangList"></app-suganglist>
+  <app-suganglist *ngIf="sugangList" [sugangList]="sugangList" (updateSugangList)="getAllSubject($event)"></app-suganglist>
 </ng-template>
 
 <ng-template #Sugang_Logout>
