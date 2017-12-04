@@ -1,6 +1,9 @@
 .subjectSearchList{
-  width: 70%;
-  height: 70%;
+  width: 60%;
+  height: 600px;
+  overflow: scroll;
+  white-space: nowrap;
+  padding: 10px;
 }
 table.listTable {
   border-collapse: separate;
