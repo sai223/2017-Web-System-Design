@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import {Subject} from './Subject';
 import {Subjects} from './mock.subjectList';
 import { HttpService} from './http-service';
@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 export class SearchEngineComponent implements OnInit {
   searchList_T: Subject[] = [];
   selectedSubject: Subject;
-  enrollList_T: Subject[] = [];
+  @Input() enrollList_T: Subject[] = [];
   numberingArray: boolean[] = [];
   subjectNumbering: number;
   // 요일별 배열을 만들어서 시간표 중복을 검사
@@ -30,6 +30,7 @@ export class SearchEngineComponent implements OnInit {
   time_2B: string; // 강의교시
   professorName_2B: string; // 과목명
   subjectName_2B: string; // 교수명
+  @Output() reflectEnrollListEvent: EventEmitter<Subject[]> = new EventEmitter();
   constructor(private httpService: HttpService) {}
   ngOnInit() {
     // 과목 등록할 때 그 과목에 대해 부여하는 숫자
@@ -168,6 +169,8 @@ export class SearchEngineComponent implements OnInit {
       }
     }
     for (let k = 0; k < 8; k++) {
+      // false 가 시간표상  비어있는 곳
+      // true : 사용중  false : 사용 안하는 중
       if (this.numberingArray[k] === false) {
         this.numberingArray[k] = true;
         this.subjectNumbering = k + 1;
@@ -200,6 +203,9 @@ export class SearchEngineComponent implements OnInit {
     // 리스트에 등록하기 시작
     this.enrollList_T.push(subject);
     // 리스트에 등록하기 끝
+    // 이벤트를 발생 -> app.component 배열에 반영시키고
+    this.reflectEnrollListEvent.emit(this.enrollList_T);
+    // 디비에 반영시킨다.
   }
   // 삭제할 과목을 수강신청항목에서 지우고
   // 요일 배열의 값을 수정한다.(subjectNumbering 값 -> 0)
@@ -228,6 +234,8 @@ export class SearchEngineComponent implements OnInit {
             this.deleteDayArray(this.Friday, this.splitSubjectTime[j]);
           }
         }
+        // 이벤트를 발생 -> app.component 배열에 반영시키고
+        this.reflectEnrollListEvent.emit(this.enrollList_T);
         console.log('요일 배열 삭제 끝난 시점', this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday);
       }
     }

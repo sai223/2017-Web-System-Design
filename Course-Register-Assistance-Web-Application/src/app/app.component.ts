@@ -127,4 +127,7 @@ export class AppComponent implements OnInit {
     }
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
   }
+  reflectEnrollList_T(enrollList: Subject[]){
+    this.enrollList_T = enrollList;
+  }
 }

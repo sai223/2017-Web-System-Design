@@ -28,7 +28,9 @@
     <b>{{userName}}</b>님 안녕하세요.
     <button (click)="changeLoginState(false)">로그아웃</button>
   </div>
-  <app-engine></app-engine>
+  <app-engine [enrollList_T] = enrollList_T
+              (reflectEnrollListEvent) = reflectEnrollList_T($event);
+  ></app-engine>
 </ng-template>
 
 <ng-template #Timetable_Logout>
