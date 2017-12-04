@@ -254,7 +254,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
       return console.log("err " + err);
     }
     if(req.body.isNickname == true){ //첫페이지에서 올 경우 (isNickname => boolean , Nickname은 사용자 편의를 위한 과목명 ex) 확률과통계 -> 확통,ㅎㅌ)
-      sugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, courseInfo) { //과목코드로 과목 존재 확인
+      SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, courseInfo) { //과목코드로 과목 존재 확인
         if (err) {
           return console.log("err " + err);
         }
@@ -277,7 +277,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
         }
       })
     } else { // 두번째 페이지에서 올 경우
-      sugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, courseInfo) {
+      SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, courseInfo) {
         if (err) {
           return console.log("err " + err);
         }
@@ -355,5 +355,30 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
 // 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
 router.get('/searchSubject',function (req,res) { // req(subjectType,major,day,time,subjectName,professorName) res(Subject[])
 
+  var ar = new Array(6);
+  const js = {};
+  ar[0][0] = req.body.subjectType;
+  ar[1][0] = req.body.major;
+  ar[2][0] = req.body.day;
+  ar[3][0] = req.body.time;
+  ar[4][0] = req.body.subjectName;
+  ar[5][0] = req.body.professorName;
+  for(var i=0;i<6;i++){
+    if(ar[i][0]===""){
+      ar[i][1]="empty"
+    }
+    else{
+      ar[i][1]="check"
+
+
+    }
+  }
+
+
+  SugangInfo.find({subjectType: req.body.subjectType ,major: req.body.major},function (err, courseInfo){
+    if (err) {
+      return console.log("err " + err);
+    }
+  });
 })
 module.exports = router;
