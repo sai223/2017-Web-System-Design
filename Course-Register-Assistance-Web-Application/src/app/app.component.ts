@@ -54,6 +54,8 @@ export class AppComponent implements OnInit {
   getAllSubject() {
     this.httpService.getAllSubjects().subscribe(result => {
       let no = 0;
+      this.sugangList = [];
+      this.enrollList_T = [];
       Object.keys(result).forEach(key => {
         this.enrollList_T.push(result[key]);
         let sugang = new Sugang(no, result[key].subjectName, result[key].subjectNumber);

@@ -34,4 +34,10 @@ export class HttpService {
       subjectNumber: subjectNumber
     });
   }
+  searchSubject(subjectType: string, major: string, day: string,
+                time: string, subjectName: string, professorName: string){
+    return this.http.get(`/searchSubject?subjectType=${subjectType}
+    &major=${major}&day=${day}&time=${time}&subjectName=${subjectName}
+    &professorName=${professorName}`);
+  }
 }
