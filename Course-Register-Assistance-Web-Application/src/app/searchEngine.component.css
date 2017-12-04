@@ -2,21 +2,14 @@
   padding: 10px;
   background-color: azure;
   float: left;
+  width: 60%;
+  height: 200px;
 }
-.firstRow{
-}
-.subjectType{
-}
-.major{
-}
-.subjectDay{
-}
-.subjectTime{
+.total{
+  float: right;
 }
 .secondRow{
   margin-top: 10px;
-}
-.subjectName{
 }
 td{
   width: 200px;
@@ -34,19 +27,20 @@ td.button{
   font-size: 9pt;
 }
 #professorName{
-  width: 130px;
+  width: 200px;
   height: 30px;
   font-size: 9pt;
 }
 select{
-  width: 100px;
+  width: 200px;
   height: 32px;
   font-size: 10pt;
 }
 button{
-  width: 70px;
-  height: 30px;
-  font-size: 10pt;
+  width: 100px;
+  height: 40px;
+  font-weight: bold;
+  font-size: 12pt;
   margin-right: 20px;
   background-color: lightblue;
 }

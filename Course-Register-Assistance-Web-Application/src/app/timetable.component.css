@@ -1,23 +1,69 @@
-div.subjectSearchList{
-  width: 70%;
-  height: 70%;
+
+div.timeTableDiv{
+  width: 35%;
+  height: 600px;
+  margin: 20px;;
+  float: left;
 }
-table.listTable {
+table.timeTable{
   border-collapse: collapse;
-  text-align: left;
   line-height: 1.5;
-  margin : 20px 10px;
+  text-align: center;
 }
-table.listTable th {
-  width: 150px;
-  padding: 10px;
+table.timeTable tr {
+  vertical-align: top;
+  border: 1px solid #ccc;
+}
+table.timeTable td,th {
+  width: 100px;
+  height: 20px;
+  text-align: center;
+  vertical-align: top;
+  border: 1px solid #ccc;
+}
+table.empty{
+  border-collapse: collapse;
+  line-height: 1.5;
+  text-align: center;
+  font-size: 0.5em;
   font-weight: bold;
-  vertical-align: top;
-  border: 1px solid #ccc;
 }
-table.listTable td {
-  width: 350px;
-  padding: 10px;
+table.empty tr{
   vertical-align: top;
-  border: 1px solid #ccc;
+}
+table.empty td,th {
+  width: 30px;
+  height: 20px;
+  text-align: center;
+  vertical-align: top;
+}
+.day{
+  float: left;
+}
+.color1{
+  background-color: aquamarine;
+}
+.color2{
+  background-color: #ffd075;
+}
+.color3{
+  background-color: gold;
+}
+.color4{
+  background-color: cornflowerblue;
+}
+.color5{
+  background-color: greenyellow;
+}
+.color6{
+  background-color: #a5e6b6;
+}
+.color7{
+  background-color: #dcc7ce;
+}
+.color8{
+  background-color: hotpink;
+}
+.colorNo{
+  background-color: white;
 }

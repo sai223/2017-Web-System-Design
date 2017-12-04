@@ -1,5 +1,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ng2-bootstrap/x.x.x/ng2-bootstrap.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+<div class="total">
+  <div class="right">
+    <app-timetable [Monday_R] = "Monday"
+                   [Tuesday_R]= "Tuesday"
+                   [Wednesday_R]="Wednesday"
+                   [Thursday_R]="Thursday"
+                   [Friday_R]="Friday"
+    ></app-timetable>
+  </div>
+<div class="left">
 <div class="container" id = "searchEngine">
   <div class="firstRow">
     <table>
@@ -7,7 +17,9 @@
         <td>
           <div class = "subjectType">
             <label for="subjectType">교과구분
-              <select name = "교과구분" class="form-control" id="subjectType">
+              <select name = "교과구분" class="form-control" id="subjectType"
+                      [(ngModel)] = "subjectType_2B"
+              >
                 <option value="">선택</option>
                 <option value="">전공과목</option>
                 <option value="">교양과목</option>
@@ -22,7 +34,8 @@
         <td>
           <div class = "major">
             <label for="major">전공
-              <select name = "전공" class="form-control" id="major">
+              <select name = "전공" class="form-control" id="major"
+                      [(ngModel)] = "major_2B">
                 <option value="">선택</option>
                 <option value="기계공학전공(과)">기계공학전공(과)</option>
                 <option value="산업공학전공(과)">산업공학전공(과)</option>
@@ -77,31 +90,42 @@
         <td>
           <div class = "subjectDay">
             <label  for="subjectDay">요일
-              <select name = "요일" class="form-control" id="subjectDay">
+              <select name = "요일" class="form-control" id="subjectDay"
+                      [(ngModel)] = "day_2B">
                 <option value="">선택</option>
-                <option value="">월</option>
-                <option value="">화</option>
-                <option value="">수</option>
-                <option value="">목</option>
-                <option value="">금</option>
-                <option value="">토</option>
-                <option value="">일</option>
+                <option value="월">월</option>
+                <option value="화">화</option>
+                <option value="수">수</option>
+                <option value="목">목</option>
+                <option value="금">금</option>
               </select></label>
           </div>
         </td>
         <td>
           <div class = "subjectTime">
             <label  for="subjectTime">강의교시
-              <select name = "강의교시" class="form-control" id="subjectTime">
+              <select name = "강의교시" class="form-control" id="subjectTime"
+                      [(ngModel)] = "time_2B">
                 <option value="">선택</option>
-                <option value="">A(9:00-10:15)</option>
-                <option value="">B(10:30-11:45)</option>
-                <option value="">C(12:00-1:15)</option>
-                <option value="">D(1:30-2:45)</option>
-                <option value="">E(3:00-4:15)</option>
-                <option value="">F(4:30-5:45)</option>
-                <option value="">G(6:00-7:15)</option>
-                <option value="">H(7:30-8:45)</option>
+                <option value="A">A(9:00-10:15)</option>
+                <option value="B">B(10:30-11:45)</option>
+                <option value="C">C(12:00-1:15)</option>
+                <option value="D">D(1:30-2:45)</option>
+                <option value="E">E(3:00-4:15)</option>
+                <option value="F">F(4:30-5:45)</option>
+                <option value="G">G(6:00-7:15)</option>
+                <option value="H">H(7:30-8:45)</option>
+                <option value="1">1(9:00-10:00)</option>
+                <option value="2">2(10:00-11:00)</option>
+                <option value="3">3(11:00-12:00)</option>
+                <option value="4">4(12:00-13:00)</option>
+                <option value="5">5(13:00-14:00)</option>
+                <option value="6">6(14:00-15:00)</option>
+                <option value="7">7(15:00-16:00)</option>
+                <option value="8">8(16:00-17:00)</option>
+                <option value="9">9(17:00-18:00)</option>
+                <option value="10">10(18:00-19:00)</option>
+                <option value="11">11(19:00-20:00)</option>
               </select></label>
           </div>
         </td>
@@ -114,17 +138,22 @@
         <td>
           <div class = "subjectName">
             <label for="subjectName">과목명
-              <input type="text" id="subjectName" class="form-control"></label>
+              <input type="text" id="subjectName" class="form-control"
+              [(ngModel)] = "subjectName_2B"
+              ></label>
           </div>
         </td>
         <td>
           <div class="professorName">
             <label for="professorName">교수명
-              <input type="text" id="professorName" class="form-control"></label>
+              <input type="text" id="professorName" class="form-control"
+              [(ngModel)] = "professorName_2B"
+              ></label>
           </div>
         </td>
         <td class="button">
-          <button class="form-control">조회</button>
+          <button class="form-control"
+          >조회</button>
         </td>
         <td class="button">
           <button class="form-control"
@@ -134,12 +163,20 @@
       </tr>
     </table>
   </div>
+
+
 </div>
+  <app-enroll [enrollList_R]="enrollList_T"
+              (deleteSubjectEvent) = "deleteSubject($event)"
+  >
+  </app-enroll>
 <app-list [searchList_R]="searchList_T"
           (subjectClickEvent)="chosenSubject($event)"
 ></app-list>
-<app-timetable [enrollList_R]="enrollList_T"
-               (deleteSubjectEvent) = "deleteSubject($event)"
-></app-timetable>
+
+</div>
+</div>
+
+
 
 

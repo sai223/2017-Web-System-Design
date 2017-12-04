@@ -1,0 +1,28 @@
+div.enrollList{
+  width: 60%;
+  height: 300px;
+  overflow: scroll;
+  white-space: nowrap;
+  padding: 10px;
+}
+table.listTable {
+  border-collapse: collapse;
+  text-align: left;
+  line-height: 1.5;
+  margin : 20px 10px;
+}
+table.listTable th {
+  width: 100px;
+  padding: 10px;
+  font-weight: bold;
+  vertical-align: top;
+  border: 1px solid #ccc;
+}
+table.listTable td {
+  width: 100px;
+  padding: 10px;
+  vertical-align: top;
+  border: 1px solid #ccc;
+}
+
+
