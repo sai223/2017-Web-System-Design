@@ -44,6 +44,7 @@ SugangInfo.remove({}, function(err) {
   }
 );
 */
+/*
 
 // DB에 Test Data 넣으실때 사용하세요
 
@@ -113,7 +114,7 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
-
+*/
 
 /*
 ClientInfo.find(function (err,info) {
