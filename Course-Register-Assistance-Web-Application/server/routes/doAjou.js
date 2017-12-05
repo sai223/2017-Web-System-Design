@@ -113,7 +113,7 @@ si2.save(function(err,document) {
 //-------------------------------------------------
 // DB에 Test Data 조회할때 사용하세요
 // 수강과목 조회
-/*
+
 SugangInfo.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
@@ -122,7 +122,7 @@ SugangInfo.find(function (err,info) {
   }
 });
 
-*/
+
 
 
 /*
@@ -400,7 +400,14 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   ar[4] = req.body.subjectName_2B;
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
-    if (ar[i] === undefined) {}
+    if (ar[i] === undefined) {
+      if(i==2){
+        ar[2]="";
+      }
+      if(i==3){
+        ar[2]="";
+      }
+    }
     else {
       switch (i) {
         case 0:
@@ -417,10 +424,11 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
       }
     }
   }
+
   js.subjectTime = new RegExp(ar[2]+ar[3]);
 
-  console.log(JSON.stringify(js));
-  console.log(js.subjectTime);
+  console.log("js: "+JSON.stringify(js));
+  console.log("js time: "+js.subjectTime);
 
   SugangInfo.find(js,function (err, courseInfo){
     if (err) {
