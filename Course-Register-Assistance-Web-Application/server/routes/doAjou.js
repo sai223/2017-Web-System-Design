@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 const ClientInfo = require('../database/clientInfoModel');
 const SugangInfo = require('../database/sugangInfoModel');
 const SugangListbyUserModel = require('../database/sugangListbyUserModel');
+const TimeInfo = require('../database/timeInfoModel');
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/test');
@@ -16,9 +17,9 @@ db.on('error', function(err) {
 db.on('connected', function() {
   console.log("Connected successfully to server");
 });
-
+/*
 //DB 초기화 하실때 사용하세요
-/*--------------------------------------------------------------------
+
 ClientInfo.remove({}, function(err) {
     if (err) {
       console.log(err)
@@ -43,10 +44,10 @@ SugangInfo.remove({}, function(err) {
     }
   }
 );
----------------------------------------------------------------------*/
+*/
 
 // DB에 Test Data 넣으실때 사용하세요
-/*--------------------------------------------------------------------
+/*
 var ci = new ClientInfo();
 ci.userID = 'psh';
 ci.userPassword = '2013';
@@ -82,8 +83,8 @@ ci3.save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('계정 이인태생성');
-});
-*/
+})
+
 /*
 var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
   professorName: '김응기', credit: 3, subjectNumber: 'A123'});
@@ -117,8 +118,17 @@ SugangInfo.find(function (err,info) {
 });
 /*
 ---------------------------------------------------------------------*/
-
 /*
+var t = new TimeInfo({hour: 0,min: 0,sec: 0});
+t.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('시간생성');
+});
+*/
+TimeInfo.find(function (err,info) {
+  console.log(info);
+})
 ClientInfo.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
@@ -133,7 +143,7 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
-
+/*
 // 리스트에 계정생성 test
 var slu = new SugangListbyUserModel({userID: 'psh'})
 slu.save(function (err,document) {
@@ -141,7 +151,7 @@ slu.save(function (err,document) {
     return console.error(err);
   console.log('리스트계정 생성');
 })
-*/
+
 /*
 // 계정 psh의 리스트에 X123 과목 넣어보기 test
 SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
@@ -163,7 +173,7 @@ SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
   })
 })
 
-/*
+*/
 // list 정보 불러오기 test
 SugangListbyUserModel.find(function (err, info1){
   if (err) {
@@ -181,6 +191,7 @@ SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {s
   console.log('Delete 완료')
 })
 */
+/*
 var ar = new Array();
 const js = new Object();
 ar[0] = "";
@@ -213,14 +224,15 @@ js.subjectTime = new RegExp(ar[2]+ar[3]);
 
   console.log(JSON.stringify(js));
   console.log(js.subjectTime);
-
+*/
+/*
 SugangInfo.find(js,function (err, courseInfo){
   if (err) {
     return console.log("err " + err);
   }
   console.log(courseInfo);
 });
-
+*/
 // 페이지 시작할때 마다 세션 체크 -------------------------------------------------------------------
 router.get('/sessionCheck',function (req,res) {
   ClientInfo.findOne({userID: req.session.user_ID}, function (err, info){
@@ -434,5 +446,27 @@ router.get('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,
     }
     console.log(courseInfo);
   });
+})
+router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려줌
+  TimeInfo.find(function (err,time) { //time돌려줄 저장값
+    if (err) {
+      return console.log("err " + err);
+    }
+    TimeInfo.findOneAndUpdate({hour: time.hour},{$set: {hour: 0,min: 0, sec: 0 }},function (err,time2) { //time2 다시 000설정
+      if (err) {
+        return console.log("err " + err);
+      }
+    })
+    res.send({hour: time.hour, min: time.min ,sec: time.sec })
+  })
+
+})
+router.post('/setTime',function (req,res) {
+  TimeInfo.findOneAndUpdate({hour: 0,min: 0, sec: 0},{$set: {hour: req.body.hour,min: req.body.min, sec: req.body.sec }},function (err,time) {
+    if (err) {
+      return console.log("err " + err);
+    }
+    res.send({});
+  })
 })
 module.exports = router;

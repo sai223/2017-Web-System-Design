@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 var session = require('express-session');
 
-//라우트를 받아온다. 변경해야함(했음 memo로)
+// 테스트용 라우트
 const test = require('./server/routes/test');
 
 // 수강신청 라우트 && 시간표조회 라우트

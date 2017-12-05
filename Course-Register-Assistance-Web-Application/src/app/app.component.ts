@@ -96,14 +96,29 @@ export class AppComponent implements OnInit {
         });
       }
     }else if (this.currentPage === 2) { // 시간표 조회 페이지일 경우
-      if (st === true) { // 로그인 버튼을 눌렀을 경우
-        this.loginState = true;
-        this.destroyTemplate();
-        this.createTemplate();
+      if ( st === true ) { // 로그인 버튼을 눌렀을 경우
+        this.httpService.logIn(this.userID, this.userPassword).subscribe(result => {
+          if (result['boolean'] === true) { // 로그인 성공
+            this.userPassword = '';
+            this.loginState = true;
+            this.userName = result['userName']; // userName 할당
+            this.getAllSubject();
+          }else { // 로그인 실패
+            alert('계정 정보가 존재하지 않습니다.');
+            this.userPassword = '';
+          }
+          this.destroyTemplate();
+          this.createTemplate();
+        });
       }else if (st === false) { // 로그아웃 버튼을 눌렀을 경우
-        this.loginState = false;
-        this.destroyTemplate();
-        this.createTemplate();
+        this.httpService.logOut().subscribe(result => {
+          this.userName = '';
+          this.loginState = false;
+          this.enrollList_T = [];
+          this.sugangList = [];
+          this.destroyTemplate();
+          this.createTemplate();
+        });
       }
     }
   }
@@ -126,5 +141,8 @@ export class AppComponent implements OnInit {
       }
     }
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
+  }
+  reflectEnrollList_T(enrollList: Subject[]){
+    this.enrollList_T = enrollList;
   }
 }

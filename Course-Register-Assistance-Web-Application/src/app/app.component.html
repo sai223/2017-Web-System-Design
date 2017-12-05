@@ -28,7 +28,10 @@
     <b>{{userName}}</b>님 안녕하세요.
     <button (click)="changeLoginState(false)">로그아웃</button>
   </div>
-  <app-engine></app-engine>
+  <app-engine [enrollList_T] = enrollList_T
+              (reflectEnrollListEvent) = reflectEnrollList_T($event);
+              (updateSugangList) ="getAllSubject($event)"
+  ></app-engine>
 </ng-template>
 
 <ng-template #Timetable_Logout>
@@ -38,5 +41,9 @@
     비밀번호: <input type="password" [(ngModel)]="userPassword">
     <button (click)="changeLoginState(true)">로그인</button>
   </div>
-  <app-engine></app-engine>
+  <app-engine
+    [enrollList_T] = enrollList_T
+    (reflectEnrollListEvent) = reflectEnrollList_T($event);
+    (updateSugangList) ="getAllSubject($event)"
+  ></app-engine>
 </ng-template>
