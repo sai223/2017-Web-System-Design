@@ -45,6 +45,7 @@ SugangInfo.remove({}, function(err) {
   }
 );
 */
+/*
 
 // DB에 Test Data 넣으실때 사용하세요
 /*
@@ -116,19 +117,26 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
+<<<<<<< HEAD
+=======
+*/
+
+
 /*
 ---------------------------------------------------------------------*/
 /*
-var t = new TimeInfo({hour: 0,min: 0,sec: 0});
+var t = new TimeInfo({hour: "0",min: "0",sec: "0"});
 t.save(function(err,document) {
   if (err)
     return console.error(err);
-  console.log('시간생성');
+  console.log('시간생성ggg');
 });
+
 */
 TimeInfo.find(function (err,info) {
   console.log(info);
 })
+/*
 ClientInfo.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
@@ -136,6 +144,7 @@ ClientInfo.find(function (err,info) {
     console.log('현재 ClientInfo 저장되어있는 Data: '+info);
   }
 });
+/*
 SugangInfo.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
@@ -174,6 +183,7 @@ SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
 })
 
 */
+/*
 // list 정보 불러오기 test
 SugangListbyUserModel.find(function (err, info1){
   if (err) {
@@ -181,7 +191,14 @@ SugangListbyUserModel.find(function (err, info1){
   }
   else console.log(info1);
 });
-
+TimeInfo.remove({}, function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('TimeInfo삭제 완료');
+    }
+  }
+);
 /*
 // list에서 과목 삭제하기 test  // '계정 psh의 리스트에서 과목코드로 해당 과목만 삭제'
 SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {subjectNumber: 'X123'}}}, function (err, infoList){
@@ -448,11 +465,11 @@ router.get('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,
   });
 })
 router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려줌
-  TimeInfo.find(function (err,time) { //time돌려줄 저장값
+  TimeInfo.find(function (err,time) { //time 돌려줄 저장값
     if (err) {
       return console.log("err " + err);
     }
-    TimeInfo.findOneAndUpdate({hour: time.hour},{$set: {hour: 0,min: 0, sec: 0 }},function (err,time2) { //time2 다시 000설정
+    TimeInfo.findOneAndUpdate({hour: time.hour},{$set: {hour: "0",min: "0", sec: "0" }},function (err,time2) { //time2 다시 000설정
       if (err) {
         return console.log("err " + err);
       }
@@ -462,7 +479,9 @@ router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려
 
 })
 router.post('/setTime',function (req,res) {
-  TimeInfo.findOneAndUpdate({hour: 0,min: 0, sec: 0},{$set: {hour: req.body.hour,min: req.body.min, sec: req.body.sec }},function (err,time) {
+  //console.log(req)
+
+  TimeInfo.findOneAndUpdate({hour: "0",min: "0", sec: "0"},{$set: {hour: req.body.hour,min: req.body.min, sec: req.body.sec }},function (err,time) {
     if (err) {
       return console.log("err " + err);
     }

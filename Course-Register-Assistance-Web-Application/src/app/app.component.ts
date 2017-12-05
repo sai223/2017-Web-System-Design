@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild, TemplateRef, ViewContainerRef, EmbeddedViewRef} from '@angular/core';
+import {Component, OnInit, ViewChild, TemplateRef,
+  ViewContainerRef, EmbeddedViewRef} from '@angular/core';
 
-import {NotifyService} from './notify-service';
 import {HttpService} from './http-service';
 
 import {Subject} from './Subject';
@@ -27,8 +27,7 @@ export class AppComponent implements OnInit {
   currentView: EmbeddedViewRef<any>;
   constructor(
     private vcr: ViewContainerRef,
-    private notifyService: NotifyService,
-    private httpService: HttpService
+    private httpService: HttpService,
   ) {}
   ngOnInit() {
     this.currentPage = 1;

@@ -5,11 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
 import { HttpService } from './http-service';
-import { NotifyService } from './notify-service';
 
 import {SearchEngineComponent} from './searchEngine.component';
 import {SearchListComponent} from './searchList.component';
-import {ServerTimeAlarmComponent} from './serverTime-Alarm.component';
 import {SugangListComponent} from './sugangList.component';
 import {TimetableComponent} from './timetable.component';
 import {EnrollListComponent} from './enrollList.component';
@@ -19,7 +17,6 @@ import {EnrollListComponent} from './enrollList.component';
     AppComponent,
     SearchEngineComponent,
     SearchListComponent,
-    ServerTimeAlarmComponent,
     SugangListComponent,
     TimetableComponent,
     EnrollListComponent
@@ -31,7 +28,6 @@ import {EnrollListComponent} from './enrollList.component';
   ],
   providers: [
     HttpService,
-    NotifyService,
   ],
   bootstrap: [AppComponent]
 })
