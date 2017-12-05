@@ -31,6 +31,7 @@ export class SearchEngineComponent implements OnInit {
   professorName_2B: string; // 과목명
   subjectName_2B: string; // 교수명
   @Output() reflectEnrollListEvent: EventEmitter<Subject[]> = new EventEmitter();
+  @Output() updateSugangList = new EventEmitter();
   constructor(private httpService: HttpService) {}
   ngOnInit() {
     // 과목 등록할 때 그 과목에 대해 부여하는 숫자
@@ -63,8 +64,8 @@ export class SearchEngineComponent implements OnInit {
     this.httpService.searchSubject(this.subjectType_2B, this.major_2B, this.day_2B,
       this.time_2B, this.subjectName_2B, this.professorName_2B).map(this.parseSubject)
       .subscribe(searchSubject => {
-        // next 말고 option 으로 떠야 하는 거 아닌가?..
           console.log(searchSubject, 'is upload!');
+          this.searchList_T = searchSubject;
       });
   }
   parseSubject(res: Response) {
@@ -206,6 +207,7 @@ export class SearchEngineComponent implements OnInit {
     // 이벤트를 발생 -> app.component 배열에 반영시키고
     this.reflectEnrollListEvent.emit(this.enrollList_T);
     // 디비에 반영시킨다.
+    this.addSubjectToDB(subject);
   }
   // 삭제할 과목을 수강신청항목에서 지우고
   // 요일 배열의 값을 수정한다.(subjectNumbering 값 -> 0)
@@ -236,8 +238,20 @@ export class SearchEngineComponent implements OnInit {
         }
         // 이벤트를 발생 -> app.component 배열에 반영시키고
         this.reflectEnrollListEvent.emit(this.enrollList_T);
+        // DB에 반영
+        this.deleteSubjectToDB(subject.subjectNumber);
         console.log('요일 배열 삭제 끝난 시점', this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday);
       }
     }
+  }
+  addSubjectToDB(subject: Subject) {
+    this.httpService.addSubject(false, subject.subjectName, subject.subjectNumber).subscribe(result => {
+        this.updateSugangList.emit();
+    });
+  }
+  deleteSubjectToDB(subjectNumber: string) { // no 가 뭐지?
+    this.httpService.deleteSubject(subjectNumber).subscribe(result => {
+      this.updateSugangList.emit();
+    });
   }
 }

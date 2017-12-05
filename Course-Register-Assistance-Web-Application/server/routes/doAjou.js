@@ -16,9 +16,9 @@ db.on('error', function(err) {
 db.on('connected', function() {
   console.log("Connected successfully to server");
 });
-
+/*
 //DB 초기화 하실때 사용하세요
-/*--------------------------------------------------------------------
+
 ClientInfo.remove({}, function(err) {
     if (err) {
       console.log(err)
@@ -43,10 +43,10 @@ SugangInfo.remove({}, function(err) {
     }
   }
 );
----------------------------------------------------------------------*/
+*/
 
 // DB에 Test Data 넣으실때 사용하세요
-/*--------------------------------------------------------------------
+
 var ci = new ClientInfo();
 ci.userID = 'psh';
 ci.userPassword = '2013';
@@ -113,7 +113,7 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
----------------------------------------------------------------------*/
+
 
 /*
 ClientInfo.find(function (err,info) {
