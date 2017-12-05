@@ -12,6 +12,7 @@ import {Sugang} from './Sugang';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  @ViewChild('Sign_Up') Sign_Up: TemplateRef<any>;
   @ViewChild('Sugang_Login') Sugang_Login: TemplateRef<any>;
   @ViewChild('Sugang_Logout') Sugang_Logout: TemplateRef<any>;
   @ViewChild('Timetable_Login') Timetable_Login: TemplateRef<any>;
@@ -62,6 +63,34 @@ export class AppComponent implements OnInit {
         no++;
       });
     });
+  }
+  signUpID: string;
+  signUpName: string;
+  signUpPw: string;
+  re_signUpPw: string;
+  signUp() {
+    if (this.signUpPw === this.re_signUpPw) {
+      this.httpService.requestSignUp(this.signUpID, this.signUpName, this.signUpID).subscribe(result => {
+        if (result['boolean'] === false) {
+          alert('이미 존재하는 아이디 입니다.');
+          this.signUpID = '';
+        }else {
+          this.destroyTemplate();
+          this.createTemplate();
+        }
+      });
+    }else {
+      alert('동일한 비밀번호를 입력하세요.');
+    }
+  }
+  templateSignUp(flag: boolean) {
+    this.destroyTemplate();
+    if (flag === true) {
+      this.currentTemplate = this.Sign_Up;
+      this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
+    }else {
+      this.createTemplate();
+    }
   }
   changeCurrentPage(no: number) {
     this.currentPage = no;

@@ -36,23 +36,11 @@ export class HttpService {
   }
   searchSubject(subjectType: string, major: string, day: string,
                 time: string, subjectName: string, professorName: string){
-    return this.http.post('/searchSubject', {
-      subjectType_2B: subjectType,
-      major_2B: major,
-      day_2B: day,
-      time_2B: time,
-      subjectName_2B: subjectName,
-      professorName_2B: professorName
-    });
+    return this.http.get(`/searchSubject?subjectType=${subjectType}
+    &major=${major}&day=${day}&time=${time}&subjectName=${subjectName}
+    &professorName=${professorName}`);
   }
-  /*searchSubject(subjectType: string, major: string, day: string,
-                time: string, subjectName: string, professorName: string){
-    return this.http.get(`/searchSubject?subjectType_2B=${subjectType}
-    &major_2B=${major}&day_2B=${day}&time_2B=${time}&subjectName_2B=${subjectName}
-    &professorName_2B=${professorName}`);
-  }*/
   setTime(hour: String, min: String, sec: String) {
-    console.log('2-');
     return this.http.post('/setTime', {
       hour: hour,
       min: min,
@@ -61,5 +49,12 @@ export class HttpService {
   }
   getTime() {
     return this.http.get('/getTime');
+  }
+  requestSignUp(signID: string, signName: string, signPW: string) {
+    return this.http.post('/signUp/requestSignUp', {
+      signID: signID,
+      signName: signName,
+      signPW: signPW
+    });
   }
 }

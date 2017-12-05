@@ -10,12 +10,12 @@ var db = mongoose.connection;
 router.post('/requestSignUp', function (req, res) {
 
     ClientInfo.findOne({userID: req.body.signID}, function (err, info){
+      var isValid = {boolean: false};
       if (err) {
         return console.log("err " + err);
       }
       if(info){ //ID가 있으면
-        console.log('아이디 중복: '+info.userName);
-        const isValid = {boolean: false};
+        console.log('아이디 중복: '+info.userID);
         res.send(isValid);
       } else { //ID가 없으면
         cliInfo = new ClientInfo();
@@ -34,3 +34,4 @@ router.post('/requestSignUp', function (req, res) {
       }
     })
 });
+module.exports = router;

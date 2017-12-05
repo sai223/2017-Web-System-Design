@@ -17,9 +17,9 @@ db.on('error', function(err) {
 db.on('connected', function() {
   console.log("Connected successfully to server");
 });
-//-------------------------------------------------
 /*
-//DB 초기화 하실때 사용하세요 지울때
+//DB 초기화 하실때 사용하세요
+
 ClientInfo.remove({}, function(err) {
     if (err) {
       console.log(err)
@@ -45,10 +45,10 @@ SugangInfo.remove({}, function(err) {
   }
 );
 */
-//-------------------------------------------------
 /*
+
 // DB에 Test Data 넣으실때 사용하세요
-// 계정 생성
+/*
 var ci = new ClientInfo();
 ci.userID = 'psh';
 ci.userPassword = '2013';
@@ -85,9 +85,8 @@ ci3.save(function(err,document) {
     return console.error(err);
   console.log('계정 이인태생성');
 })
-//-------------------------------------------------
-// DB에 Test Data 넣으실때 사용하세요
-// 과목 생성
+
+/*
 var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
   professorName: '김응기', credit: 3, subjectNumber: 'A123'});
 var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
@@ -110,9 +109,6 @@ si2.save(function(err,document) {
   console.log('컴네 강의 생성');
 });
 */
-//-------------------------------------------------
-// DB에 Test Data 조회할때 사용하세요
-// 수강과목 조회
 /*
 SugangInfo.find(function (err,info) {
   if (err) {
@@ -121,31 +117,26 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
-
+<<<<<<< HEAD
+=======
 */
 
 
 /*
 ---------------------------------------------------------------------*/
-/*
-// 시간 생성 (한번만해주세요)
+
+
 var t = new TimeInfo({hour: "0",min: "0",sec: "0"});
+
 t.save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('시간생성ggg');
 });
-*/
-//-------------------------------------------------
-/*
-// DB에 Test Data 조회할때 사용하세요
-// 생성된 시간 조회
+
 TimeInfo.find(function (err,info) {
   console.log(info);
 })
-//-------------------------------------------------
-// DB에 Test Data 조회할때 사용하세요
-// 고객정보 조회
 /*
 ClientInfo.find(function (err,info) {
   if (err) {
@@ -154,7 +145,14 @@ ClientInfo.find(function (err,info) {
     console.log('현재 ClientInfo 저장되어있는 Data: '+info);
   }
 });
-//-------------------------------------------------
+/*
+SugangInfo.find(function (err,info) {
+  if (err) {
+    return console.log("err " + err);
+  } else {
+    console.log('현재 SugangInfo 저장되어있는 Data: '+info);
+  }
+});
 /*
 // 리스트에 계정생성 test
 var slu = new SugangListbyUserModel({userID: 'psh'})
@@ -163,9 +161,9 @@ slu.save(function (err,document) {
     return console.error(err);
   console.log('리스트계정 생성');
 })
-//-------------------------------------------------
+
 /*
-// 계정 psh의 리스트에 X123 과목 넣어보기 test (이름과 과목코드는 유동적으로 바꿔주세요)
+// 계정 psh의 리스트에 X123 과목 넣어보기 test
 SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
   if (err) {
     return console.log(err);
@@ -184,10 +182,9 @@ SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
     }
   })
 })
-//-------------------------------------------------
+
 */
 /*
-//-------------------------------------------------
 // list 정보 불러오기 test
 SugangListbyUserModel.find(function (err, info1){
   if (err) {
@@ -203,8 +200,6 @@ TimeInfo.remove({}, function(err) {
     }
   }
 );
-*/
-//-------------------------------------------------
 /*
 // list에서 과목 삭제하기 test  // '계정 psh의 리스트에서 과목코드로 해당 과목만 삭제'
 SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {subjectNumber: 'X123'}}}, function (err, infoList){
@@ -214,7 +209,48 @@ SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {s
   console.log('Delete 완료')
 })
 */
-//-------------------------------------------------
+/*
+var ar = new Array();
+const js = new Object();
+ar[0] = "";
+ar[1] = "";
+ar[2] = ""; //Day 월
+ar[3] = "C"; //time A
+ar[4] = "";
+ar[5] = "";
+for(var i=0;i<6;i++) {
+  if (ar[i] === "") {
+
+  }
+  else {
+    switch (i) {
+      case 0:
+        js.subjectType = ar[0];
+        break;
+      case 1:
+        js.major = ar[1];
+        break;
+      case 4:
+        js.subjectName = ar[4];
+        break;
+      case 5:
+        js.professorName = ar[5];
+    }
+  }
+}
+js.subjectTime = new RegExp(ar[2]+ar[3]);
+
+  console.log(JSON.stringify(js));
+  console.log(js.subjectTime);
+*/
+/*
+SugangInfo.find(js,function (err, courseInfo){
+  if (err) {
+    return console.log("err " + err);
+  }
+  console.log(courseInfo);
+});
+*/
 // 페이지 시작할때 마다 세션 체크 -------------------------------------------------------------------
 router.get('/sessionCheck',function (req,res) {
   ClientInfo.findOne({userID: req.session.user_ID}, function (err, info){
@@ -235,7 +271,7 @@ router.get('/sessionCheck',function (req,res) {
 
 // log-in 기능 --------------------------------------------------------------------------------
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
-                                        //console.log(req.sessionID);
+  //console.log(req.sessionID);
   sess = req.session;
   ClientInfo.findOne({userID: req.body.id, userPassword: req.body.pw}, function (err, info) {
     if (err) {
@@ -389,7 +425,7 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
   })
 })
 // 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
-router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,day_2B,time_2B,subjectName_2B,professorName_2B) res(Subject[])
+router.get('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,day_2B,time_2B,subjectName_2B,professorName_2B) res(Subject[])
 
   var ar = new Array();
   const js = new Object();
@@ -400,7 +436,7 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   ar[4] = req.body.subjectName_2B;
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
-    if (ar[i] === undefined) {}
+    if (ar[i] === "") {}
     else {
       switch (i) {
         case 0:
@@ -434,18 +470,13 @@ router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려
     if (err) {
       return console.log("err " + err);
     }
-    TimeInfo.findOneAndUpdate({_id: '5a268d0c8d1ca0e066f387d8'},{$set: {hour: "0",min: "0", sec: "0" }},function (err,time2) { //time2 다시 000설정
+    TimeInfo.findOneAndUpdate({},{$set: {hour: "0",min: "0", sec: "0" }},function (err,time2) { //time2 다시 000설정
       if (err) {
         return console.log("err " + err);
       }
-      console.log(time2);
     })
-    console.log("보내기 전 time");
-    console.log(time);
-    //console.log("getTime: "+JSON.stringify(time.hour)+time.min+time.sec);
     res.send(time);
   })
-
 })
 router.post('/setTime',function (req,res) {
   //console.log(req)
