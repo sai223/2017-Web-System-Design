@@ -83,29 +83,31 @@ ci3.save(function(err,document) {
     return console.error(err);
   console.log('계정 이인태생성');
 });
-
-var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', day: '월C 금C', time: 60, subjectName: '웹시스템설계',
-  professorName: '오상윤', credit: 3, subjectNumber: 'X123'});
-var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', day: '화B 금B', time: 60, subjectName: '확률과통계1',
-  professorName: '조영종', credit: 3, subjectNumber: 'C123'});
-var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', day: '화A 금C', time: 60, subjectName: '과학기술과법',
-  professorName: '박승현', credit: 3, subjectNumber: 'D123'});
+*/
+/*
+var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
+  professorName: '김응기', credit: 3, subjectNumber: 'A123'});
+var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
+  professorName: '손경아', credit: 3, subjectNumber: 'B123'});
+var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화A 금C', time: 60, subjectName: '컴퓨터네트워크',
+  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
 si.save(function(err,document) {
   if (err)
     return console.error(err);
-  console.log('웹시설 강의 생성');
+  console.log('선형대수 강의 생성');
 });
 si1.save(function(err,document) {
   if (err)
     return console.error(err);
-  console.log('확통 강의 생성');
+  console.log('알고리즘 강의 생성');
 });
 si2.save(function(err,document) {
   if (err)
     return console.error(err);
-  console.log('과기법 강의 생성');
+  console.log('컴네 강의 생성');
 });
-
+*/
+/*
 SugangInfo.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
@@ -113,6 +115,7 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
+/*
 ---------------------------------------------------------------------*/
 
 /*
@@ -178,6 +181,45 @@ SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {s
   console.log('Delete 완료')
 })
 */
+var ar = new Array();
+const js = new Object();
+ar[0] = "";
+ar[1] = "";
+ar[2] = ""; //Day 월
+ar[3] = "C"; //time A
+ar[4] = "";
+ar[5] = "";
+for(var i=0;i<6;i++) {
+  if (ar[i] === "") {
+
+  }
+  else {
+    switch (i) {
+      case 0:
+        js.subjectType = ar[0];
+        break;
+      case 1:
+        js.major = ar[1];
+        break;
+      case 4:
+        js.subjectName = ar[4];
+        break;
+      case 5:
+        js.professorName = ar[5];
+    }
+  }
+}
+js.subjectTime = new RegExp(ar[2]+ar[3]);
+
+  console.log(JSON.stringify(js));
+  console.log(js.subjectTime);
+
+SugangInfo.find(js,function (err, courseInfo){
+  if (err) {
+    return console.log("err " + err);
+  }
+  console.log(courseInfo);
+});
 
 // 페이지 시작할때 마다 세션 체크 -------------------------------------------------------------------
 router.get('/sessionCheck',function (req,res) {
@@ -353,32 +395,44 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
   })
 })
 // 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
-router.get('/searchSubject',function (req,res) { // req(subjectType,major,day,time,subjectName,professorName) res(Subject[])
+router.get('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,day_2B,time_2B,subjectName_2B,professorName_2B) res(Subject[])
 
-  var ar = new Array(6);
-  const js = {};
-  ar[0][0] = req.body.subjectType;
-  ar[1][0] = req.body.major;
-  ar[2][0] = req.body.day;
-  ar[3][0] = req.body.time;
-  ar[4][0] = req.body.subjectName;
-  ar[5][0] = req.body.professorName;
-  for(var i=0;i<6;i++){
-    if(ar[i][0]===""){
-      ar[i][1]="empty"
-    }
-    else{
-      ar[i][1]="check"
-
-
+  var ar = new Array();
+  const js = new Object();
+  ar[0] = req.body.subjectType_2B;
+  ar[1] = req.body.major_2B;
+  ar[2] = req.body.day_2B;
+  ar[3] = req.body.time_2B;
+  ar[4] = req.body.subjectName_2B;
+  ar[5] = req.body.professorName_2B;
+  for(var i=0;i<6;i++) {
+    if (ar[i] === "") {}
+    else {
+      switch (i) {
+        case 0:
+          js.subjectType = ar[0];
+          break;
+        case 1:
+          js.major = ar[1];
+          break;
+        case 4:
+          js.subjectName = ar[4];
+          break;
+        case 5:
+          js.professorName = ar[5];
+      }
     }
   }
+  js.subjectTime = new RegExp(ar[2]+ar[3]);
 
+  console.log(JSON.stringify(js));
+  console.log(js.subjectTime);
 
-  SugangInfo.find({subjectType: req.body.subjectType ,major: req.body.major},function (err, courseInfo){
+  SugangInfo.find(js,function (err, courseInfo){
     if (err) {
       return console.log("err " + err);
     }
+    console.log(courseInfo);
   });
 })
 module.exports = router;
