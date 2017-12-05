@@ -424,7 +424,7 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
   })
 })
 // 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
-router.get('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,day_2B,time_2B,subjectName_2B,professorName_2B) res(Subject[])
+router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,day_2B,time_2B,subjectName_2B,professorName_2B) res(Subject[])
 
   var ar = new Array();
   const js = new Object();
@@ -435,7 +435,7 @@ router.get('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,
   ar[4] = req.body.subjectName_2B;
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
-    if (ar[i] === "") {}
+    if (ar[i] === undefined) {}
     else {
       switch (i) {
         case 0:

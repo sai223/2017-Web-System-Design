@@ -61,11 +61,13 @@ export class SearchEngineComponent implements OnInit {
   // 아직 html 상에 넣지 않음
   // httpService import 안되는 거 해결해야함
   search() {
+    console.log(this.subjectType_2B, this.major_2B, this.day_2B,
+      this.time_2B, this.subjectName_2B, this.professorName_2B);
     this.httpService.searchSubject(this.subjectType_2B, this.major_2B, this.day_2B,
       this.time_2B, this.subjectName_2B, this.professorName_2B).map(this.parseSubject)
       .subscribe(searchSubject => {
           console.log(searchSubject, 'is upload!');
-          this.searchList_T = searchSubject;
+          // this.searchList_T = searchSubject;
       });
   }
   parseSubject(res: Response) {

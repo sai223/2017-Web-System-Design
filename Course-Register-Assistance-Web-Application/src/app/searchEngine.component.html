@@ -106,7 +106,7 @@
             <label  for="subjectTime">강의교시
               <select name = "강의교시" class="form-control" id="subjectTime"
                       [(ngModel)] = "time_2B">
-                <option value="">선택</option>
+                <option value="*">선택</option>
                 <option value="A">A(9:00-10:15)</option>
                 <option value="B">B(10:30-11:45)</option>
                 <option value="C">C(12:00-1:15)</option>
@@ -153,6 +153,7 @@
         </td>
         <td class="button">
           <button class="form-control"
+          (click) = search();
           >조회</button>
         </td>
         <td class="button">
