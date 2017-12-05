@@ -30,6 +30,7 @@
   </div>
   <app-engine [enrollList_T] = enrollList_T
               (reflectEnrollListEvent) = reflectEnrollList_T($event);
+              (updateSugangList) ="getAllSubject($event)"
   ></app-engine>
 </ng-template>
 
@@ -40,5 +41,9 @@
     비밀번호: <input type="password" [(ngModel)]="userPassword">
     <button (click)="changeLoginState(true)">로그인</button>
   </div>
-  <app-engine></app-engine>
+  <app-engine
+    [enrollList_T] = enrollList_T
+    (reflectEnrollListEvent) = reflectEnrollList_T($event);
+    (updateSugangList) ="getAllSubject($event)"
+  ></app-engine>
 </ng-template>
