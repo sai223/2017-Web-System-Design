@@ -4,6 +4,7 @@ import {Input, Component, ElementRef, AfterViewInit,
 import {Sugang} from './Sugang';
 import {HttpService} from './http-service';
 
+
 import 'assets/javascript/copyToClipboardService.js';
 declare var copyServiceObject: any;
 
@@ -65,9 +66,10 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   ngOnInit() {
     console.log('수강리스트 엔지온이닛');
     this.httpService.getTime().subscribe(result => {
-      this.hour = Number(result['hour']);
-      this.min = Number(result['min']);
-      this.sec = Number(result['sec']);
+
+      this.hour = Number(result[0].hour);
+      this.min = Number(result[0].min);
+      this.sec = Number(result[0].sec);
     });
     clearInterval(this.myInterval);
     this.myInterval = setInterval(function(){
@@ -94,8 +96,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   startServerTime() {
     console.log('3-');
     const t = new Date(serverTimeServiceObject.getServerTime());
-    //alert(t.getHours());
-    //alert(typeof(S(t.getHours())));
+    alert(t);
     this.httpService.setTime(String(t.getHours()), String(t.getMinutes()),
      String(t.getSeconds())).subscribe(result => console.log('fasdf'));
   }

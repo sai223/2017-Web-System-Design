@@ -19,6 +19,6 @@ export class SearchListComponent implements OnInit {
   choice(subject: Subject) {
     this.selectedSubject = subject;
     this.subjectClickEvent.emit(this.selectedSubject);
-    console.log('선택된 과목은 ', this.selectedSubject, '입니다')
+    console.log('선택된 과목은 ', this.selectedSubject, '입니다');
   }
 }
