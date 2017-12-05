@@ -17,6 +17,11 @@
   </div>
 </div>
 <div>
-  <button (click)="alarmOn()">5초후 알람 설정</button>
-  <button (click)="alarmOff()">알람 설정 해제</button>
+  <button (click)="startServerTime()">서버 시간 보기/동기화</button>
+  <button (click)="alarmOn10sec()">10초 알람 설정</button>
+  <button (click)="alarmOn30sec()">30초 알람 설정</button>
+  <button (click)="alarmOn1min()">1분 알람 설정</button>
+</div>
+<div>
+  {{hour}} : {{min}} : {{sec}}
 </div>
