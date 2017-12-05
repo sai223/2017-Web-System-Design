@@ -461,7 +461,7 @@ router.get('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,
     if (err) {
       return console.log("err " + err);
     }
-    console.log(courseInfo);
+    res.send(courseInfo);
   });
 })
 router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려줌
@@ -469,12 +469,16 @@ router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려
     if (err) {
       return console.log("err " + err);
     }
-    TimeInfo.findOneAndUpdate({hour: time.hour},{$set: {hour: "0",min: "0", sec: "0" }},function (err,time2) { //time2 다시 000설정
+    TimeInfo.findOneAndUpdate({_id: '5a268d0c8d1ca0e066f387d8'},{$set: {hour: "0",min: "0", sec: "0" }},function (err,time2) { //time2 다시 000설정
       if (err) {
         return console.log("err " + err);
       }
+      console.log(time2);
     })
-    res.send({hour: time.hour, min: time.min ,sec: time.sec })
+    console.log("보내기 전 time");
+    console.log(time);
+    //console.log("getTime: "+JSON.stringify(time.hour)+time.min+time.sec);
+    res.send(time);
   })
 
 })
