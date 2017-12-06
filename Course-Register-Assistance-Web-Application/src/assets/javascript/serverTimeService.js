@@ -16,12 +16,9 @@ var serverTimeServiceObject = (function(){
           }
         }
       }
-      var origin = window.location.href;
-      window.location.href = 'http://sugang.ajou.ac.kr';
       xmlHttp.open('HEAD', window.location.href.toString(), false);
       xmlHttp.setRequestHeader('Content-Type', 'text/html');
       xmlHttp.send('');
-      window.location.href = origin;
       return xmlHttp.getResponseHeader('Date');
     }
   }
