@@ -349,13 +349,8 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   ar[4] = req.body.subjectName_2B;
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
-    if (ar[i] === undefined) {
-      if(i==2){
-        ar[i]="";
-      }
-      else if(i==3){
-        ar[i]="";
-      }
+    if (ar[i] == undefined) {
+        ar[i] = "";
     }
     else {
       switch (i) {
@@ -382,6 +377,7 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
     if (err) {
       return console.log("err " + err);
     }
+    console.log("정보: "+courseInfo);
     res.send(courseInfo);
   });
 })

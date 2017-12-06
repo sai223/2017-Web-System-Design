@@ -68,8 +68,9 @@ export class SearchEngineComponent implements OnInit {
     console.log(this.subjectType_2B, this.major_2B, this.day_2B,
       this.time_2B, this.subjectName_2B, this.professorName_2B);
     this.httpService.searchSubject(this.subjectType_2B, this.major_2B, this.day_2B,
-      this.time_2B, this.subjectName_2B, this.professorName_2B).map(this.parseSubject)
+      this.time_2B, this.subjectName_2B, this.professorName_2B)
       .subscribe(searchSubject => {
+        //console.log(searchSubject.major);
           console.log(searchSubject, 'is upload!');
           // this.searchList_T = searchSubject;
       });
