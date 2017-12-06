@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 const ClientInfo = require('../database/clientInfoModel');
 const SugangInfo = require('../database/sugangInfoModel');
 const SugangListbyUserModel = require('../database/sugangListbyUserModel');
-const TimeInfo = require('../database/timeInfoModel');
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/test');
