@@ -1,5 +1,5 @@
 import {Input, Component, ElementRef, AfterViewInit,
-  Output, EventEmitter, OnInit} from '@angular/core';
+  Output, EventEmitter} from '@angular/core';
 
 import {Sugang} from './Sugang';
 import {HttpService} from './http-service';
@@ -7,16 +7,13 @@ import {HttpService} from './http-service';
 import 'assets/javascript/copyToClipboardService.js';
 declare var copyServiceObject: any;
 
-import 'assets/javascript/serverTimeService.js';
-declare var serverTimeServiceObject: any;
-
 @Component({
   selector: 'app-suganglist',
   templateUrl: './sugangList.component.html',
   styleUrls: ['./sugangList.component.css']
 })
 
-export class SugangListComponent implements AfterViewInit, OnInit {
+export class SugangListComponent implements AfterViewInit {
   @Input() sugangList: Sugang[];
   @Output() updateSugangList = new EventEmitter();
   constructor(
@@ -30,11 +27,6 @@ export class SugangListComponent implements AfterViewInit, OnInit {
     v.type = 'text/javascript';
     v.src = 'assets/javascript/copyToClipboardService.js';
     this.elementRef.nativeElement.appendChild(v);
-
-    var v2 = document.createElement('script');
-    v2.type = 'text/javascript';
-    v2.src = 'assets/javascript/serverTimeService.js';
-    this.elementRef.nativeElement.appendChild(v2);
   }
   copyClick(no: number) {
     copyServiceObject.copyFunc(no);
@@ -58,51 +50,13 @@ export class SugangListComponent implements AfterViewInit, OnInit {
       this.updateSugangList.emit();
     });
   }
-  hour: number;
-  min: number;
-  sec: number;
-  ngOnInit() {
-    console.log('수강리스트 엔지온이닛');
-    /*
-    this.httpService.getTime().subscribe(result => {
-
-      this.hour = Number(result[0].hour);
-      this.min = Number(result[0].min);
-      this.sec = Number(result[0].sec);
-    });
-    */
-  }
   startServerTime() {
-    const t = new Date(serverTimeServiceObject.getServerTime());
-    this.hour = t.getHours();
-    this.min = t.getMinutes();
-    this.sec = t.getSeconds();
-    setInterval(function(){
-      alert(this.sec);
-      if (this.sec === 59) {
-        if (this.min === 59) {
-          if (this.hour === 23) {
-            this.hour = 0;
-            this.min = 0;
-            this.sec = 0;
-          }else {
-            this.hour++;
-            this.min = 0;
-            this.sec = 0;
-          }
-        }else {
-          this.min++;
-          this.sec = 0;
-        }
-      }else {
-        this.sec++;
-      }
-    }, 1000);
+
   }
   alarmOn10sec() {
     setTimeout(function(){
       alert('2초 지났습니다.');
-    }, 2000);
+    }, 10000);
   }
   alarmOn30sec() {
     setTimeout(function(){
