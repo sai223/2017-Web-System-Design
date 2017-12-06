@@ -103,18 +103,24 @@ export class SearchEngineComponent implements OnInit {
   }
   // 등록할 때
   // 요일 배열 수정하기 (0 -> subjectNumbering 값)
-  fillDayArray(day: TableItem[], splitSubjectTime: string) {
+  fillDayArray(day: TableItem[], splitSubjectTime: string, subject: Subject) {
     const res = Number(splitSubjectTime.substr(1, 1));
     if (isNaN(res)) { // A 교시와 같이 영문교시이면 - AlphaTime
       const AlphaTime = splitSubjectTime.charCodeAt(1);
       console.log('time is ', AlphaTime);
       for (let j = 6 * (AlphaTime - 65); j < 6 * (AlphaTime - 65) + 5; j++) {
         day[j].numbering = this.subjectNumbering;
+        if (j === 6 * (AlphaTime - 65)){
+          day[j].itemName = subject.subjectName;
+        }
       }
     }
     else { // 1교시와 같이 숫자교시이면
       for (let j = 4 * (res - 1); j < 4 * (res - 1) + 4; j++) {
         day[j].numbering = this.subjectNumbering;
+        if (j === 4 * (res - 1)) {
+          day[j].itemName = subject.subjectName;
+        }
       }
     }
   }
@@ -128,12 +134,14 @@ export class SearchEngineComponent implements OnInit {
       for (let j = 6 * (AlphaTime - 65); j < 6 * (AlphaTime - 65) + 5; j++) {
         this.numberingArray[day[j].numbering - 1] = false;
         day[j].numbering = 0;
+        day[j].itemName = '';
       }
     }
     else { // 1교시와 같이 숫자교시이면
       for (let j = 4 * (res - 1); j < 4 * (res - 1) + 4; j++) {
         this.numberingArray[day[j].numbering - 1] = false;
         day[j].numbering = 0;
+        day[j].itemName = '';
       }
     }
   }
@@ -193,19 +201,19 @@ export class SearchEngineComponent implements OnInit {
     // 수A 이면 0 1 2 3 4 에 동일한 넘버링값 넣기
     for (let i = 0; i < this.splitSubjectTime.length; i++) {
       if (this.splitSubjectTime[i].substr(0, 1) === '월') {
-        this.fillDayArray(this.Monday, this.splitSubjectTime[i]);
+        this.fillDayArray(this.Monday, this.splitSubjectTime[i], subject);
       }
       else if (this.splitSubjectTime[i].substr(0, 1) === '화') {
-        this.fillDayArray(this.Tuesday, this.splitSubjectTime[i]);
+        this.fillDayArray(this.Tuesday, this.splitSubjectTime[i], subject);
       }
       else if (this.splitSubjectTime[i].substr(0, 1) === '수') {
-        this.fillDayArray(this.Wednesday, this.splitSubjectTime[i]);
+        this.fillDayArray(this.Wednesday, this.splitSubjectTime[i], subject);
       }
       else if (this.splitSubjectTime[i].substr(0, 1) === '목') {
-        this.fillDayArray(this.Thursday, this.splitSubjectTime[i]);
+        this.fillDayArray(this.Thursday, this.splitSubjectTime[i], subject);
       }
       else if (this.splitSubjectTime[i].substr(0, 1) === '금') {
-        this.fillDayArray(this.Friday, this.splitSubjectTime[i]);
+        this.fillDayArray(this.Friday, this.splitSubjectTime[i], subject);
       }
     }
     // 요일 배열 수정 끝
