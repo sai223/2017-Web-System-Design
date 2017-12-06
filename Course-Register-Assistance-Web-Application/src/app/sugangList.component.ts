@@ -50,8 +50,13 @@ export class SugangListComponent implements AfterViewInit {
       this.updateSugangList.emit();
     });
   }
+  currentTime: string;
   startServerTime() {
-
+    let time;
+    setInterval(() => {
+      time = new Date();
+      this.currentTime = time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
+    }, 1000);
   }
   alarmOn10sec() {
     setTimeout(function(){
