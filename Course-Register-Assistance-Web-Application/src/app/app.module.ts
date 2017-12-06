@@ -11,6 +11,8 @@ import {SearchListComponent} from './searchList.component';
 import {SugangListComponent} from './sugangList.component';
 import {TimetableComponent} from './timetable.component';
 import {EnrollListComponent} from './enrollList.component';
+import {Tabs} from './Tab/tabs';
+import {Tab} from './Tab/tab';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import {EnrollListComponent} from './enrollList.component';
     SearchListComponent,
     SugangListComponent,
     TimetableComponent,
-    EnrollListComponent
+    EnrollListComponent,
+    Tabs,
+    Tab
   ],
   imports: [
     BrowserModule,

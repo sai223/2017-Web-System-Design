@@ -2,9 +2,10 @@ import {Component, OnInit, ViewChild, TemplateRef,
   ViewContainerRef, EmbeddedViewRef} from '@angular/core';
 
 import {HttpService} from './http-service';
-
 import {Subject} from './Subject';
 import {Sugang} from './Sugang';
+import {Tabs} from './Tab/tabs';
+import {Tab} from './Tab/tab';
 
 @Component({
   selector: 'app-root',
