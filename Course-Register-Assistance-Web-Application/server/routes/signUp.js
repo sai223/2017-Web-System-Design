@@ -18,7 +18,7 @@ router.post('/requestSignUp', function (req, res) {
         console.log('아이디 중복: '+info.userID);
         res.send(isValid);
       } else { //ID가 없으면
-        cliInfo = new ClientInfo();
+        var cliInfo = new ClientInfo();
         cliInfo.userID = req.body.signID;
         cliInfo.userPassword = req.body.signPW;
         cliInfo.userName = req.body.signName;
@@ -27,7 +27,7 @@ router.post('/requestSignUp', function (req, res) {
             if(err) {
                 return console.log("err " + err);
             }
-            const cliInfo = {boolean: true};
+            isValid.boolean = true;
             res.send(isValid);
             console.log('아이디 생성 완료: '+ document);
         });

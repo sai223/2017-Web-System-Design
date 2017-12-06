@@ -70,11 +70,15 @@ export class AppComponent implements OnInit {
   re_signUpPw: string;
   signUp() {
     if (this.signUpPw === this.re_signUpPw) {
-      this.httpService.requestSignUp(this.signUpID, this.signUpName, this.signUpID).subscribe(result => {
+      this.httpService.requestSignUp(this.signUpID, this.signUpName, this.signUpPw).subscribe(result => {
         if (result['boolean'] === false) {
           alert('이미 존재하는 아이디 입니다.');
           this.signUpID = '';
         }else {
+          this.signUpID = '';
+          this.signUpName = '';
+          this.signUpPw = '';
+          this.re_signUpPw = '';
           this.destroyTemplate();
           this.createTemplate();
         }
