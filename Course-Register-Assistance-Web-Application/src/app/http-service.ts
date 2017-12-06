@@ -40,15 +40,11 @@ export class HttpService {
     &major=${major}&day=${day}&time=${time}&subjectName=${subjectName}
     &professorName=${professorName}`);
   }
-  setTime(hour: String, min: String, sec: String) {
-    console.log('2-');
-    return this.http.post('/setTime', {
-      hour: hour,
-      min: min,
-      sec: sec
+  requestSignUp(signID: string, signName: string, signPW: string) {
+    return this.http.post('/signUp/requestSignUp', {
+      signID: signID,
+      signName: signName,
+      signPW: signPW
     });
-  }
-  getTime() {
-    return this.http.get('/getTime');
   }
 }

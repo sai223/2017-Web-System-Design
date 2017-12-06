@@ -4,11 +4,26 @@
   <button (click)="changeCurrentPage(2)">시간표 조회</button>
 </div>
 
+<ng-template #Sign_Up>
+  <div>
+    <input type="text" placeholder="아이디" [(ngModel)]="signUpID">
+    <input type="text" placeholder="이름" [(ngModel)]="signUpName">
+  </div>
+  <div>
+    <input type="password" placeholder="비밀번호" [(ngModel)]="signUpPw">
+    <input type="password" placeholder="비밀번호 확인" [(ngModel)]="re_signUpPw">
+  </div>
+  <div>
+    <button (click)="signUp()">완료</button>
+    <button (click)="templateSignUp(false)">돌아가기</button>
+  </div>
+</ng-template>
+
 <ng-template #Sugang_Login>
   수강신청 - 로그인 페이지
   <div>
-    <b>{{userName}}</b>님 안녕하세요.
-    <button (click)="changeLoginState(false)">로그아웃</button>
+  <b>{{userName}}</b>님 안녕하세요.
+  <button (click)="changeLoginState(false)">로그아웃</button>
   </div>
   <app-suganglist *ngIf="sugangList" [sugangList]="sugangList" (updateSugangList)="getAllSubject($event)"></app-suganglist>
 </ng-template>
@@ -19,6 +34,7 @@
     아이디: <input type="text" [(ngModel)]="userID">
     비밀번호: <input type="password" [(ngModel)]="userPassword">
     <button (click)="changeLoginState(true)">로그인</button>
+    <button (click)="templateSignUp(true)">회원가입</button>
   </div>
 </ng-template>
 
@@ -40,6 +56,7 @@
     아이디: <input type="text" [(ngModel)]="userID">
     비밀번호: <input type="password" [(ngModel)]="userPassword">
     <button (click)="changeLoginState(true)">로그인</button>
+    <button (click)="templateSignUp(true)">회원가입</button>
   </div>
   <app-engine
     [enrollList_T] = enrollList_T

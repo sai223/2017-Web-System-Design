@@ -10,6 +10,7 @@ const test = require('./server/routes/test');
 
 // 수강신청 라우트 && 시간표조회 라우트
 const doajou = require('./server/routes/doAjou');
+const signup = require('./server/routes/signUp');
 
 // db 라우트
 const datebase = require('./server/database/clientInfoModel');
@@ -35,6 +36,7 @@ app.use('/test',test);
 
 // router 설정
 app.use('/',doajou); // 메인페이지
+app.use('/signUp', signup);
 app.use('/db',datebase); //데이터베이스
 
 //모든 경로에 대한 라우터 설정 및 반환 파일 경로 설정

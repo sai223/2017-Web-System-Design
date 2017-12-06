@@ -224,7 +224,7 @@ router.get('/sessionCheck',function (req,res) {
 
 // log-in 기능 --------------------------------------------------------------------------------
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
-                                        //console.log(req.sessionID);
+  //console.log(req.sessionID);
   sess = req.session;
   ClientInfo.findOne({userID: req.body.id, userPassword: req.body.pw}, function (err, info) {
     if (err) {
