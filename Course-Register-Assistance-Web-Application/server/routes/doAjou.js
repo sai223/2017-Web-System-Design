@@ -124,25 +124,14 @@ SugangInfo.find(function (err,info) {
 
 */
 
-
 /*
 ---------------------------------------------------------------------*/
 /*
-// 시간 생성 (한번만해주세요)
-var t = new TimeInfo({hour: "0",min: "0",sec: "0"});
-t.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('시간생성ggg');
-});
+
 */
 //-------------------------------------------------
 /*
-// DB에 Test Data 조회할때 사용하세요
-// 생성된 시간 조회
-TimeInfo.find(function (err,info) {
-  console.log(info);
-})
+
 //-------------------------------------------------
 // DB에 Test Data 조회할때 사용하세요
 // 고객정보 조회
@@ -335,46 +324,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
         }
       })
     }
-    /*
-    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 새로운 객체(계정) 생성  생략되도될듯
-      var sal = new SugangAssitList();
-      sal.userID = req.session.user_ID;
 
-      SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err,infoSubject) { //입력한 과목코드로 DB에서 정보 찾기
-        if (err) {
-          return console.log("err " + err);
-        }
-        if(!infoSubject){//입력한 과목코드를 찾을 수 없을때
-          res.send({isAddSuccess: false});
-        } else { //과목코드를 올바르게 입력했을경우
-          sal.subjectInfo = new SugangInfo(infoSubject);
-          sal.save(function(err, savedDocument) {
-            if (err)
-              return console.error(err);
-            console.log('SugangListbyUserModel에 새 정보 생성: ' + savedDocument);
-            res.send({isAddSuccess: true});
-          });
-        }
-      });
-
-    } else { //SugangListbyUserModel에 내 정보가 있을때  과목 추가 ( infoList == true 일 경우 )
-      SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err, infoSubject) { //입력한 과목코드 DB에서 정보 찾기
-        if (err) {
-          return console.log(err);
-        }
-        if(!infoSubject){
-          res.send({isAddSuccess: false});
-        } else{
-          infoList.subjectInfo.push(infoSubject);
-          infoList.save(function(err,document) {
-            if (err)
-              return console.error(err);
-            console.log(document);
-          });
-        }
-      })
-    }
-    */
   })
 })
 // 수강신청페이지에서 삭제버튼 -----------------------------------------------------------------------
@@ -400,7 +350,14 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   ar[4] = req.body.subjectName_2B;
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
-    if (ar[i] === undefined) {}
+    if (ar[i] === undefined) {
+      if(i==2){
+        ar[i]="";
+      }
+      else if(i==3){
+        ar[i]="";
+      }
+    }
     else {
       switch (i) {
         case 0:
@@ -419,8 +376,8 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   }
   js.subjectTime = new RegExp(ar[2]+ar[3]);
 
-  console.log(JSON.stringify(js));
-  console.log(js.subjectTime);
+  console.log("js: "+JSON.stringify(js));
+  console.log("js2: "+js.subjectTime);
 
   SugangInfo.find(js,function (err, courseInfo){
     if (err) {
@@ -429,6 +386,7 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
     res.send(courseInfo);
   });
 })
+/*
 router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려줌
   TimeInfo.find(function (err,time) { //time 돌려줄 저장값
     if (err) {
@@ -457,4 +415,5 @@ router.post('/setTime',function (req,res) {
     res.send({});
   })
 })
+*/
 module.exports = router;
