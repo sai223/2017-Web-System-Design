@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import {Subject} from './Subject';
+import {TableItem} from './tableItem';
 
 @Component({
   selector: 'app-timetable',
@@ -9,39 +10,39 @@ import {Subject} from './Subject';
 
 export class TimetableComponent implements OnInit{
   // searchEngine 에서 가져온 수강신청항목
-  @Input() Monday_R: number[] = [];
-  @Input() Tuesday_R: number[] = [];
-  @Input() Wednesday_R: number[] = [];
-  @Input() Thursday_R: number[] = [];
-  @Input() Friday_R: number[] = [];
+  @Input() Monday_R: TableItem[] = [];
+  @Input() Tuesday_R: TableItem[] = [];
+  @Input() Wednesday_R: TableItem[] = [];
+  @Input() Thursday_R: TableItem[] = [];
+  @Input() Friday_R: TableItem[] = [];
   empty: string[] = [];
   emptyString: string;
   // 시간표 css 변경 로직은 Typescript 에서 짜고
   // 적용은 [ngClass]="메소드이름()"으로 한다
   // 삭제버튼이 눌렸을 때 실행되는 메소드
-  selectColor(slot: number) {
-    if (slot === 1) {
+  selectColor(slot: TableItem) {
+    if (slot.numbering === 1) {
       return {color1: true};
     }
-    if (slot === 2) {
+    if (slot.numbering === 2) {
       return {color2: true};
     }
-    if (slot === 3) {
+    if (slot.numbering === 3) {
       return {color3: true};
     }
-    if (slot === 4) {
+    if (slot.numbering === 4) {
       return {color4: true};
     }
-    if (slot === 5) {
+    if (slot.numbering === 5) {
       return {color5: true};
     }
-    if (slot === 6) {
+    if (slot.numbering === 6) {
       return {color6: true};
     }
-    if (slot === 7) {
+    if (slot.numbering === 7) {
       return {color7: true};
     }
-    if (slot === 8) {
+    if (slot.numbering === 8) {
       return {color8: true};
     }
    else { // slot === 0
