@@ -43,7 +43,7 @@ SugangInfo.remove({}, function(err) {
     }
   }
 );
-*/
+
 //-------------------------------------------------
 /*
 // DB에 Test Data 넣으실때 사용하세요
@@ -87,6 +87,7 @@ ci3.save(function(err,document) {
 //-------------------------------------------------
 // DB에 Test Data 넣으실때 사용하세요
 // 과목 생성
+
 var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
   professorName: '김응기', credit: 3, subjectNumber: 'A123'});
 var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
