@@ -1,97 +1,63 @@
 <header>
-  <p>
-    아주대 수강신청 도우미
-  </p>
-  <button class="h_btn" onclick="document.getElementById('signupModal').style.display='block'">회원가입</button>
-  <button class="h_btn" onclick="document.getElementById('loginModal').style.display='block'">로그인</button>
-  <div class="modalDiv">
-    <div id="loginModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close" onclick="document.getElementById('loginModal').style.display='none'">&times;</span>
-        <h1>로그인</h1><br>
-        <input type="text" [(ngModel)]="userID" placeholder="아이디">
-        <input type="password" [(ngModel)]="userPassword" placeholder="비밀번호">
-        <button (click)="templateSignUp(true)">확인</button>
+  <p>아주대 수강신청 도우미</p>
+</header>
+
+<ng-template #logOutTemplate>
+  <div id="changingDiv">
+    <button class="h_btn" onclick="document.getElementById('signupModal').style.display='block'">회원가입</button>
+    <button class="h_btn" onclick="document.getElementById('loginModal').style.display='block'">로그인</button>
+    <div class="modalDiv">
+      <div id="loginModal" class="modal">
+        <div class="modal-content">
+          <span class="modal-close" onclick="document.getElementById('loginModal').style.display='none'" (click)="clearLoginModal()">&times;</span>
+          <h1>로그인</h1><br>
+          <input type="text" [(ngModel)]="userID" placeholder="아이디">
+          <input type="password" [(ngModel)]="userPassword" placeholder="비밀번호">
+          <button (click)="handleLogInOut(true)" onclick="document.getElementById('loginModal').style.display='none'">확인</button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="modalDiv">
-    <div id="signupModal" class="modal">
-      <div class="modal-content">
-        <span class="modal-close" onclick="document.getElementById('signupModal').style.display='none'">&times;</span>
-        <h1>회원가입</h1><br>
+    <div class="modalDiv">
+      <div id="signupModal" class="modal">
+        <div class="modal-content">
+          <span class="modal-close" onclick="document.getElementById('signupModal').style.display='none'" (click)="clearSignupModal()">&times;</span>
+          <h1>회원가입</h1><br>
           <input type="text" placeholder="아이디" [(ngModel)]="signUpID">
           <input type="text" placeholder="이름" [(ngModel)]="signUpName">
           <input type="password" placeholder="비밀번호" [(ngModel)]="signUpPw">
           <input type="password" placeholder="비밀번호 확인" [(ngModel)]="re_signUpPw">
-          <button (click)="signUp()">확인</button>
+          <button (click)="signUp()" onclick="document.getElementById('signupModal').style.display='none'">확인</button>
+        </div>
       </div>
     </div>
   </div>
-</header>
-<nav>
-  <tabs>
-    <tab [tabTitle]="'수강신청'">수강신청</tab>
-    <tab tabTitle="시간표 조회">시간표 조회</tab>
-  </tabs>
-</nav>
-<main>
-
-</main>
-
-<span>
-  <button (click)="changeCurrentPage(1)">수강신청</button>
-  <button (click)="changeCurrentPage(2)">시간표 조회</button>
-</span>
-
-<ng-template #Sign_Up>
-  <div>
-    <input type="text" placeholder="아이디" [(ngModel)]="signUpID">
-    <input type="text" placeholder="이름" [(ngModel)]="signUpName">
-  </div>
-  <div>
-    <input type="password" placeholder="비밀번호" [(ngModel)]="signUpPw">
-    <input type="password" placeholder="비밀번호 확인" [(ngModel)]="re_signUpPw">
-  </div>
-  <div>
-    <button (click)="signUp()">완료</button>
-    <button (click)="templateSignUp(false)">돌아가기</button>
-  </div>
+  <main>
+    <h1>Welcome to DoAjou!</h1>
+    <h2>로그아웃 상태에서 할 수 있는 것은?</h2>
+  </main>
 </ng-template>
+<ng-template #logInSugangTemplate>
+  <b>{{userName}}</b>님 안녕하세요.
+  <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
+  <ul>
+    <li (click)="changeCurrentPage(1)">수강신청</li>
+    <li (click)="changeCurrentPage(2)">시간표 조회</li>
+  </ul>
+  <app-suganglist *ngIf="sugangList"
+                  [sugangList]="sugangList"
+                  (updateSugangList)="getAllSubject($event)">
 
-<ng-template #Sugang_Login>
-  <span>
-    <b>{{userName}}</b>님 안녕하세요.
-  <button (click)="changeLoginState(false)">로그아웃</button>
-  </span>
-  <app-suganglist *ngIf="sugangList" [sugangList]="sugangList" (updateSugangList)="getAllSubject($event)"></app-suganglist>
+  </app-suganglist>
 </ng-template>
-
-<ng-template #Sugang_Logout>
-
-</ng-template>
-
-<ng-template #Timetable_Login>
-  <span>
-    <b>{{userName}}</b>님 안녕하세요.
-    <button (click)="changeLoginState(false)">로그아웃</button>
-  </span>
+<ng-template #logInTimetableTemplate>
+  <b>{{userName}}</b>님 안녕하세요.
+  <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
+  <ul>
+    <li (click)="changeCurrentPage(1)">수강신청</li>
+    <li (click)="changeCurrentPage(2)">시간표 조회</li>
+  </ul>
   <app-engine [enrollList_T] = enrollList_T
               (reflectEnrollListEvent) = reflectEnrollList_T($event);
               (updateSugangList) ="getAllSubject($event)"
-  ></app-engine>
-</ng-template>
-
-<ng-template #Timetable_Logout>
-  <span>
-    아이디: <input type="text" [(ngModel)]="userID">
-    비밀번호: <input type="password" [(ngModel)]="userPassword">
-    <button (click)="changeLoginState(true)">로그인</button>
-    <button (click)="templateSignUp(true)">회원가입</button>
-  </span>
-  <app-engine
-    [enrollList_T] = enrollList_T
-    (reflectEnrollListEvent) = reflectEnrollList_T($event);
-    (updateSugangList) ="getAllSubject($event)"
   ></app-engine>
 </ng-template>

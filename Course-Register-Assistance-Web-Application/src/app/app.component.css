@@ -1,15 +1,18 @@
 header {
-  width: 80%;
-  background-color: white;
-  margin: auto;
+  height: 80px;
+  width: 100%;
+  background-color: dodgerblue;
 }
 header p{
   text-align: center;
   font-size: 40px;
   font-weight: bold;
-  color: green;
+  color: white;
 }
-header .h_btn{
+#changingDiv{
+  width: 80%;
+}
+.h_btn{
   float: right;
   background-color: lightgray;
   border: none;
@@ -24,7 +27,7 @@ header .h_btn{
 }
 
 
-header .modal-content{
+#changingDiv .modal-content{
   padding: 30px;
   max-width: 350px;
   width: 100% !important;
@@ -35,17 +38,17 @@ header .modal-content{
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
-header .modal-content h1{
+#changingDiv .modal-content h1{
   text-align: center;
   font-size: 1.8em;
 }
-header .modal-content button{
+#changingDiv .modal-content button{
   width: 100%;
   display: block;
   margin-bottom: 10px;
   position: relative;
 }
-header .modal-content input{
+#changingDiv .modal-content input{
   height: 44px;
   font-size: 16px;
   width: 100%;
@@ -59,14 +62,14 @@ header .modal-content input{
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-header .modal-content input:hover{
+#changingDiv .modal-content input:hover{
   border: 1px solid #b9b9b9;
   border-top: 1px solid #a0a0a0;
   -moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
   -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
-header .modal-content button{
+#changingDiv .modal-content button{
   border: 0px;
   color: #fff;
   text-shadow: 0 1px rgba(0,0,0,0.1);
@@ -74,13 +77,13 @@ header .modal-content button{
   padding: 17px 0px;
   font-size: 14px;
 }
-header .modal-content button:hover{
+#changingDiv .modal-content button:hover{
   border: 0px;
   text-shadow: 0 1px rgba(0,0,0,0.3);
   background-color: cornflowerblue;
   cursor: pointer;
 }
-header .modalDiv{
+#changingDiv .modalDiv{
   text-align: center;
   font-size: 14px;
   font-family: 'Arial', sans-serif;
@@ -89,7 +92,7 @@ header .modalDiv{
   padding: 0 8px;
   border-radius: 3px;
 }
-header .modal{
+#changingDiv .modal{
   padding: 15% 0;
   display: none;
   position: fixed;
@@ -102,16 +105,35 @@ header .modal{
   background-color: rgb(0,0,0);
   background-color: rgba(0,0,0,0.4);
 }
-header .modal-close{
+#changingDiv .modal-close{
   color: #aaa;
   float: right;
   font-size: 30px;
   font-weight: bold;
 }
-header .modal-close:hover,
-header .modal-close:focus{
+#changingDiv .modal-close:hover,
+#changingDiv .modal-close:focus{
   color: black;
   text-decoration: none;
   cursor: pointer;
 }
-
+ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: white;
+}
+li{
+  float: left;
+  width: 50%;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+li:hover{
+  border-bottom: 2px solid mediumspringgreen;
+  cursor: pointer;
+}
