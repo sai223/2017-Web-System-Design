@@ -72,7 +72,15 @@ export class SearchEngineComponent implements OnInit {
       .subscribe(searchSubject => {
         //console.log(searchSubject.major);
           console.log(searchSubject, 'is upload!');
-          // this.searchList_T = searchSubject;
+
+          for(var i =0; i< Object.keys(searchSubject).length;i++){
+            console.log(searchSubject[i]);
+          }
+          //this.searchList_T[0] = searchSubject[0];
+       // console.log("dddddd"+this.searchList_T);
+          //console.log("dddddd"+this.searchList_T[0]);
+        //console.log("dddddd"+this.searchList_T[1]);
+
       });
   }
   parseSubject(res: Response) {
