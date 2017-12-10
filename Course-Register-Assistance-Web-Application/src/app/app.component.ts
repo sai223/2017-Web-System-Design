@@ -35,6 +35,8 @@ export class AppComponent implements OnInit {
         console.log('세션 유지 같은 브라우저 접속자: ' + JSON.parse(JSON.stringify(result)).userName);
         this.userName = JSON.parse(JSON.stringify(result)).userName;
         this.loginState = true;
+        this.currentPage = 1;
+        this.page1Active = true;
         this.changeTemplate();
         this.getAllSubject();
       } else {
@@ -83,7 +85,7 @@ export class AppComponent implements OnInit {
     }else {
       if (this.currentPage === 1) {
         this.currentTemplate = this.logInSugangTemplate;
-      }else {
+      }else if (this.currentPage === 2) {
         this.currentTemplate = this.logInTimetableTemplate;
       }
     }
@@ -122,11 +124,25 @@ export class AppComponent implements OnInit {
       alert('동일한 비밀번호를 입력하세요.');
     }
   }
+  page1Active: boolean = false;
+  page2Active: boolean = false;
   changeCurrentPage(no: number) {
-    if (this.currentPage !== no) {
-      this.currentPage = no;
-      this.currentView.destroy();
-      this.changeTemplate();
+    if (this.currentPage === 1) {
+      if (no !== 1) {
+        this.page1Active = true;
+        this.page2Active = false;
+        this.currentPage = 2;
+        this.currentView.destroy();
+        this.changeTemplate();
+      }
+    }else if (this.currentPage === 2) {
+      if (no !== 2) {
+        this.page1Active = false;
+        this.page2Active = true;
+        this.currentPage = 1;
+        this.currentView.destroy();
+        this.changeTemplate();
+      }
     }
   }
   reflectEnrollList_T(enrollList: Subject[]) {
