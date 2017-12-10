@@ -278,7 +278,7 @@ router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
 // 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
 router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
   console.log('addsubject');
-  SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인
+  SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인   infoList= List계정 정보
     if (err) {
       return console.log("err " + err);
     }
@@ -291,7 +291,20 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
           var isAddSuccess = false;
           res.send(isAddSuccess); // 클라이언트쪽에서 alert호출 요망
         } else { //올바른 입력값(과목코드)
+
           var isAddSuccess = true;
+          SugangListbyUserModel.sugangList.find({subjectTime: courseInfo.subjectTime },function (err,doubleCourse) {
+            if (err) {
+              return console.log("err " + err);
+            }
+            if(doubleCourse.length>1){ // 시간 중복 있을때
+               res.send();
+            }
+            else {//시간 중복 없을때
+
+
+            }
+          })
 
           courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)
           infoList.subjectInfo.push(courseInfo);
@@ -387,10 +400,26 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   });
 })
 // 사용자 시간표 불러올 경우  -----------------------------------------------------------------------
-router.get('/getUserTimeTable',function (req,res) { //req(userID)
-  TimeTableForUser.findOne({userID: req.body.userID},function (err, timetableInfo) {
+router.get('/getUserTimeTable',function (req,res) { //req()
+  TimeTableForUser.findOne({userID: req.session.userID},function (err, timetableInfo) {
     if (err) {
       return console.log("err " + err);
+    }
+    if(!timetableInfo)
+    {
+      var userTimeTable = new TimeTableForUser({ //TimeTableForUser에 계정이 없을경우 새계정 저장
+        userID: req.body.userID,
+        monday: req.body.Monday_R,
+        tuesday: req.body.Tuesday_R,
+        wednesday: req.body.Wednesday_R,
+        thursday: req.body.Thursday_R,
+        friday: req.body.Friday_R
+      });
+      userTimeTable.save(function (err,document) {
+        if (err)
+          return console.error(err);
+        console.log('타임태이블리스트 계정 추가: '+document );
+      });
     }
     var userTimeTable = {
       Monday_R: timetableInfo.monday,
@@ -399,12 +428,16 @@ router.get('/getUserTimeTable',function (req,res) { //req(userID)
       Thursday_R: timetableInfo.thursday,
       Friday_R: timetableInfo.friday,
     };
-    res.send(userTimeTable);
+    if(userTimeTable.Monday_R == null&&userTimeTable.Tuesday_R==null){
+
+    }
+    else
+      res.send(userTimeTable);
   });
 });
 // 사용자 과목 추가할때  TimeTableForUser에 과목 추가 -----------------------------------------------------------------------
 router.post('/setUserTimeTable',function (req,res) { //req(suject, day)
-  TimeTableForUser.findOne({userID: req.body.userID},function (err, timetableInfo) {
+  TimeTableForUser.findOne({userID: req.session.userID},function (err, timetableInfo) {
     if (err) {
       return console.log("err " + err);
     }
@@ -416,7 +449,7 @@ router.post('/setUserTimeTable',function (req,res) { //req(suject, day)
         tuesday: req.body.Tuesday_R,
         wednesday: req.body.Wednesday_R,
         thursday: req.body.Thursday_R,
-        friday: req.body.Friday_R,
+        friday: req.body.Friday_R
       });
       userTimeTable.save(function (err,document) {
         if (err)
