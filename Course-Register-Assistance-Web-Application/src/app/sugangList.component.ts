@@ -1,5 +1,5 @@
 import {Input, Component, ElementRef, AfterViewInit,
-  Output, EventEmitter} from '@angular/core';
+  Output, EventEmitter, OnInit} from '@angular/core';
 
 import {Sugang} from './Sugang';
 import {HttpService} from './http-service';
@@ -13,7 +13,7 @@ declare var copyServiceObject: any;
   styleUrls: ['./sugangList.component.css']
 })
 
-export class SugangListComponent implements AfterViewInit {
+export class SugangListComponent implements AfterViewInit, OnInit {
   @Input() sugangList: Sugang[];
   @Output() updateSugangList = new EventEmitter();
   constructor(
@@ -22,6 +22,26 @@ export class SugangListComponent implements AfterViewInit {
   ) {}
   currentSugangName: string;
   currentSugangNumber: string;
+  currentPriority: number;
+  currentTime: string;
+  currentHour: number;
+  currentMin: number;
+  currentSec: number;
+
+  pad(n, width) {
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+  }
+  ngOnInit() {
+    let time;
+    setInterval(() => {
+      time = new Date();
+      this.currentHour = time.getHours();
+      this.currentMin = time.getMinutes();
+      this.currentSec = time.getSeconds();
+      this.currentTime = this.currentHour + ':' + this.pad(this.currentMin,2) + ':' + this.pad(this.currentSec,2);
+    }, 1000);
+  }
   ngAfterViewInit() {
     var v = document.createElement('script');
     v.type = 'text/javascript';
@@ -50,27 +70,39 @@ export class SugangListComponent implements AfterViewInit {
       this.updateSugangList.emit();
     });
   }
-  currentTime: string;
-  startServerTime() {
-    let time;
-    setInterval(() => {
-      time = new Date();
-      this.currentTime = time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds();
-    }, 1000);
-  }
-  alarmOn10sec() {
-    setTimeout(function(){
-      alert('2초 지났습니다.');
-    }, 10000);
-  }
-  alarmOn30sec() {
-    setTimeout(function(){
-      alert('3초 지났습니다.');
-    }, 3000);
-  }
-  alarmOn1min() {
-    setTimeout(function(){
-      alert('5초 지났습니다.');
-    }, 5000);
+  alarmHour: number;
+  alarmMin: number;
+  alarmSec: number;
+  currentTotalSec: number;
+  alarmTotalSec: number;
+  alarmOn() {
+    if ((this.alarmHour < 0 || this.alarmHour > 24) ||
+      (this.alarmMin < 0 || this.alarmMin > 60) ||
+      (this.alarmSec < 0 || this.alarmSec > 60)) {
+      alert('올바른 시간값을 입력하세요.');
+      this.alarmHour = 0;
+      this.alarmMin = 0;
+      this.alarmSec = 0;
+    }else {
+      this.currentTotalSec = (this.currentHour * 3600) + (this.currentMin * 60) + (this.currentSec * 1);
+      this.alarmTotalSec = (this.alarmHour * 3600) + (this.alarmMin * 60) + (this.alarmSec * 1);
+      if ((this.alarmTotalSec - this.currentTotalSec) < 0) {
+        alert('미래 시간값을 입력하세요.');
+      }else {
+        console.log(this.currentHour);
+        console.log(this.currentMin);
+        console.log(this.currentSec);
+        console.log(this.currentTotalSec);
+        console.log('-------------------------');
+        console.log(this.alarmHour);
+        console.log(this.alarmMin);
+        console.log(this.alarmSec);
+        console.log(typeof(this.alarmTotalSec));
+        console.log(this.alarmTotalSec);
+        setTimeout(function(){
+          alert('알람 설정 시간이 지났습니다.');
+        }, (this.alarmTotalSec - this.currentTotalSec) * 1000);
+      }
+    }
   }
 }// end of class SugangListComponent

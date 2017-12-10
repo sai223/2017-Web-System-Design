@@ -50,8 +50,10 @@ export class  AppComponent implements OnInit {
 
         this.currentPage = JSON.parse(JSON.stringify(result)).page;
 
-        this.page1Active = true;
-         this.changeTemplate();
+
+
+        this.changeTemplate();
+
         this.getAllSubject();
       } else {
         console.log('첫접속 브라우저');
@@ -70,6 +72,7 @@ export class  AppComponent implements OnInit {
           this.getAllSubject();
         }else { // login fail
           alert('계정 정보가 존재하지 않습니다.');
+          this.userID = '';
           this.userPassword = '';
         }
       });
@@ -110,7 +113,6 @@ export class  AppComponent implements OnInit {
         this.currentPage = 1;
         this.currentTemplate = this.logInSugangTemplate;
       }
-
     }
     this.currentView.destroy();
     console.log('change5');
@@ -208,22 +210,20 @@ export class  AppComponent implements OnInit {
         if (result['boolean'] === false) {
           alert('이미 존재하는 아이디 입니다.');
         }else {
+          alert('회원가입 완료');
           this.currentView.destroy();
-          this.changeTemplate();
+          this.currentTemplate = this.logOutTemplate;
+          this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
         }
-        this.clearSignupModal();
       });
     }else {
       alert('동일한 비밀번호를 입력하세요.');
     }
+    this.clearSignupModal();
   }
-  page1Active: boolean = false;
-  page2Active: boolean = false;
   changeCurrentPage(no: number) {
     if (this.currentPage === 1) {
       if (no !== 1) {
-        this.page1Active = true;
-        this.page2Active = false;
         this.currentPage = 2;
         this.getAllDayArray();
         this.httpService.pageSession(this.currentPage).subscribe();
@@ -232,8 +232,6 @@ export class  AppComponent implements OnInit {
       }
     }else if (this.currentPage === 2) {
       if (no !== 2) {
-        this.page1Active = false;
-        this.page2Active = true;
         this.currentPage = 1;
         this.httpService.pageSession(this.currentPage).subscribe();
         this.currentView.destroy();

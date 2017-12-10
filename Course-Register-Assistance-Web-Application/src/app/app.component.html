@@ -43,8 +43,8 @@
   </div>
   <div>
     <ul>
-      <li (click)="changeCurrentPage(1)">수강신청</li>
-      <li (click)="changeCurrentPage(2)">시간표 조회</li>
+      <li id="sugang1" (click)="changeCurrentPage(1)" style="border-bottom: 3px solid black; background-color: ghostwhite;">수강신청</li>
+      <li id="sugang2" (click)="changeCurrentPage(2)">시간표 조회</li>
     </ul>
   </div>
   <app-suganglist *ngIf="sugangList"
@@ -62,7 +62,7 @@
     <div>
       <ul>
         <li (click)="changeCurrentPage(1)">수강신청</li>
-        <li (click)="changeCurrentPage(2)">시간표 조회</li>
+        <li (click)="changeCurrentPage(2)" style="border-bottom: 3px solid black; background-color: ghostwhite;">시간표 조회</li>
       </ul>
     </div>
     <app-engine [enrollList_T] = enrollList_T
