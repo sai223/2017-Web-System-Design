@@ -13,6 +13,7 @@ import {TableItem} from './tableItem';
 
 export class SearchEngineComponent implements OnInit {
   searchList_T: Subject[] = [];
+  tempList: Subject[] = [];
   selectedSubject: Subject;
   @Input() enrollList_T: Subject[] = [];
   numberingArray: boolean[] = [];
@@ -70,6 +71,7 @@ export class SearchEngineComponent implements OnInit {
     this.httpService.searchSubject(this.subjectType_2B, this.major_2B, this.day_2B,
       this.time_2B, this.subjectName_2B, this.professorName_2B)
       .subscribe(searchSubject => {
+<<<<<<< HEAD
         //console.log(searchSubject.major);
           console.log(searchSubject, 'is upload!');
 
@@ -81,6 +83,17 @@ export class SearchEngineComponent implements OnInit {
           //console.log("dddddd"+this.searchList_T[0]);
         //console.log("dddddd"+this.searchList_T[1]);
 
+=======
+        console.log(searchSubject);
+        console.log(typeof searchSubject);
+        for (let i = 0; i < Object.keys(searchSubject).length; i++) {
+          console.log('searchSubject[i]', searchSubject[i]);
+          this.tempList.push(searchSubject[i]);
+        }
+        //this.searchList_T = searchSubject[0];
+          console.log('this.tempList', this.tempList);
+          this.searchList_T = this.tempList;
+>>>>>>> a697d3625fbf394deefd88840854a5c8d34b47d7
       });
   }
   parseSubject(res: Response) {
@@ -203,7 +216,7 @@ export class SearchEngineComponent implements OnInit {
       }
     }
     console.log('요일 배열 채우기 전 시점', this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday);
-    debugger;
+    //debugger;
     // 검사끝
     // console.log('검사 끝난 시점', this.Wednesday);
     // 요일 배열 수정(각 요일 배열에 넘버링값 넣기) 시작
@@ -227,14 +240,14 @@ export class SearchEngineComponent implements OnInit {
     }
     // 요일 배열 수정 끝
     console.log('요일 배열 만들기 끝난 시점', this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday);
-    debugger;
+    //debugger;
     // 리스트에 등록하기 시작
     this.enrollList_T.push(subject);
     // 리스트에 등록하기 끝
     // 이벤트를 발생 -> app.component 배열에 반영시키고
     this.reflectEnrollListEvent.emit(this.enrollList_T);
     // 디비에 반영시킨다.
-    //this.addSubjectToDB(subject);
+    this.addSubjectToDB(subject);
   }
   // 삭제할 과목을 수강신청항목에서 지우고
   // 요일 배열의 값을 수정한다.(subjectNumbering 값 -> 0)
@@ -266,7 +279,7 @@ export class SearchEngineComponent implements OnInit {
         // 이벤트를 발생 -> app.component 배열에 반영시키고
         this.reflectEnrollListEvent.emit(this.enrollList_T);
         // DB에 반영
-        //this.deleteSubjectToDB(subject.subjectNumber);
+        this.deleteSubjectToDB(subject.subjectNumber);
         console.log('요일 배열 삭제 끝난 시점', this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday);
       }
     }

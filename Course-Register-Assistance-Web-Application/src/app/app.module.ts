@@ -19,7 +19,7 @@ import {EnrollListComponent} from './enrollList.component';
     SearchListComponent,
     SugangListComponent,
     TimetableComponent,
-    EnrollListComponent
+    EnrollListComponent,
   ],
   imports: [
     BrowserModule,
