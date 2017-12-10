@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {TableItem} from './tableItem';
 
 @Injectable()
 export class HttpService {
@@ -23,12 +24,27 @@ export class HttpService {
     console.log('겟올섭젝');
     return this.http.get('/getAllSubjects');
   }
+  getAllDayArray() {
+    console.log('겟올데이어레이');
+    return this.http.get('/getUserTimeTable');
+  }
   addSubject(isNickname: boolean, subjectName: string, subjectNumber: string) {
     console.log('애드섭젝');
     return this.http.post('/addSubject', {
       isNickname: isNickname,
       subjectName: subjectName,
       subjectNumber: subjectNumber
+    });
+  }
+  updateArray(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]){
+    console.log('addDayArray');
+    return this.http.post('/setUserTimeTable' , {
+        Monday_R: Monday_R,
+        Tuesday_R: Tuesday_R,
+        Wednesday_R: Wednesday_R,
+        Thursday_R: Thursday_R,
+        Friday_R: Friday_R,
+        numberingArray: numberingArray
     });
   }
   deleteSubject(subjectNumber: string) {

@@ -18,8 +18,9 @@ db.on('connected', function() {
   console.log("Connected successfully to server");
 });
 //-------------------------------------------------
-/*
+
 //DB 초기화 하실때 사용하세요 지울때
+/*
 ClientInfo.remove({}, function(err) {
     if (err) {
       console.log(err)
@@ -45,6 +46,16 @@ SugangInfo.remove({}, function(err) {
   }
 );
 
+// 시간표 테이블 비우기
+TimeTableForUser.remove({}, function(err) {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('ClientInfo 삭제 완료');
+    }
+  }
+);
+*/
 //-------------------------------------------------
 /*
 // DB에 Test Data 넣으실때 사용하세요
@@ -123,7 +134,7 @@ SugangInfo.find(function (err,info) {
   }
 });
 
-*/
+
 
 /*
 ---------------------------------------------------------------------*/
@@ -204,6 +215,7 @@ SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {s
   console.log('Delete 완료')
 })
 */
+
 //-------------------------------------------------
 // 페이지 시작할때 마다 세션 체크 -------------------------------------------------------------------
 router.get('/sessionCheck',function (req,res) {
@@ -388,23 +400,46 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
 })
 // 사용자 시간표 불러올 경우  -----------------------------------------------------------------------
 router.get('/getUserTimeTable',function (req,res) { //req(userID)
-  TimeTableForUser.findOne({userID: req.body.userID},function (err, timetableInfo) {
+  console.log('!21211212');
+  TimeTableForUser.findOne({userID: req.session.userID},function (err, timetableInfo) {
     if (err) {
       return console.log("err " + err);
     }
-    var userTimeTable = {
-      Monday_R: timetableInfo.monday,
-      Tuesday_R: timetableInfo.tuesday,
-      Wednesday_R: timetableInfo.wednesday,
-      Thursday_R: timetableInfo.thursday,
-      Friday_R: timetableInfo.friday,
-    };
-    res.send(userTimeTable);
+    //console.log('TimetableINFO',timetableInfo);
+    if(timetableInfo === null){
+      var userTimeTable = new TimeTableForUser({ //TimeTableForUser에 계정이 없을경우 새계정 저장
+        userID: req.body.userID,
+        monday: req.body.Monday_R,
+        tuesday: req.body.Tuesday_R,
+        wednesday: req.body.Wednesday_R,
+        thursday: req.body.Thursday_R,
+        friday: req.body.Friday_R,
+      });
+      userTimeTable.save(function (err,document) {
+        if (err)
+          return console.error(err);
+        console.log('타임태이블리스트 계정 추가');
+      });
+      res.send(null);
+    }
+    else{
+      var userTimeTable = {
+        Monday_R: timetableInfo.monday,
+        Tuesday_R: timetableInfo.tuesday,
+        Wednesday_R: timetableInfo.wednesday,
+        Thursday_R: timetableInfo.thursday,
+        Friday_R: timetableInfo.friday,
+      };
+      res.send(userTimeTable);
+    }
+
   });
 });
 // 사용자 과목 추가할때  TimeTableForUser에 과목 추가 -----------------------------------------------------------------------
-router.post('/setUserTimeTable',function (req,res) { //req(suject, day)
-  TimeTableForUser.findOne({userID: req.body.userID},function (err, timetableInfo) {
+router.post('/setUserTimeTable',function (req,res) {
+  console.log("setuse--------------------------r");
+  //req(suject, day)
+  TimeTableForUser.findOne({userID: req.session.userID},function (err, timetableInfo) {
     if (err) {
       return console.log("err " + err);
     }
@@ -421,7 +456,7 @@ router.post('/setUserTimeTable',function (req,res) { //req(suject, day)
       userTimeTable.save(function (err,document) {
         if (err)
           return console.error(err);
-        console.log('타임태이블리스트 계정 추가: '+document );
+        console.log('타임태이블리스트 계정 update추가');
       });
       res.send({});
     } else { // 기존의 과목이 있고 업데이트가 필요할때
@@ -435,7 +470,8 @@ router.post('/setUserTimeTable',function (req,res) { //req(suject, day)
       timetableInfo.save(function (err,document) {
         if (err)
           return console.error(err);
-        console.log('기존계정 타임태이블리스트 변경: '+document);
+        //console.log('기존계정 타임태이블리스트 변경: '+document);
+        res.send({});
       });
     }
   })
