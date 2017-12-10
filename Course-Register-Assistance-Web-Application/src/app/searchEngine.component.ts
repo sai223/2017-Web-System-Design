@@ -18,7 +18,7 @@ export class SearchEngineComponent implements OnInit {
   @Input() enrollList_T: Subject[] = [];
   numberingArray: boolean[] = [];
   subjectNumbering: number;
-  // 요일별 배열을 만들어서 시간표 중복을 검사
+  // 요일별 배열을 만들어서 시간표 중복을 검사 -> AppComponent 에서 가져오자
   Monday: TableItem[] = [];
   Tuesday: TableItem[] = [];
   Wednesday: TableItem[] = [];
@@ -77,13 +77,9 @@ export class SearchEngineComponent implements OnInit {
           console.log('searchSubject[i]', searchSubject[i]);
           this.tempList.push(searchSubject[i]);
         }
-        //this.searchList_T = searchSubject[0];
           console.log('this.tempList', this.tempList);
           this.searchList_T = this.tempList;
       });
-  }
-  parseSubject(res: Response) {
-    return res['searchSubject'];
   }
   // 수강신청항목에 추가하려고 하는 과목이 기존에 수강신청항목에 있던 과목들과 겹치는지 검사만 한다.
   // 중복이 없으면 true 를 반환하고
