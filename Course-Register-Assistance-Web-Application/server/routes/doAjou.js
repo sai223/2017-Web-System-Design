@@ -600,11 +600,11 @@ router.get('/getUserTimeTable',function (req,res) { //req(userID)
     }
     else{
       var userTimeTable = {
-        Monday_R: timetableInfo.monday,
-        Tuesday_R: timetableInfo.tuesday,
-        Wednesday_R: timetableInfo.wednesday,
-        Thursday_R: timetableInfo.thursday,
-        Friday_R: timetableInfo.friday,
+        monday: timetableInfo.monday,
+        tuesday: timetableInfo.tuesday,
+        wednesday: timetableInfo.wednesday,
+        thursday: timetableInfo.thursday,
+        friday: timetableInfo.friday,
         numberingArray: timetableInfo.numberingArray
       };
       //console.log("timetableInfo === null 아니고 ",userTimeTable);

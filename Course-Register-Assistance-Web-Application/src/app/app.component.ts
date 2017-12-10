@@ -36,10 +36,8 @@ export class  AppComponent implements OnInit {
     private httpService: HttpService,
   ) {}
   ngOnInit() {
-    if(this.currentPage === 2){
-      console.log('ngOnINIT GETALLDAYARRAY!!');
-      this.getAllDayArray();
-    }
+    console.log('ngOnINIT GETALLDAYARRAY!!');
+
     this.currentTemplate = this.logOutTemplate;
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
     this.httpService.analyzeSession().subscribe(result => {
@@ -55,6 +53,7 @@ export class  AppComponent implements OnInit {
         this.changeTemplate();
 
         this.getAllSubject();
+        this.getAllDayArray();
       } else {
         console.log('첫접속 브라우저');
       }
@@ -70,6 +69,7 @@ export class  AppComponent implements OnInit {
           this.loginState = true;
           this.changeTemplate();
           this.getAllSubject();
+          this.getAllDayArray();
         }else { // login fail
           alert('계정 정보가 존재하지 않습니다.');
           this.userID = '';
@@ -183,24 +183,28 @@ export class  AppComponent implements OnInit {
      let numberingTmp: boolean[] = [];
       console.log('서버에서 요일 배열가져오기(dayArray)',dayArray);
       Object.keys(dayArray).forEach(key => {
+        console.log('key is', key);
         for (let i = 0; i < Object.keys(dayArray[key]).length; i++){
           // console.log('key is', dayArray[key][i]);
-          if(key === 'Monday_R'){
+          if(key === 'monday'){
             tmp1.push(dayArray[key][i]);
           }
-          else if (key === 'Tuesday_R'){
+          else if (key === 'tuesday'){
             tmp2.push(dayArray[key][i]);
           }
-          else if (key === 'Wednesday_R'){
+          else if (key === 'wednesday'){
             tmp3.push(dayArray[key][i]);
           }
-          else if (key === 'Thursday_R'){
+          else if (key === 'thursday'){
             tmp4.push(dayArray[key][i]);
           }
-          else if (key === 'Friday_R'){
+          else if (key === 'friday'){
+            console.log('F');
             tmp5.push(dayArray[key][i]);
           }
-          else if (key === 'numberingArray') {
+          else if (key === 'numberingArray'){
+            console.log('N');
+            console.log('[numberingArray]dayArray[key][i]', dayArray[key][i]);
             numberingTmp.push(dayArray[key][i]);
           }
         }
@@ -212,7 +216,8 @@ export class  AppComponent implements OnInit {
      this.Thursday = tmp4;
      this.Friday = tmp5;
      this.numberingArray = numberingTmp;
-     console.log('서버에서 요일 배열가져오기(요일5개배열)',this.Monday,this.Tuesday,this.Wednesday,this.Thursday,this.Friday);
+     console.log('서버에서 요일 배열 가져오기(요일5개배열)',this.Monday,this.Tuesday,this.Wednesday,this.Thursday,this.Friday);
+     console.log('서버에서 넘버링 배열 가져오기',this.numberingArray);
     });
   }
   signUpID: string;

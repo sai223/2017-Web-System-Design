@@ -233,3 +233,7 @@
    position:relative;
    top:1px;
  }
+
+ #Logo{
+   float: right;
+ }
