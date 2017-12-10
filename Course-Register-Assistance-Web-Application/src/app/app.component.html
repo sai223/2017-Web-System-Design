@@ -43,8 +43,8 @@
   </div>
   <div>
     <ul>
-      <li (click)="changeCurrentPage(1)" [ngClass]="list_1_style">수강신청</li>
-      <li (click)="changeCurrentPage(2)" [ngClass]="list_2_style">시간표 조회</li>
+      <li id="sugang1" (click)="changeCurrentPage(1)" [ngClass]="list_1_style">수강신청</li>
+      <li id="sugang2" (click)="changeCurrentPage(2)" [ngClass]="list_2_style">시간표 조회</li>
     </ul>
   </div>
   <app-suganglist *ngIf="sugangList"

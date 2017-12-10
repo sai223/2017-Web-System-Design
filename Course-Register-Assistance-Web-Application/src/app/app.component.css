@@ -143,6 +143,31 @@ li:hover{
   border-bottom: 3px solid mediumspringgreen;
   cursor: pointer;
 }
+#sugang1{
+  display: inline;
+  float: left;
+  width: 45%;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  text-align: center;
+}sugang1:hover{
+   border-bottom: 3px solid mediumspringgreen;
+   cursor: pointer;
+ }
+#sugang2{
+  display:inline-block;
+  float: left;
+  width: 45%;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  text-align: center;
+}sugang2:hover{
+   border-bottom: 3px solid mediumspringgreen;
+   cursor: pointer;
+ }
+
 .p_name{
   float: right;
   font-size: 20px;
