@@ -1,28 +1,51 @@
-<div>
-  <input type="text" [(ngModel)]="currentSugangName" placeholder="교과목">
-  <input type="text" [(ngModel)]="currentSugangNumber" placeholder="과목 번호">
-  <input type="text" [(ngModel)]="currentPriority" placeholder="우선순위(숫자)">
-  <button (click)="addSugang()">추가</button>
-</div>
-<div id="outerDiv">
-  <div id="titleDiv">
-    수강신청 리스트
-  </div>
-  <div id="contentDiv">
-    <div id="sugangDiv" *ngFor="let sugang of sugangList">
-      <button (click)="deleteSugang(sugang.sugangNumber)">삭제</button>
-      <input class="sugangInput" type="text" size="10" [value]="sugang.sugangName" readonly>
-      <input [attr.id]="'copy-' + sugang.priority" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
-      <button (click)="copyClick(sugang.priority)">복사</button>
+<div id="middleDiv">
+  <div id="sugangListDiv">
+    <div id="outerDiv">
+      <div id="titleDiv">
+        수강신청 리스트
+      </div>
+      <div id="sugangAddDiv">
+        <input class="sugangText" type="text" [(ngModel)]="currentSugangName" placeholder="교과목">
+        <input class="sugangText" type="text" [(ngModel)]="currentSugangNumber" placeholder="과목 번호">
+        <button class="sugangAddButton" (click)="addSugang()">추가</button>
+      </div>
+      <div id="contentDiv">
+        <div id="sugangDiv" *ngFor="let sugang of sugangList">
+          <span id="sugangX" (click)="deleteSugang(sugang.sugangNumber)">&times;</span>
+          <div id="sugangInner1Div">
+            <input class="sugangInput" margin-top=5px type="text" size="10" [value]="sugang.sugangName" readonly>
+          </div>
+          <div id="sugangInner2Div">
+            <input class="sugangInput" [attr.id]="'copy-' + sugang.priority" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
+          </div>
+          <img id="sugangCopy" src="assets/copy.png" width=15px height=15px (click)="copyClick(sugang.priority)">
+
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div>
-  <input type="text" [(ngModel)]="alarmHour" size="2">:
-  <input type="text" [(ngModel)]="alarmMin" size="2">:
-  <input type="text" [(ngModel)]="alarmSec" size="2">
-  <button (click)="alarmOn()">알람 설정</button>
-</div>
-<div>
-  {{currentTime}}
+  <div id="alarmDiv">
+    <div id="alarmButton1Div">
+      <div id="timeDiv">
+        {{currentTime}}
+      </div>
+    </div>
+    <div>
+      <input type="text" [(ngModel)]="alarmHour" size="2">:
+      <input type="text" [(ngModel)]="alarmMin" size="2">:
+      <input type="text" [(ngModel)]="alarmSec" size="2">
+      <button (click)="alarmOn()">알람 설정</button>
+    </div>
+
+    <div id="alarmButton2Div">
+      <button class="alarmButton" (click)="alarmOn10sec()">10초 알람 설정</button>
+    </div>
+    <div id="alarmButton3Div">
+      <button class="alarmButton" (click)="alarmOn30sec()">30초 알람 설정</button>
+    </div>
+    <div id="alarmButton4Div">
+      <button class="alarmButton" (click)="alarmOn1min()">1분 알람 설정</button>
+    </div>
+  </div>
+
 </div>
