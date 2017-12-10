@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
           this.getAllSubject();
         }else { // login fail
           alert('계정 정보가 존재하지 않습니다.');
+          this.userID = '';
           this.userPassword = '';
         }
       });
@@ -129,11 +130,11 @@ export class AppComponent implements OnInit {
           this.currentTemplate = this.logOutTemplate;
           this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
         }
-        this.clearSignupModal();
       });
     }else {
       alert('동일한 비밀번호를 입력하세요.');
     }
+    this.clearSignupModal();
   }
   page1Active: boolean = false;
   page2Active: boolean = false;
