@@ -68,6 +68,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
         alert('시간 중복입니다.');
       }
     });
+    this.orderSelectedSugang = -100;
   }
   deleteSugang(no: string) {
     this.httpService.deleteSubject(no).subscribe(result => {
