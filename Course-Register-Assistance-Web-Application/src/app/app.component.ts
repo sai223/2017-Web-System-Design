@@ -120,16 +120,32 @@ export class  AppComponent implements OnInit {
   }
   getAllSubject() {
     this.httpService.getAllSubjects().subscribe(result => {
-      let no = 0;
       this.sugangList = [];
       this.enrollList_T = [];
       Object.keys(result).forEach(key => {
         this.enrollList_T.push(result[key]);
-        let sugang = new Sugang(no, result[key].subjectName, result[key].subjectNumber);
-        this.sugangList[no] = sugang;
-        no++;
+        let sugang = new Sugang(result[key].subjectName, result[key].subjectNumber);
+        this.sugangList.push(sugang);
       });
     });
+  }
+  subjectOrderUp(orderSelectedSugang: number) {
+    let tmp = this.sugangList[orderSelectedSugang];
+    this.sugangList[orderSelectedSugang] = this.sugangList[orderSelectedSugang - 1];
+    this.sugangList[orderSelectedSugang - 1] = tmp;
+
+    let tmptmp = this.sugangList;
+    this.sugangList = [];
+    this.sugangList = tmptmp;
+  }
+  subjectOrderDown(orderSelectedSugang: number) {
+    let tmp = this.sugangList[orderSelectedSugang];
+    this.sugangList[orderSelectedSugang] = this.sugangList[orderSelectedSugang + 1];
+    this.sugangList[orderSelectedSugang + 1] = tmp;
+
+    let tmptmp = this.sugangList;
+    this.sugangList = [];
+    this.sugangList = tmptmp;
   }
   getAllDayArray() {
     this.httpService.getAllDayArray()

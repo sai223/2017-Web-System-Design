@@ -20,7 +20,6 @@ db.on('connected', function() {
 });
 
 
-
 //DB 초기화 하실때 사용하세요 지울때
 /*
 ClientInfo.remove({}, function(err) {
@@ -60,7 +59,7 @@ TimeTableForUser.remove({}, function(err) {
   }
 );
 */
-//-------------------------------------------------
+
 // DB에 Test Data 넣으실때 사용하세요
 // 과목 생성
 /*
@@ -104,9 +103,9 @@ ci.userID = 'psh';
 ci.userPassword = '2013';
 ci.userName = '박승현';
 ci.save(function(err,document) {
-      if (err)
-        return console.error(err);
-      console.log('계정 박승현 생성');
+  if (err)
+    return console.error(err);
+  console.log('계정 박승현 생성');
 });
 var ci1 = new ClientInfo();
 ci1.userID = 'kbw';
@@ -136,9 +135,45 @@ ci3.save(function(err,document) {
   console.log('계정 이인태생성');
 })
 
+<<<<<<< HEAD
+=======
+// DB에 Test Data 넣으실때 사용하세요
+// 과목 생성
+
+var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
+  professorName: '김응기', credit: 3, subjectNumber: 'A123'});
+var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
+  professorName: '손경아', credit: 3, subjectNumber: 'B123'});
+var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화A 금C', time: 60, subjectName: '컴퓨터네트워크',
+  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
+var si3 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화1 금5', time: 40, subjectName: '연애학개론',
+  professorName: '강경란', credit: 3, subjectNumber: 'D123'});
+si.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('선형대수 강의 생성');
+});
+si1.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('알고리즘 강의 생성');
+});
+si2.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('컴네 강의 생성');
+});
+si3.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('연애 강의 생성');
+});
+
+//-------------------------------------------------
+>>>>>>> 1c1fc967f54fc0eadd3707272306ccbf1874d10f
 // DB에 Test Data 조회할때 사용하세요
 // 수강과목 조회
-/*
+
 SugangInfo.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
@@ -146,7 +181,7 @@ SugangInfo.find(function (err,info) {
     console.log('현재 SugangInfo 저장되어있는 Data: '+info);
   }
 });
-
+*/
 
 
 /*
@@ -246,7 +281,7 @@ router.post('/sessionPage',function (req,res) { //req(page넘김)
 });
 // log-in 기능 --------------------------------------------------------------------------------
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
-  //console.log(req.sessionID);
+                                        //console.log(req.sessionID);
   sess = req.session;
   ClientInfo.findOne({userID: req.body.id, userPassword: req.body.pw}, function (err, info) {
     if (err) {
@@ -296,7 +331,83 @@ router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
   })
 });
 // 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
+
 router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
+
+  var timetable = new Array(new Array(24), new Array(24), new Array(24), new Array(24), new Array(24) );
+  for(var i = 0; i < timetable.length; i++) {
+    for(var j = 0; j < timetable[i].length; j++) {
+      timetable[i][j] = 0;
+    }
+  }
+
+  function markTime(time) {
+    var day;
+    switch(time[0]) {
+      case '월':
+        day = 0;
+        break;
+      case '화':
+        day = 1;
+        break;
+      case '수':
+        day = 2;
+        break;
+      case '목':
+        day = 3;
+        break;
+      case '금':
+        day = 4;
+        break;
+    }
+
+    switch(time[1]) {
+      case 'A':
+        timetable[day][0] += 1;
+        timetable[day][1] += 1;
+        timetable[day][2] += 1;
+        break;
+      case 'B':
+        timetable[day][3] += 1;
+        timetable[day][4] += 1;
+        timetable[day][5] += 1;
+        break;
+      case 'C':
+        timetable[day][6] += 1;
+        timetable[day][7] += 1;
+        timetable[day][8] += 1;
+        break;
+      case 'D':
+        timetable[day][9] += 1;
+        timetable[day][10] += 1;
+        timetable[day][11] += 1;
+        break;
+      case 'E':
+        timetable[day][12] += 1;
+        timetable[day][13] += 1;
+        timetable[day][14] += 1;
+        break;
+      case 'F':
+        timetable[day][15] += 1;
+        timetable[day][16] += 1;
+        timetable[day][17] += 1;
+        break;
+      case 'G':
+        timetable[day][18] += 1;
+        timetable[day][19] += 1;
+        timetable[day][20] += 1;
+        break;
+      case 'H':
+        timetable[day][21] += 1;
+        timetable[day][22] += 1;
+        timetable[day][23] += 1;
+        break;
+      default:
+        timetable[day][time[1]*2 - 2] += 1;
+        timetable[day][time[1]*2 - 1] += 1;
+    }
+  }
+
   console.log('addsubject');
 
   SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인
@@ -309,21 +420,44 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
           return console.log("err " + err);
         }
         if(!courseInfo){ // 잘못된 입력값(과목코드)
-          var isAddSuccess = false;
-          res.send(isAddSuccess); // 클라이언트쪽에서 alert호출 요망
+          var isAddSuccess = 'wrong';
+
+          res.send({msg: isAddSuccess}); // 클라이언트쪽에서 alert호출 요망
         } else { //올바른 입력값(과목코드)
-          var isAddSuccess = true;
+          var isAddSuccess = 'success';
 
           courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)
-          infoList.subjectInfo.push(courseInfo);
-          infoList.save(function(err,document) {
-            if (err)
-              return console.error(err);
-            console.log('해당과목 저장 성공');
-            console.log(document)
-          });
 
-          res.send(isAddSuccess);
+          infoList.subjectInfo.push(courseInfo);
+
+          for(var i=0; i < infoList.subjectInfo.length; i++) {
+            var timeString = infoList.subjectInfo[i].subjectTime;
+            for(var j=0; j < timeString.length / 2 - 1; j++) {
+              var time = timeString[j * 3] + timeString[j * 3 + 1];
+              console.log(time);
+              console.log(typeof(time));
+              markTime(time);
+            }
+          }
+          console.log(timetable);
+
+          for(var i = 0; i < timetable.length; i++) {
+            for(var j = 0; j < timetable[i].length; j++) {
+              if(timetable[i][j] > 1) {
+                var isAddSuccess = 'duplicate'; // 시간 중복일 경우
+              }
+            }
+          }
+
+          if(isAddSuccess === 'success') {
+            infoList.save(function(err,document) {
+              if (err)
+                return console.error(err);
+              console.log('해당과목 저장 성공');
+              console.log(document)
+            });
+          }
+          res.send({msg: isAddSuccess});
         }
       })
     } else { // 두번째 페이지에서 올 경우
@@ -376,7 +510,7 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
     if (ar[i] == undefined || ar[i]=="undefined") {
-        ar[i] = "";
+      ar[i] = "";
     }
     else {
       switch (i) {

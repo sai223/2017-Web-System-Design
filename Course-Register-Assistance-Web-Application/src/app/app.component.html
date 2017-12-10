@@ -32,8 +32,9 @@
     </div>
   </div>
   <main>
-    <h1>Welcome to DoAjou!</h1>
-    <h2>로그아웃 상태에서 할 수 있는 것은?</h2>
+    <h2 style="text-align: center;">로그인이 필요합니다.</h2>
+    <h2 style="text-align: center;">로그인 후 사용해주세요.</h2>
+    <h2 style="text-align: center;">아이디가 없으시다면 회원가입 후 진행해주세요.</h2>
   </main>
 </ng-template>
 <ng-template #logInSugangTemplate>
@@ -43,14 +44,19 @@
   </div>
   <div>
     <ul>
-      <li id="sugang1" (click)="changeCurrentPage(1)" style="border-bottom: 3px solid black; background-color: ghostwhite;">수강신청</li>
-      <li id="sugang2" (click)="changeCurrentPage(2)">시간표 조회</li>
+      <li id="sugang1" (click)="changeCurrentPage(1)"
+          [style.border-bottom]="(currentPage === 1) ? '3px solid black' : '1px solid lightgray'"
+          [style.background-color]="(currentPage === 1) ? 'ghostwhite' : 'white'">수강신청</li>
+      <li id="sugang2" (click)="changeCurrentPage(2)"
+          [style.border-bottom]="(currentPage === 2) ? '3px solid black' : '1px solid lightgray'"
+          [style.background-color]="(currentPage === 2) ? 'ghostwhite' : 'white'">시간표 조회</li>
     </ul>
   </div>
   <app-suganglist *ngIf="sugangList"
                   [sugangList]="sugangList"
-                  (updateSugangList)="getAllSubject($event)">
-
+                  (updateSugangList)="getAllSubject($event)"
+                  (orderUp)="subjectOrderUp($event)"
+                  (orderDown)="subjectOrderDown($event)">
   </app-suganglist>
 </ng-template>
 <ng-template #logInTimetableTemplate>
@@ -61,8 +67,12 @@
     </div>
     <div>
       <ul>
-        <li (click)="changeCurrentPage(1)">수강신청</li>
-        <li (click)="changeCurrentPage(2)" style="border-bottom: 3px solid black; background-color: ghostwhite;">시간표 조회</li>
+        <li id="sugang1" (click)="changeCurrentPage(1)"
+            [style.border-bottom]="(currentPage === 1) ? '3px solid black' : '1px solid lightgray'"
+            [style.background-color]="(currentPage === 1) ? 'ghostwhite' : 'white'">수강신청</li>
+        <li id="sugang2" (click)="changeCurrentPage(2)"
+            [style.border-bottom]="(currentPage === 2) ? '3px solid black' : '1px solid lightgray'"
+            [style.background-color]="(currentPage === 2) ? 'ghostwhite' : 'white'">시간표 조회</li>
       </ul>
     </div>
     <app-engine [enrollList_T] = enrollList_T
