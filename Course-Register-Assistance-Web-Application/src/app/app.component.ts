@@ -28,6 +28,7 @@ export class  AppComponent implements OnInit {
     private httpService: HttpService,
   ) {}
   ngOnInit() {
+
     this.currentTemplate = this.logOutTemplate;
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
     this.httpService.analyzeSession().subscribe(result => {
@@ -35,7 +36,9 @@ export class  AppComponent implements OnInit {
         console.log('세션 유지 같은 브라우저 접속자: ' + JSON.parse(JSON.stringify(result)).userName);
         this.userName = JSON.parse(JSON.stringify(result)).userName;
         this.loginState = true;
-        this.currentPage = 1;
+
+        this.currentPage = JSON.parse(JSON.stringify(result)).page;
+
         this.page1Active = true;
          this.changeTemplate();
         this.getAllSubject();
@@ -80,6 +83,7 @@ export class  AppComponent implements OnInit {
     this.re_signUpPw = '';
   }
   changeTemplate() {
+
     if (this.loginState === false) {
       this.currentTemplate = this.logOutTemplate;
     }else {
@@ -87,9 +91,14 @@ export class  AppComponent implements OnInit {
         this.currentTemplate = this.logInSugangTemplate;
       }else if (this.currentPage === 2) {
         this.currentTemplate = this.logInTimetableTemplate;
+      } else {
+        this.currentPage = 1;
+        this.currentTemplate = this.logInSugangTemplate;
       }
+
     }
     this.currentView.destroy();
+    console.log('change5');
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
   }
   getAllSubject() {
@@ -132,6 +141,7 @@ export class  AppComponent implements OnInit {
         this.page1Active = true;
         this.page2Active = false;
         this.currentPage = 2;
+        this.httpService.pageSession(this.currentPage).subscribe();
         this.currentView.destroy();
         this.changeTemplate();
       }
@@ -140,6 +150,7 @@ export class  AppComponent implements OnInit {
         this.page1Active = false;
         this.page2Active = true;
         this.currentPage = 1;
+        this.httpService.pageSession(this.currentPage).subscribe();
         this.currentView.destroy();
         this.changeTemplate();
       }

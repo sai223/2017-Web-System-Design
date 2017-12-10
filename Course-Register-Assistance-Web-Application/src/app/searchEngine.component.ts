@@ -71,6 +71,14 @@ export class SearchEngineComponent implements OnInit {
     this.httpService.searchSubject(this.subjectType_2B, this.major_2B, this.day_2B,
       this.time_2B, this.subjectName_2B, this.professorName_2B)
       .subscribe(searchSubject => {
+
+        //console.log(searchSubject.major);
+          console.log(searchSubject, 'is upload!');
+
+          for(var i =0; i< Object.keys(searchSubject).length;i++){
+            console.log(searchSubject[i]);
+          }
+
         console.log(searchSubject);
         console.log(typeof searchSubject);
         for (let i = 0; i < Object.keys(searchSubject).length; i++) {
@@ -79,6 +87,7 @@ export class SearchEngineComponent implements OnInit {
         }
           console.log('this.tempList', this.tempList);
           this.searchList_T = this.tempList;
+
       });
   }
   // 수강신청항목에 추가하려고 하는 과목이 기존에 수강신청항목에 있던 과목들과 겹치는지 검사만 한다.

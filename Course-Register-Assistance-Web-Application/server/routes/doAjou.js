@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 const ClientInfo = require('../database/clientInfoModel');
 const SugangInfo = require('../database/sugangInfoModel');
 const SugangListbyUserModel = require('../database/sugangListbyUserModel');
+const TimeTableForUser = require('../database/timeTableForUser');
 
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/test');
@@ -212,16 +213,18 @@ router.get('/sessionCheck',function (req,res) {
     }
     if(!info){
       console.log('세션 발급');
-      const cliInfo = {userName: '', boolean: false};
-      res.send(cliInfo);
+      res.send({userName: '', boolean: false, page: 1});
     } else {
       console.log('현 세션 사용자의 이름: '+info.userName);
-      const cliInfo = {userName: info.userName, boolean: true};
-      res.send(cliInfo);
+      console.log('현패이지'+sess.page);
+
+      res.send({userName: info.userName, boolean: true, page: sess.page});
     }
   })
 });
-
+router.post('/sessionPage',function (req,res) { //req(page넘김)
+  sess.page = req.body.page; // session에 페이지 저장
+})
 // log-in 기능 --------------------------------------------------------------------------------
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
   //console.log(req.sessionID);
@@ -234,13 +237,14 @@ router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
     if(!info){ //로그인 정보가 틀렸을 경우
       const cliInfo= {userName: '', boolean: false};
       res.send(cliInfo);
-    } else{ // 로그인 정보가 맞는 경우
+    } else { // 로그인 정보가 맞는 경우
       sess.user_ID = info.userID; // 현 세션에 로그인한사람의 이름을 넣음
       console.log('로그인한 사용자의 이름: '+info.userName);
       console.log('세션 사용자의 이름: '+sess.user_ID);
       const cliInfo = {userName: info.userName, boolean: true} ;
       res.send(cliInfo);
     }
+
   })
 });
 // log-out 기능 --------------------------------------------------------------------------------
@@ -350,7 +354,7 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   ar[4] = req.body.subjectName_2B;
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
-    if (ar[i] == undefined) {
+    if (ar[i] == undefined || ar[i]=="undefined") {
         ar[i] = "";
     }
     else {
@@ -378,38 +382,64 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
     if (err) {
       return console.log("err " + err);
     }
-    console.log("정보: "+courseInfo);
+    console.log("정보: "+[courseInfo]);
     res.send(courseInfo);
   });
 })
-/*
-router.get('/getTime',function (req,res) { // 저장되어있던 시간값돌려줌
-  TimeInfo.find(function (err,time) { //time 돌려줄 저장값
+// 사용자 시간표 불러올 경우  -----------------------------------------------------------------------
+router.get('/getUserTimeTable',function (req,res) { //req(userID)
+  TimeTableForUser.findOne({userID: req.body.userID},function (err, timetableInfo) {
     if (err) {
       return console.log("err " + err);
     }
-    TimeInfo.findOneAndUpdate({_id: '5a268d0c8d1ca0e066f387d8'},{$set: {hour: "0",min: "0", sec: "0" }},function (err,time2) { //time2 다시 000설정
-      if (err) {
-        return console.log("err " + err);
-      }
-      console.log(time2);
-    })
-    console.log("보내기 전 time");
-    console.log(time);
-    //console.log("getTime: "+JSON.stringify(time.hour)+time.min+time.sec);
-    res.send(time);
-  })
-
-})
-router.post('/setTime',function (req,res) {
-  //console.log(req)
-
-  TimeInfo.findOneAndUpdate({hour: "0",min: "0", sec: "0"},{$set: {hour: req.body.hour,min: req.body.min, sec: req.body.sec }},function (err,time) {
+    var userTimeTable = {
+      Monday_R: timetableInfo.monday,
+      Tuesday_R: timetableInfo.tuesday,
+      Wednesday_R: timetableInfo.wednesday,
+      Thursday_R: timetableInfo.thursday,
+      Friday_R: timetableInfo.friday,
+    };
+    res.send(userTimeTable);
+  });
+});
+// 사용자 과목 추가할때  TimeTableForUser에 과목 추가 -----------------------------------------------------------------------
+router.post('/setUserTimeTable',function (req,res) { //req(suject, day)
+  TimeTableForUser.findOne({userID: req.body.userID},function (err, timetableInfo) {
     if (err) {
       return console.log("err " + err);
     }
-    res.send({});
+    if(!timetableInfo){ // 사용자 정보 없을경우
+
+      var userTimeTable = new TimeTableForUser({ //TimeTableForUser에 계정이 없을경우 새계정 저장
+        userID: req.body.userID,
+        monday: req.body.Monday_R,
+        tuesday: req.body.Tuesday_R,
+        wednesday: req.body.Wednesday_R,
+        thursday: req.body.Thursday_R,
+        friday: req.body.Friday_R,
+      });
+      userTimeTable.save(function (err,document) {
+        if (err)
+          return console.error(err);
+        console.log('타임태이블리스트 계정 추가: '+document );
+      });
+      res.send({});
+    } else { // 기존의 과목이 있고 업데이트가 필요할때
+
+      timetableInfo.monday = req.body.Monday_R;
+      timetableInfo.tuesday = req.body.Tuesday_R;
+      timetableInfo.wednesday = req.body.Wednesday_R;
+      timetableInfo.thursday = req.body.Thursday_R;
+      timetableInfo.friday= req.body.Friday_R;
+
+      timetableInfo.save(function (err,document) {
+        if (err)
+          return console.error(err);
+        console.log('기존계정 타임태이블리스트 변경: '+document);
+      });
+    }
   })
-})
-*/
+
+
+});
 module.exports = router;
