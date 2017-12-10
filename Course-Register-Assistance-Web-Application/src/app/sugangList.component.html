@@ -9,8 +9,13 @@
         <input class="sugangText" type="text" [(ngModel)]="currentSugangNumber" placeholder="과목 번호">
         <button class="sugangAddButton" (click)="addSugang()">추가</button>
       </div>
+      <div>
+        <img src="assets/upArrow.png" width=50px height=50px (click)="orderChange(true)">
+        <img src="assets/downArrow.png" width=50px height=50px (click)="orderChange(false)">
+      </div>
       <div id="contentDiv">
-        <div id="sugangDiv" *ngFor="let sugang of sugangList">
+        <div id="sugangDiv" *ngFor="let sugang of sugangList; let ii = index" (click)="setOrderSelectedSugang(ii)"
+             [style.background-color]="(ii === orderSelectedSugang) ? 'whitesmoke' : 'mintcream'">
           <span id="sugangX" (click)="deleteSugang(sugang.sugangNumber)">&times;</span>
           <div id="sugangInner1Div">
             <input class="sugangInput" margin-top=5px type="text" size="10" [value]="sugang.sugangName" readonly>

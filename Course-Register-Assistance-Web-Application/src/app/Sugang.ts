@@ -1,9 +1,7 @@
 export class Sugang {
-  priority: number;
   sugangName: string;
   sugangNumber: string;
-  constructor(p: number, sName: string, sNumber: string) {
-    this.priority = p;
+  constructor(sName: string, sNumber: string) {
     this.sugangName = sName;
     this.sugangNumber = sNumber;
   }

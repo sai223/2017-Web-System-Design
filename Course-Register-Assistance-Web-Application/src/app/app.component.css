@@ -140,7 +140,6 @@ li{
   text-align: center;
 }
 li:hover{
-  border-bottom: 3px solid mediumspringgreen;
   cursor: pointer;
 }
 #sugang1{
@@ -152,10 +151,6 @@ li:hover{
   text-decoration: none;
   text-align: center;
 }
-#sugang1:hover{
-   border-bottom: 3px solid mediumspringgreen;
-   cursor: pointer;
- }
 #sugang2{
   display:inline-block;
   float: left;
@@ -165,10 +160,6 @@ li:hover{
   text-decoration: none;
   text-align: center;
 }
-#sugang2:hover{
-   border-bottom: 3px solid mediumspringgreen;
-   cursor: pointer;
- }
 
 .p_name{
   float: right;
