@@ -27,6 +27,11 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   currentHour: number;
   currentMin: number;
   currentSec: number;
+
+  pad(n, width) {
+    n = n + '';
+    return n.length >= width ? n : new Array(width - n.length + 1).join('0') + n;
+  }
   ngOnInit() {
     let time;
     setInterval(() => {
@@ -34,7 +39,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
       this.currentHour = time.getHours();
       this.currentMin = time.getMinutes();
       this.currentSec = time.getSeconds();
-      this.currentTime = this.currentHour + ':' + this.currentMin + ':' + this.currentSec;
+      this.currentTime = this.currentHour + ':' + this.pad(this.currentMin,2) + ':' + this.pad(this.currentSec,2);
     }, 1000);
   }
   ngAfterViewInit() {

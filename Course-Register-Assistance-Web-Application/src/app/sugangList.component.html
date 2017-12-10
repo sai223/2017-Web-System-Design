@@ -30,11 +30,10 @@
       </div>
     </div>
     <div>
-      <input type="text" [(ngModel)]="alarmHour" size="2">:
-      <input type="text" [(ngModel)]="alarmMin" size="2">:
-      <input type="text" [(ngModel)]="alarmSec" size="2">
-      <button (click)="alarmOn()">알람 설정</button>
+      <input class="sugangText" type="text" [(ngModel)]="alarmHour" size="2" placeholder="hour"> 시
+      <input class="sugangText" type="text" [(ngModel)]="alarmMin" size="2" placeholder="min"> 분
+      <input class="sugangText" type="text" [(ngModel)]="alarmSec" size="2" placeholder="sec"> 초
+      <button class="alarmButton" (click)="alarmOn()">SET</button>
     </div>
   </div>
-
 </div>
