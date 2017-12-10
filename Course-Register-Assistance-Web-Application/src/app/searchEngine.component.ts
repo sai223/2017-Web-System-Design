@@ -71,19 +71,14 @@ export class SearchEngineComponent implements OnInit {
     this.httpService.searchSubject(this.subjectType_2B, this.major_2B, this.day_2B,
       this.time_2B, this.subjectName_2B, this.professorName_2B)
       .subscribe(searchSubject => {
-<<<<<<< HEAD
+
         //console.log(searchSubject.major);
           console.log(searchSubject, 'is upload!');
 
           for(var i =0; i< Object.keys(searchSubject).length;i++){
             console.log(searchSubject[i]);
           }
-          //this.searchList_T[0] = searchSubject[0];
-       // console.log("dddddd"+this.searchList_T);
-          //console.log("dddddd"+this.searchList_T[0]);
-        //console.log("dddddd"+this.searchList_T[1]);
 
-=======
         console.log(searchSubject);
         console.log(typeof searchSubject);
         for (let i = 0; i < Object.keys(searchSubject).length; i++) {
@@ -93,7 +88,7 @@ export class SearchEngineComponent implements OnInit {
         //this.searchList_T = searchSubject[0];
           console.log('this.tempList', this.tempList);
           this.searchList_T = this.tempList;
->>>>>>> a697d3625fbf394deefd88840854a5c8d34b47d7
+
       });
   }
   parseSubject(res: Response) {

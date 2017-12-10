@@ -213,16 +213,18 @@ router.get('/sessionCheck',function (req,res) {
     }
     if(!info){
       console.log('세션 발급');
-      const cliInfo = {userName: '', boolean: false};
-      res.send(cliInfo);
+      res.send({userName: '', boolean: false, page: 1});
     } else {
       console.log('현 세션 사용자의 이름: '+info.userName);
-      const cliInfo = {userName: info.userName, boolean: true};
-      res.send(cliInfo);
+      console.log('현패이지'+sess.page);
+
+      res.send({userName: info.userName, boolean: true, page: sess.page});
     }
   })
 });
-
+router.post('/sessionPage',function (req,res) { //req(page넘김)
+  sess.page = req.body.page; // session에 페이지 저장
+})
 // log-in 기능 --------------------------------------------------------------------------------
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
   //console.log(req.sessionID);
@@ -235,13 +237,14 @@ router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
     if(!info){ //로그인 정보가 틀렸을 경우
       const cliInfo= {userName: '', boolean: false};
       res.send(cliInfo);
-    } else{ // 로그인 정보가 맞는 경우
+    } else { // 로그인 정보가 맞는 경우
       sess.user_ID = info.userID; // 현 세션에 로그인한사람의 이름을 넣음
       console.log('로그인한 사용자의 이름: '+info.userName);
       console.log('세션 사용자의 이름: '+sess.user_ID);
       const cliInfo = {userName: info.userName, boolean: true} ;
       res.send(cliInfo);
     }
+
   })
 });
 // log-out 기능 --------------------------------------------------------------------------------
