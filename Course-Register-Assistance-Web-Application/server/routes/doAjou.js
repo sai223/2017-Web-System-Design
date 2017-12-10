@@ -46,12 +46,8 @@ SugangInfo.remove({}, function(err) {
   }
 );
 */
-<<<<<<< HEAD
 //-------------------------------------------------
-
-=======
 /*
->>>>>>> 8e1b597e9b046cd9864339d0fb25f47a4e7d5e90
 // DB에 Test Data 넣으실때 사용하세요
 // 계정 생성
 var ci = new ClientInfo();

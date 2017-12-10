@@ -73,30 +73,6 @@
   /*margin:0 auto;*/
   width:500px;
 }
-#alarmButton2Div{
-  position: absolute;
-  margin-top:50px;
-  vertical-align: middle;
-  /*margin:0 auto;*/
-
-  height:70px; width:500px;
-}
-#alarmButton3Div{
-  position: absolute;
-  margin-top:150px;
-  vertical-align: middle;
-  /*margin:0 auto;*/
-
-  height:70px; width:500px;
-}
-#alarmButton4Div{
-  position: absolute;
-  margin-top:250px;
-  vertical-align: middle;
-  /*margin:0 auto;*/
-
-  height:70px; width:500px;
-}
 
 #titleDiv{
   font-weight: bold;

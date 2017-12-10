@@ -19,7 +19,6 @@
             <input class="sugangInput" [attr.id]="'copy-' + sugang.priority" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
           </div>
           <img id="sugangCopy" src="assets/copy.png" width=15px height=15px (click)="copyClick(sugang.priority)">
-
         </div>
       </div>
     </div>
@@ -35,16 +34,6 @@
       <input type="text" [(ngModel)]="alarmMin" size="2">:
       <input type="text" [(ngModel)]="alarmSec" size="2">
       <button (click)="alarmOn()">알람 설정</button>
-    </div>
-
-    <div id="alarmButton2Div">
-      <button class="alarmButton" (click)="alarmOn10sec()">10초 알람 설정</button>
-    </div>
-    <div id="alarmButton3Div">
-      <button class="alarmButton" (click)="alarmOn30sec()">30초 알람 설정</button>
-    </div>
-    <div id="alarmButton4Div">
-      <button class="alarmButton" (click)="alarmOn1min()">1분 알람 설정</button>
     </div>
   </div>
 
