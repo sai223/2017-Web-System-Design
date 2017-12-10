@@ -6,6 +6,7 @@ const SugangInfo = require('../database/sugangInfoModel');
 const SugangListbyUserModel = require('../database/sugangListbyUserModel');
 const TimeTableForUser = require('../database/timeTableForUser');
 
+
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;
@@ -19,8 +20,7 @@ db.on('connected', function() {
 });
 
 
-/*
->>>>>>> d74f8eb755f6273ee69662b28776c0237cddefc6
+
 //DB 초기화 하실때 사용하세요 지울때
 /*
 ClientInfo.remove({}, function(err) {
@@ -48,7 +48,7 @@ SugangInfo.remove({}, function(err) {
     }
   }
 );
-<<<<<<< HEAD
+
 
 // 시간표 테이블 비우기
 TimeTableForUser.remove({}, function(err) {
@@ -59,10 +59,43 @@ TimeTableForUser.remove({}, function(err) {
     }
   }
 );
-=======
->>>>>>> d74f8eb755f6273ee69662b28776c0237cddefc6
 */
 //-------------------------------------------------
+// DB에 Test Data 넣으실때 사용하세요
+// 과목 생성
+/*
+var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
+  professorName: '김응기', credit: 3, subjectNumber: 'A123'});
+var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
+  professorName: '손경아', credit: 3, subjectNumber: 'B123'});
+var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화A 금C', time: 60, subjectName: '컴퓨터네트워크',
+  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
+var si3 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '수C 수D', time: 60, subjectName: '과목1',
+  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
+
+si.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('선형대수 강의 생성');
+});
+si1.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('알고리즘 강의 생성');
+});
+si2.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('컴네 강의 생성');
+});
+si3.save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('과목1 강의 생성');
+});
+*/
+//-------------------------------------------------
+
 /*
 // DB에 Test Data 넣으실때 사용하세요
 // 계정 생성
@@ -103,32 +136,6 @@ ci3.save(function(err,document) {
   console.log('계정 이인태생성');
 })
 
-// DB에 Test Data 넣으실때 사용하세요
-// 과목 생성
-/*
-var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
-  professorName: '김응기', credit: 3, subjectNumber: 'A123'});
-var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
-  professorName: '손경아', credit: 3, subjectNumber: 'B123'});
-var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화A 금C', time: 60, subjectName: '컴퓨터네트워크',
-  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
-si.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('선형대수 강의 생성');
-});
-si1.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('알고리즘 강의 생성');
-});
-si2.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('컴네 강의 생성');
-});
-
-//-------------------------------------------------
 // DB에 Test Data 조회할때 사용하세요
 // 수강과목 조회
 /*
@@ -143,13 +150,6 @@ SugangInfo.find(function (err,info) {
 
 
 /*
----------------------------------------------------------------------*/
-/*
-
-*/
-//-------------------------------------------------
-/*
-
 //-------------------------------------------------
 // DB에 Test Data 조회할때 사용하세요
 // 고객정보 조회
@@ -242,7 +242,8 @@ router.get('/sessionCheck',function (req,res) {
 });
 router.post('/sessionPage',function (req,res) { //req(page넘김)
   sess.page = req.body.page; // session에 페이지 저장
-})
+  res.send({});
+});
 // log-in 기능 --------------------------------------------------------------------------------
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
   //console.log(req.sessionID);
@@ -272,6 +273,7 @@ router.get('/logout',function (req,res) { //세션 파괴만하면 될듯 //
 });
 // 접속자의 과목리스트 불러오기 -----------------------------------------------------------------------
 router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
+  console.log('[getSubject]req.session.user_ID',req.session.user_ID);
   console.log('getallsubject');
   SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
     if (err) {
@@ -296,6 +298,7 @@ router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
 // 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
 router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
   console.log('addsubject');
+
   SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인
     if (err) {
       return console.log("err " + err);
@@ -406,27 +409,60 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
 })
 // 사용자 시간표 불러올 경우  -----------------------------------------------------------------------
 router.get('/getUserTimeTable',function (req,res) { //req(userID)
-  console.log('!21211212');
-  TimeTableForUser.findOne({userID: req.session.userID},function (err, timetableInfo) {
+  console.log('[getUserTimeTable]req.session.user_ID',req.session.user_ID);
+  TimeTableForUser.findOne({userID: req.session.user_ID},function (err, timetableInfo) {
     if (err) {
       return console.log("err " + err);
     }
-    //console.log('TimetableINFO',timetableInfo);
+    console.log('TimetableINFO',timetableInfo);
+    console.log('req.session.userID',req.session.user_ID);
     if(timetableInfo === null){
-      var userTimeTable = new TimeTableForUser({ //TimeTableForUser에 계정이 없을경우 새계정 저장
-        userID: req.body.userID,
+      console.log("timetableInfo === null");
+      Mon = new Array();
+      Tue = new Array();
+      Wed = new Array();
+      Thur = new Array();
+      Fri = new Array();
+      numbering = new Array();
+      for (var i = 0; i < 48; i++) {
+        Mon.push({numbering: 0, isFirst: false, itemName: ''});
+        Tue.push({numbering: 0, isFirst: false, itemName: ''});
+        Wed.push({numbering: 0, isFirst: false, itemName: ''});
+        Thur.push({numbering: 0, isFirst: false, itemName: ''});
+        Fri.push({numbering: 0, isFirst: false, itemName: ''});
+      }
+      for( var j=0; j<8; j++){
+        numbering.push(false);
+      }
+      var newUser = new TimeTableForUser();
+      newUser.userID = req.session.user_ID;
+      newUser.monday =  Mon;
+      newUser.tuesday = Tue;
+      newUser.wednesday = Wed;
+      newUser.thursday = Thur;
+      newUser.friday = Fri;
+      newUser.numberingArray = numbering;
+      newUser.save(function (err) {
+        if (err) return console.error(err);
+        console.log(' 계정 추가');
+      });
+      res.send(newUser);
+      //res.send({});
+
+      /*var userTimeTable = new TimeTableForUser({ //TimeTableForUser에 계정이 없을경우 새계정 저장
+        userID: req.session.user_ID,
         monday: req.body.Monday_R,
         tuesday: req.body.Tuesday_R,
         wednesday: req.body.Wednesday_R,
         thursday: req.body.Thursday_R,
         friday: req.body.Friday_R,
       });
-      userTimeTable.save(function (err,document) {
-        if (err)
-          return console.error(err);
-        console.log('타임태이블리스트 계정 추가');
+      userTimeTable.save(function (err) {
+        if (err) return console.error(err);
+        console.log(' 계정 추가');
       });
-      res.send(null);
+      res.send({});
+      */
     }
     else{
       var userTimeTable = {
@@ -435,53 +471,44 @@ router.get('/getUserTimeTable',function (req,res) { //req(userID)
         Wednesday_R: timetableInfo.wednesday,
         Thursday_R: timetableInfo.thursday,
         Friday_R: timetableInfo.friday,
+        numberingArray: timetableInfo.numberingArray
       };
+      //console.log("timetableInfo === null 아니고 ",userTimeTable);
       res.send(userTimeTable);
     }
 
   });
 });
+// 사용자가 과목 처음 추가할 때 TimeTableForUser 초기화 시키기
+router.post('/createTimeTable', function (req,res) {
+  var userTimeTable = new TimeTableForUser();
+  userTimeTable.userID = req.session.user_ID;
+  userTimeTable.monday =  req.body.Monday_R;
+  userTimeTable.tuesday = req.body.Tuesday_R;
+  userTimeTable.wednesday = req.body.Wednesday_R;
+  userTimeTable.thursday = req.body.Thursday_R;
+  userTimeTable.friday = req.body.Friday_R;
+  userTimeTable.numberingArray = req.body.numberingArray;
+  userTimeTable.save(function (err) {
+    if (err) return console.error(err);
+    console.log(req.session.user_ID,'CREATED');
+  });
+  res.send({}); // 아무 의미 없음
+});
+
 // 사용자 과목 추가할때  TimeTableForUser에 과목 추가 -----------------------------------------------------------------------
-router.post('/setUserTimeTable',function (req,res) {
+router.post('/updateUserTimeTable',function (req,res) {
   console.log("setuse--------------------------r");
   //req(suject, day)
-  TimeTableForUser.findOne({userID: req.session.userID},function (err, timetableInfo) {
-    if (err) {
-      return console.log("err " + err);
-    }
-    if(!timetableInfo){ // 사용자 정보 없을경우
-
-      var userTimeTable = new TimeTableForUser({ //TimeTableForUser에 계정이 없을경우 새계정 저장
-        userID: req.body.userID,
-        monday: req.body.Monday_R,
-        tuesday: req.body.Tuesday_R,
-        wednesday: req.body.Wednesday_R,
-        thursday: req.body.Thursday_R,
-        friday: req.body.Friday_R,
-      });
-      userTimeTable.save(function (err,document) {
-        if (err)
-          return console.error(err);
-        console.log('타임태이블리스트 계정 update추가');
-      });
-      res.send({});
-    } else { // 기존의 과목이 있고 업데이트가 필요할때
-
-      timetableInfo.monday = req.body.Monday_R;
-      timetableInfo.tuesday = req.body.Tuesday_R;
-      timetableInfo.wednesday = req.body.Wednesday_R;
-      timetableInfo.thursday = req.body.Thursday_R;
-      timetableInfo.friday= req.body.Friday_R;
-
-      timetableInfo.save(function (err,document) {
-        if (err)
-          return console.error(err);
-        //console.log('기존계정 타임태이블리스트 변경: '+document);
-        res.send({});
-      });
-    }
-  })
-
-
+  // 기존의 과목이 있고 업데이트가 필요할때
+  TimeTableForUser.findOneAndUpdate({userID: req.session.user_ID},
+    {monday: req.body.Monday_R, tuesday: req.body.Tuesday_R, wednesday : req.body.Wednesday_R,
+      thursday : req.body.Thursday_R, friday: req.body.Friday_R,
+      numberingArray : req.body.numberingArray}
+    ,function (err) {
+    if (err) return console.log("err " + err);
+    console.log(req.body.user_ID,'MODIFIED');
+    res.send({});
+  });
 });
 module.exports = router;
