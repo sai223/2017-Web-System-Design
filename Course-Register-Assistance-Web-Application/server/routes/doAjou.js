@@ -17,7 +17,7 @@ db.on('error', function(err) {
 db.on('connected', function() {
   console.log("Connected successfully to server");
 });
-//-------------------------------------------------
+
 /*
 //DB 초기화 하실때 사용하세요 지울때
 ClientInfo.remove({}, function(err) {
@@ -28,6 +28,7 @@ ClientInfo.remove({}, function(err) {
     }
   }
 );
+
 SugangListbyUserModel.remove({}, function(err) {
     if (err) {
       console.log(err)
@@ -44,8 +45,7 @@ SugangInfo.remove({}, function(err) {
     }
   }
 );
-
-//-------------------------------------------------
+*/
 /*
 // DB에 Test Data 넣으실때 사용하세요
 // 계정 생성
@@ -85,10 +85,10 @@ ci3.save(function(err,document) {
     return console.error(err);
   console.log('계정 이인태생성');
 })
-//-------------------------------------------------
+
 // DB에 Test Data 넣으실때 사용하세요
 // 과목 생성
-
+/*
 var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
   professorName: '김응기', credit: 3, subjectNumber: 'A123'});
 var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',

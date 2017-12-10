@@ -124,8 +124,10 @@ export class AppComponent implements OnInit {
         if (result['boolean'] === false) {
           alert('이미 존재하는 아이디 입니다.');
         }else {
+          alert('회원가입 완료');
           this.currentView.destroy();
-          this.changeTemplate();
+          this.currentTemplate = this.logOutTemplate;
+          this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
         }
         this.clearSignupModal();
       });
