@@ -1,7 +1,9 @@
 header {
   height: 80px;
-  width: 100%;
   background-color: dodgerblue;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 10px;
 }
 header p{
   text-align: center;
@@ -10,7 +12,8 @@ header p{
   color: white;
 }
 #changingDiv{
-  width: 80%;
+  width: 100%;
+  margin: 0 auto;
 }
 .h_btn{
   float: right;
@@ -118,22 +121,32 @@ header p{
   cursor: pointer;
 }
 ul{
+  text-align: center;
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: white;
+  border-bottom: 1px solid lightgray;
+  box-sizing: border-box;
 }
 li{
+  display: inline;
   float: left;
   width: 50%;
-  display: block;
   color: black;
-  text-align: center;
   padding: 16px;
   text-decoration: none;
+  text-align: center;
 }
 li:hover{
-  border-bottom: 2px solid mediumspringgreen;
+  border-bottom: 3px solid mediumspringgreen;
   cursor: pointer;
+}
+.p_name{
+  float: right;
+  font-size: 20px;
+}
+.p_name b{
+  font-size: 25px;
 }

@@ -43,9 +43,9 @@ SugangInfo.remove({}, function(err) {
     }
   }
 );
-
+*/
 //-------------------------------------------------
-/*
+
 // DB에 Test Data 넣으실때 사용하세요
 // 계정 생성
 var ci = new ClientInfo();
@@ -109,7 +109,7 @@ si2.save(function(err,document) {
     return console.error(err);
   console.log('컴네 강의 생성');
 });
-*/
+
 //-------------------------------------------------
 // DB에 Test Data 조회할때 사용하세요
 // 수강과목 조회
