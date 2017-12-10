@@ -16,8 +16,6 @@ export class AppComponent implements OnInit {
   @ViewChild('logOutTemplate') logOutTemplate: TemplateRef<any>;
   enrollList_T: Subject[] = [];
   sugangList: Sugang[] = [];
-  list_1_style: string;
-  list_2_style: string;
   currentPage: number; // 1: 수강신청 페이지, 2: 시간표 조회 페이지
   loginState: boolean; // true: 로그인 상태, false: 로그아웃 상태
   userID: string;
@@ -40,22 +38,13 @@ export class AppComponent implements OnInit {
         this.loginState = true;
 
         this.currentPage = JSON.parse(JSON.stringify(result)).page;
-        this.changeListCSS();
+
         this.changeTemplate();
         this.getAllSubject();
       } else {
         console.log('첫접속 브라우저');
       }
     });
-  }
-  changeListCSS() {
-    if (this.currentPage === 1) {
-      this.list_1_style = '.li_selected';
-      this.list_2_style = '.li_unselected';
-    }else if (this.currentPage === 2) {
-      this.list_1_style = '.li_unselected';
-      this.list_2_style = 'li_selected';
-    }
   }
   handleLogInOut(flag: boolean) {
     if (flag === true) { // logout -> login
@@ -104,7 +93,6 @@ export class AppComponent implements OnInit {
         this.currentTemplate = this.logInTimetableTemplate;
       } else {
         this.currentPage = 1;
-        this.changeListCSS();
         this.currentTemplate = this.logInSugangTemplate;
       }
     }
@@ -150,7 +138,6 @@ export class AppComponent implements OnInit {
     if (this.currentPage === 1) {
       if (no !== 1) {
         this.currentPage = 2;
-        this.changeListCSS();
         this.httpService.pageSession(this.currentPage).subscribe();
         this.currentView.destroy();
         this.changeTemplate();
@@ -158,7 +145,6 @@ export class AppComponent implements OnInit {
     }else if (this.currentPage === 2) {
       if (no !== 2) {
         this.currentPage = 1;
-        this.changeListCSS();
         this.httpService.pageSession(this.currentPage).subscribe();
         this.currentView.destroy();
         this.changeTemplate();
