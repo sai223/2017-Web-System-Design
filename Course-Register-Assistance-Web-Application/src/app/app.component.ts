@@ -10,7 +10,7 @@ import {Sugang} from './Sugang';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class  AppComponent implements OnInit {
   @ViewChild('logInSugangTemplate') logInSugangTemplate: TemplateRef<any>;
   @ViewChild('logInTimetableTemplate') logInTimetableTemplate: TemplateRef<any>;
   @ViewChild('logOutTemplate') logOutTemplate: TemplateRef<any>;
@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
         this.loginState = true;
         this.currentPage = 1;
         this.page1Active = true;
-        this.changeTemplate();
+         this.changeTemplate();
         this.getAllSubject();
       } else {
         console.log('첫접속 브라우저');

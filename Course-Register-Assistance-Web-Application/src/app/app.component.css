@@ -1,6 +1,6 @@
 header {
   height: 80px;
-  background-color: dodgerblue;
+  background-image: linear-gradient(-225deg, #5D9FFF 0%, #B8DCFF 48%, #6BBBFF 100%);
   box-sizing: border-box;
   width: 100%;
   margin-bottom: 10px;
@@ -149,4 +149,7 @@ li:hover{
 }
 .p_name b{
   font-size: 25px;
+}
+#timetableScreen{
+  width: 100%;
 }

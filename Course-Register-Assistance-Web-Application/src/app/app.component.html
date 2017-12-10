@@ -54,18 +54,20 @@
   </app-suganglist>
 </ng-template>
 <ng-template #logInTimetableTemplate>
-  <div>
-    <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
-    <p class="p_name"><b>{{userName}}</b>님 안녕하세요.</p>
+  <div id="timetableScreen">
+    <div>
+      <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
+      <p class="p_name"><b>{{userName}}</b>님 안녕하세요.</p>
+    </div>
+    <div>
+      <ul>
+        <li (click)="changeCurrentPage(1)">수강신청</li>
+        <li (click)="changeCurrentPage(2)">시간표 조회</li>
+      </ul>
+    </div>
+    <app-engine [enrollList_T] = enrollList_T
+                (reflectEnrollListEvent) = reflectEnrollList_T($event);
+                (updateSugangList) ="getAllSubject($event)"
+    ></app-engine>
   </div>
-  <div>
-    <ul>
-      <li (click)="changeCurrentPage(1)">수강신청</li>
-      <li (click)="changeCurrentPage(2)">시간표 조회</li>
-    </ul>
-  </div>
-  <app-engine [enrollList_T] = enrollList_T
-              (reflectEnrollListEvent) = reflectEnrollList_T($event);
-              (updateSugangList) ="getAllSubject($event)"
-  ></app-engine>
 </ng-template>

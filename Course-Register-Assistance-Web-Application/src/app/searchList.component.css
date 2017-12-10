@@ -26,6 +26,9 @@ table.listTable td {
   vertical-align: top;
   border-bottom: 1px solid #ccc;
 }
+h3{
+  font-family: "맑은 고딕";
+}
 
 .click{
   background-color: greenyellow;
