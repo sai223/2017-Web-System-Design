@@ -3,20 +3,20 @@
 </header>
 
 <ng-template #logOutTemplate>
-  <div id="changingDiv">
-    <button class="h_btn" onclick="document.getElementById('signupModal').style.display='block'">회원가입</button>
-    <button class="h_btn" onclick="document.getElementById('loginModal').style.display='block'">로그인</button>
-    <div class="modalDiv">
-      <div id="loginModal" class="modal">
-        <div class="modal-content">
-          <span class="modal-close" onclick="document.getElementById('loginModal').style.display='none'" (click)="clearLoginModal()">&times;</span>
-          <h1>로그인</h1><br>
-          <input type="text" [(ngModel)]="userID" placeholder="아이디">
-          <input type="password" [(ngModel)]="userPassword" placeholder="비밀번호">
-          <button (click)="handleLogInOut(true)" onclick="document.getElementById('loginModal').style.display='none'">확인</button>
+    <div id="changingDiv">
+      <button class="h_btn" onclick="document.getElementById('signupModal').style.display='block'">회원가입</button>
+      <button class="h_btn" onclick="document.getElementById('loginModal').style.display='block'">로그인</button>
+      <div class="modalDiv">
+        <div id="loginModal" class="modal">
+          <div class="modal-content">
+            <span class="modal-close" onclick="document.getElementById('loginModal').style.display='none'" (click)="clearLoginModal()">&times;</span>
+            <h1>로그인</h1><br>
+            <input type="text" [(ngModel)]="userID" placeholder="아이디">
+            <input type="password" [(ngModel)]="userPassword" placeholder="비밀번호">
+            <button (click)="handleLogInOut(true)" onclick="document.getElementById('loginModal').style.display='none'">확인</button>
+          </div>
         </div>
       </div>
-    </div>
     <div class="modalDiv">
       <div id="signupModal" class="modal">
         <div class="modal-content">
@@ -37,12 +37,16 @@
   </main>
 </ng-template>
 <ng-template #logInSugangTemplate>
-  <b>{{userName}}</b>님 안녕하세요.
-  <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
-  <ul>
-    <li (click)="changeCurrentPage(1)">수강신청</li>
-    <li (click)="changeCurrentPage(2)">시간표 조회</li>
-  </ul>
+  <div>
+    <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
+    <p class="p_name"><b>{{userName}}</b>님 안녕하세요.</p>
+  </div>
+  <div>
+    <ul>
+      <li (click)="changeCurrentPage(1)">수강신청</li>
+      <li (click)="changeCurrentPage(2)">시간표 조회</li>
+    </ul>
+  </div>
   <app-suganglist *ngIf="sugangList"
                   [sugangList]="sugangList"
                   (updateSugangList)="getAllSubject($event)">
@@ -50,12 +54,16 @@
   </app-suganglist>
 </ng-template>
 <ng-template #logInTimetableTemplate>
-  <b>{{userName}}</b>님 안녕하세요.
-  <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
-  <ul>
-    <li (click)="changeCurrentPage(1)">수강신청</li>
-    <li (click)="changeCurrentPage(2)">시간표 조회</li>
-  </ul>
+  <div>
+    <button class="h_btn" (click)="handleLogInOut(false)">로그아웃</button>
+    <p class="p_name"><b>{{userName}}</b>님 안녕하세요.</p>
+  </div>
+  <div>
+    <ul>
+      <li (click)="changeCurrentPage(1)">수강신청</li>
+      <li (click)="changeCurrentPage(2)">시간표 조회</li>
+    </ul>
+  </div>
   <app-engine [enrollList_T] = enrollList_T
               (reflectEnrollListEvent) = reflectEnrollList_T($event);
               (updateSugangList) ="getAllSubject($event)"
