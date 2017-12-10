@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
     private httpService: HttpService,
   ) {}
   ngOnInit() {
+
     this.currentTemplate = this.logOutTemplate;
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
     this.httpService.analyzeSession().subscribe(result => {
@@ -35,6 +36,10 @@ export class AppComponent implements OnInit {
         console.log('세션 유지 같은 브라우저 접속자: ' + JSON.parse(JSON.stringify(result)).userName);
         this.userName = JSON.parse(JSON.stringify(result)).userName;
         this.loginState = true;
+
+        this.currentPage = JSON.parse(JSON.stringify(result)).page;
+
+        this.page1Active = true;
         this.changeTemplate();
         this.getAllSubject();
       } else {
@@ -78,16 +83,22 @@ export class AppComponent implements OnInit {
     this.re_signUpPw = '';
   }
   changeTemplate() {
+
     if (this.loginState === false) {
       this.currentTemplate = this.logOutTemplate;
     }else {
       if (this.currentPage === 1) {
         this.currentTemplate = this.logInSugangTemplate;
-      }else {
+      }else if (this.currentPage === 2) {
         this.currentTemplate = this.logInTimetableTemplate;
+      } else {
+        this.currentPage = 1;
+        this.currentTemplate = this.logInSugangTemplate;
       }
+
     }
     this.currentView.destroy();
+    console.log('change5');
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
   }
   getAllSubject() {
@@ -113,8 +124,10 @@ export class AppComponent implements OnInit {
         if (result['boolean'] === false) {
           alert('이미 존재하는 아이디 입니다.');
         }else {
+          alert('회원가입 완료');
           this.currentView.destroy();
-          this.changeTemplate();
+          this.currentTemplate = this.logOutTemplate;
+          this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
         }
         this.clearSignupModal();
       });
@@ -122,11 +135,27 @@ export class AppComponent implements OnInit {
       alert('동일한 비밀번호를 입력하세요.');
     }
   }
+  page1Active: boolean = false;
+  page2Active: boolean = false;
   changeCurrentPage(no: number) {
-    if (this.currentPage !== no) {
-      this.currentPage = no;
-      this.currentView.destroy();
-      this.changeTemplate();
+    if (this.currentPage === 1) {
+      if (no !== 1) {
+        this.page1Active = true;
+        this.page2Active = false;
+        this.currentPage = 2;
+        this.httpService.pageSession(this.currentPage).subscribe();
+        this.currentView.destroy();
+        this.changeTemplate();
+      }
+    }else if (this.currentPage === 2) {
+      if (no !== 2) {
+        this.page1Active = false;
+        this.page2Active = true;
+        this.currentPage = 1;
+        this.httpService.pageSession(this.currentPage).subscribe();
+        this.currentView.destroy();
+        this.changeTemplate();
+      }
     }
   }
   reflectEnrollList_T(enrollList: Subject[]) {

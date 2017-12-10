@@ -16,6 +16,9 @@ export class HttpService {
   analyzeSession() { // 페이지 시작할때 세션 유무 확인하기
     return this.http.get('/sessionCheck');
   }
+  pageSession(p) { // 세션에 마지막 페이지  알려주기
+    return this.http.post('/sessionPage', { page: p });
+  }
   getAllSubjects() {
     console.log('겟올섭젝');
     return this.http.get('/getAllSubjects');
