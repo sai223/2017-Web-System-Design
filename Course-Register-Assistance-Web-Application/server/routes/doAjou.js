@@ -497,7 +497,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
               console.log(document)
             });
           }
-          res.send({msg: isAddSuccess});
+          res.send({msg: isAddSuccess, courseInfo: courseInfo});
         }
       })
     } else { // 두번째 페이지에서 올 경우
@@ -534,7 +534,13 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
     }
     console.log('Delete 완료')
     //res로 뭘줘야지
-    res.send({});
+    SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err,courseInfo) {
+      if (err) {
+        return console.log("err " + err);
+      }
+      console.log("과목정보존재");
+      res.send({CourseInfo: courseInfo});
+    })
   })
 })
 // 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
@@ -685,4 +691,5 @@ router.post('/updateUserTimeTable',function (req,res) {
     res.send({});
   });
 });
+
 module.exports = router;
