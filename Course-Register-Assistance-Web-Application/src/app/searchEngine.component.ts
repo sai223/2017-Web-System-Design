@@ -81,6 +81,7 @@ export class SearchEngineComponent implements OnInit {
 
         console.log(searchSubject);
         console.log(typeof searchSubject);
+        this.tempList = [];
         for (let i = 0; i < Object.keys(searchSubject).length; i++) {
           console.log('searchSubject[i]', searchSubject[i]);
           this.tempList.push(searchSubject[i]);
