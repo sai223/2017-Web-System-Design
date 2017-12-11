@@ -44,7 +44,7 @@ export class SearchEngineComponent implements OnInit {
     this.subjectNumbering = 1;
     this.selectedSubject = new Subject();
     // 조회버튼을 누를 때 서버에 전송되는 Subject 객체
-    this.searchList_T = Subjects;
+    // this.searchList_T = Subjects;
     console.log(this.searchList_T);
     // 각 요일 배열이 48칸인 이유
     // 한 칸당 15분(쉬는 시간 고려)

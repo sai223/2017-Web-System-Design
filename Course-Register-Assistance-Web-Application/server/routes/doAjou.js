@@ -61,6 +61,47 @@ TimeTableForUser.remove({}, function(err) {
 */
 
 // DB에 Test Data 넣으실때 사용하세요
+
+//추가 과목 생성
+/*
+new SugangInfo({subjectType: '교양선택',major: '심리학과', subjectTime: '월D 목D', time: 3, subjectName: '발표와 토의',
+  professorName: '최용찬', credit: 3, subjectNumber: 'X100'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+new SugangInfo({subjectType: '전공필수',major: '소프트웨어학과', subjectTime: '화A 수A', time: 3, subjectName: '인공지능',
+  professorName: '김민구', credit: 3, subjectNumber: 'X101'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+
+new SugangInfo({subjectType: '전공필수',major: '소프트웨어학과', subjectTime: '화F 목F', time: 3, subjectName: '컴퓨터 비전',
+  professorName: '황원준', credit: 3, subjectNumber: 'X102'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+
+new SugangInfo({subjectType: '교양선택',major: '소프트웨어학과', subjectTime: '월5 목9', time: 3, subjectName: '데이터베이스',
+  professorName: '최용찬', credit: 3, subjectNumber: 'X103'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+new SugangInfo({subjectType: '교양선택',major: '심리학과', subjectTime: '금7 금8', time: 3, subjectName: '데이터 마이닝',
+  professorName: '손경아', credit: 3, subjectNumber: 'X104'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+*/
+
 // 과목 생성
 /*
 var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
