@@ -3,6 +3,7 @@ import {Input, Component, ElementRef, AfterViewInit,
 
 import {Sugang} from './Sugang';
 import {HttpService} from './http-service';
+import {NotifyService} from './notify-service';
 
 import 'assets/javascript/copyToClipboardService.js';
 declare var copyServiceObject: any;
@@ -20,7 +21,8 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   @Output() orderDown = new EventEmitter();
   constructor(
     private elementRef: ElementRef,
-    private httpService: HttpService
+    private httpService: HttpService,
+    private notifyService: NotifyService
   ) {}
   currentSugangName: string;
   currentSugangNumber: string;
@@ -58,6 +60,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
         // app.component에 보낸다. 그러면 app.component에서 getAllSubject해서 업데이트 함.
         this.currentSugangName = '';
         this.currentSugangNumber = '';
+        this.notifyService.notifyOther({func: 'add', courseInfo: result['courseInfo']});
         this.updateSugangList.emit();
       }else if (result['msg'] == 'wrong') {
         // 안보내고, 오류 메세지 띄운다.
@@ -72,6 +75,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   }
   deleteSugang(no: string) {
     this.httpService.deleteSubject(no).subscribe(result => {
+      this.notifyService.notifyOther({func: 'delete', courseInfo: result['courInfo']});
       this.updateSugangList.emit();
     });
   }

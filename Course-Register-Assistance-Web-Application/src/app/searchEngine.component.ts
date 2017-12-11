@@ -5,13 +5,13 @@ import { HttpService} from './http-service';
 import 'rxjs/add/operator/map';
 import {TableItem} from './tableItem';
 
-@Component({
-  selector: 'app-engine',
-  templateUrl: './searchEngine.component.html',
-  styleUrls: ['./searchEngine.component.css']
-})
+  @Component({
+    selector: 'app-engine',
+    templateUrl: './searchEngine.component.html',
+    styleUrls: ['./searchEngine.component.css']
+  })
 
-export class SearchEngineComponent implements OnInit {
+  export class SearchEngineComponent implements OnInit {
   searchList_T: Subject[] = [];
   tempList: Subject[] = [];
   selectedSubject: Subject;
