@@ -7,6 +7,7 @@ const SugangListbyUserModel = require('../database/sugangListbyUserModel');
 const TimeTableForUser = require('../database/timeTableForUser');
 
 
+
 mongoose.Promise = global.Promise
 mongoose.connect('mongodb://localhost/test');
 var db = mongoose.connection;

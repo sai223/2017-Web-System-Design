@@ -4,16 +4,14 @@ import {Subjects} from './mock.subjectList';
 import { HttpService} from './http-service';
 import 'rxjs/add/operator/map';
 import {TableItem} from './tableItem';
-import {NotifyService} from './notify-service';
-import {Subscription} from 'rxjs/Subscription';
 
 @Component({
-    selector: 'app-engine',
-    templateUrl: './searchEngine.component.html',
-    styleUrls: ['./searchEngine.component.css']
-  })
+  selector: 'app-engine',
+  templateUrl: './searchEngine.component.html',
+  styleUrls: ['./searchEngine.component.css']
+})
 
-  export class SearchEngineComponent implements OnInit {
+export class SearchEngineComponent implements OnInit {
   searchList_T: Subject[] = [];
   tempList: Subject[] = [];
   selectedSubject: Subject;
@@ -38,17 +36,9 @@ import {Subscription} from 'rxjs/Subscription';
   initItem: TableItem;
   @Output() reflectEnrollListEvent: EventEmitter<Subject[]> = new EventEmitter();
   @Output() updateSugangList = new EventEmitter();
-  constructor(private httpService: HttpService, private subscription: Subscription, private notifyService: NotifyService) {
+  constructor(private httpService: HttpService) {
   }
   ngOnInit() {
-    this.subscription = this.notifyService.notifyObservable$.subscribe((res) => {
-      if (res.func === 'add'){
-        this.fillDayArrayALL(res.courseInfo);
-      }
-      else if(res.func === 'delete'){
-        this.deleteSubject(res.courseInfo);
-      }
-    });
     // 과목 등록할 때 그 과목에 대해 부여하는 숫자
     // 요일 배열을 채울 때 사용
     this.subjectNumbering = 1;
@@ -68,9 +58,9 @@ import {Subscription} from 'rxjs/Subscription';
       this.Friday.push({numbering: 0, isFirst: false, itemName: ''});
     }*/
     // 넘버링숫자를 1~8 까지만 주기 위함
-   /* for (let n = 0; n < 8; n++) {
-      this.numberingArray.push(false);
-    }*/
+    /* for (let n = 0; n < 8; n++) {
+       this.numberingArray.push(false);
+     }*/
   }
   // 조회버튼을 누르면 실행되는 메소드
   // 아직 html 상에 넣지 않음
@@ -83,11 +73,11 @@ import {Subscription} from 'rxjs/Subscription';
       .subscribe(searchSubject => {
 
         //console.log(searchSubject.major);
-          console.log(searchSubject, 'is upload!');
+        console.log(searchSubject, 'is upload!');
 
-          for (var i = 0; i < Object.keys(searchSubject).length; i++){
-            console.log(searchSubject[i]);
-          }
+        for (var i = 0; i < Object.keys(searchSubject).length; i++){
+          console.log(searchSubject[i]);
+        }
 
         console.log(searchSubject);
         console.log(typeof searchSubject);
@@ -96,8 +86,8 @@ import {Subscription} from 'rxjs/Subscription';
           console.log('searchSubject[i]', searchSubject[i]);
           this.tempList.push(searchSubject[i]);
         }
-          console.log('this.tempList', this.tempList);
-          this.searchList_T = this.tempList;
+        console.log('this.tempList', this.tempList);
+        this.searchList_T = this.tempList;
       });
   }
   // 수강신청항목에 추가하려고 하는 과목이 기존에 수강신청항목에 있던 과목들과 겹치는지 검사만 한다.
@@ -289,7 +279,7 @@ import {Subscription} from 'rxjs/Subscription';
   }
   addSubjectToDB(subject: Subject) {
     this.httpService.addSubject(false, subject.subjectName, subject.subjectNumber).subscribe(result => {
-        this.updateSugangList.emit();
+      this.updateSugangList.emit();
     });
   }
   updateDayArray(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]) {
