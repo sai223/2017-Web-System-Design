@@ -75,6 +75,7 @@
             [style.background-color]="(currentPage === 2) ? 'ghostwhite' : 'white'">시간표 조회</li>
       </ul>
     </div>
+    <div id ='engine'>
     <app-engine [enrollList_T] = enrollList_T
                 (reflectEnrollListEvent) = reflectEnrollList_T($event);
                 (updateSugangList) ="getAllSubject($event)"
@@ -85,5 +86,6 @@
                 [Friday]=Friday
                 [numberingArray]=numberingArray
     ></app-engine>
+    </div>
   </div>
 </ng-template>
