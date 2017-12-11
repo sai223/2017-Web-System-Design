@@ -168,6 +168,33 @@ export class SearchEngineComponent implements OnInit {
   // 그리고 각 요일 배열의 값들을 수정한다.
   // 예를 들어 수C 과목을 등록하면 this.Wednesday 배열(boolean 배열)의 12 13 14 15 16 인덱스의 값을 subjectNumbering 값으로 바꾼다.
   // 중요 -> 검사를 먼저하고 중복된 게 없으면 요일 배열의 값을 수정(false -> subjectNumbering)한다.
+  fillDayArrayALL(subject: Subject) {
+    this.splitSubjectTime = subject.subjectTime.split(' ');
+    for (let i = 0; i < this.splitSubjectTime.length; i++) {
+      if (this.splitSubjectTime[i].substr(0, 1) === '월') {
+        this.fillDayArray(this.Monday, this.splitSubjectTime[i], subject);
+      }
+      else if (this.splitSubjectTime[i].substr(0, 1) === '화') {
+        this.fillDayArray(this.Tuesday, this.splitSubjectTime[i], subject);
+      }
+      else if (this.splitSubjectTime[i].substr(0, 1) === '수') {
+        this.fillDayArray(this.Wednesday, this.splitSubjectTime[i], subject);
+      }
+      else if (this.splitSubjectTime[i].substr(0, 1) === '목') {
+        this.fillDayArray(this.Thursday, this.splitSubjectTime[i], subject);
+      }
+      else if (this.splitSubjectTime[i].substr(0, 1) === '금') {
+        this.fillDayArray(this.Friday, this.splitSubjectTime[i], subject);
+      }
+    }
+    this.enrollList_T.push(subject);
+    // 리스트에 등록하기 끝
+    // 이벤트를 발생 -> app.component 배열에 반영시키고
+    this.reflectEnrollListEvent.emit(this.enrollList_T);
+    // 디비에 반영시킨다.
+    this.addSubjectToDB(subject);
+    this.updateDayArray(this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday, this.numberingArray);
+  }
   enroll(subject: Subject) {
     // 철저한 검사 (시간이 겹치는 과목 넣지 못함)
     // 검사 및 요일 배열 수정 시작
@@ -212,34 +239,7 @@ export class SearchEngineComponent implements OnInit {
     // console.log('검사 끝난 시점', this.Wednesday);
     // 요일 배열 수정(각 요일 배열에 넘버링값 넣기) 시작
     // 수A 이면 0 1 2 3 4 에 동일한 넘버링값 넣기
-    for (let i = 0; i < this.splitSubjectTime.length; i++) {
-      if (this.splitSubjectTime[i].substr(0, 1) === '월') {
-        this.fillDayArray(this.Monday, this.splitSubjectTime[i], subject);
-      }
-      else if (this.splitSubjectTime[i].substr(0, 1) === '화') {
-        this.fillDayArray(this.Tuesday, this.splitSubjectTime[i], subject);
-      }
-      else if (this.splitSubjectTime[i].substr(0, 1) === '수') {
-        this.fillDayArray(this.Wednesday, this.splitSubjectTime[i], subject);
-      }
-      else if (this.splitSubjectTime[i].substr(0, 1) === '목') {
-        this.fillDayArray(this.Thursday, this.splitSubjectTime[i], subject);
-      }
-      else if (this.splitSubjectTime[i].substr(0, 1) === '금') {
-        this.fillDayArray(this.Friday, this.splitSubjectTime[i], subject);
-      }
-    }
-    // 요일 배열 수정 끝
-    console.log('요일 배열 만들기 끝난 시점', this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday);
-    //debugger;
-    // 리스트에 등록하기 시작
-    this.enrollList_T.push(subject);
-    // 리스트에 등록하기 끝
-    // 이벤트를 발생 -> app.component 배열에 반영시키고
-    this.reflectEnrollListEvent.emit(this.enrollList_T);
-    // 디비에 반영시킨다.
-    this.addSubjectToDB(subject);
-    this.updateDayArray(this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday, this.numberingArray);
+    this.fillDayArrayALL(subject);
   }
   // 삭제할 과목을 수강신청항목에서 지우고
   // 요일 배열의 값을 수정한다.(subjectNumbering 값 -> 0)
