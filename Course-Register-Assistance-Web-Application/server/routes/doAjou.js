@@ -70,7 +70,7 @@ var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과
 var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화A 금C', time: 60, subjectName: '컴퓨터네트워크',
   professorName: '노병희', credit: 3, subjectNumber: 'C123'});
 var si3 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '수C 수D', time: 60, subjectName: '과목1',
-  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
+  professorName: '노병희', credit: 3, subjectNumber: 'C124'});
 
 si.save(function(err,document) {
   if (err)
