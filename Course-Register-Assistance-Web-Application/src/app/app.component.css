@@ -1,6 +1,6 @@
 header {
   height: 80px;
-  background-color: dodgerblue;
+  background-image: linear-gradient(-225deg, #5D9FFF 0%, #B8DCFF 48%, #6BBBFF 100%);
   box-sizing: border-box;
   width: 100%;
   margin-bottom: 10px;
@@ -143,10 +143,40 @@ li:hover{
   border-bottom: 3px solid mediumspringgreen;
   cursor: pointer;
 }
+#sugang1{
+  display: inline;
+  float: left;
+  width: 45%;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  text-align: center;
+}
+#sugang1:hover{
+   border-bottom: 3px solid mediumspringgreen;
+   cursor: pointer;
+ }
+#sugang2{
+  display:inline-block;
+  float: left;
+  width: 45%;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+  text-align: center;
+}
+#sugang2:hover{
+   border-bottom: 3px solid mediumspringgreen;
+   cursor: pointer;
+ }
+
 .p_name{
   float: right;
   font-size: 20px;
 }
 .p_name b{
   font-size: 25px;
+}
+#timetableScreen{
+  width: 100%;
 }

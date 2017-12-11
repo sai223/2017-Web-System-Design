@@ -9,7 +9,8 @@ table.timeTable{
   border-collapse: collapse;
   line-height: 1.5;
   text-align: center;
-  font-size: 0.5em;
+  font-size: 1em;
+  font-weight: bold;
 }
 table.timeTable tr {
   vertical-align: top;
@@ -26,7 +27,7 @@ table.empty{
   border-collapse: collapse;
   line-height: 1.5;
   text-align: center;
-  font-size: 0.5em;
+  font-size: 1em;
   font-weight: bold;
 }
 table.empty tr{

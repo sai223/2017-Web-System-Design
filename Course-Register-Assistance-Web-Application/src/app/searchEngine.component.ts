@@ -16,14 +16,14 @@ export class SearchEngineComponent implements OnInit {
   tempList: Subject[] = [];
   selectedSubject: Subject;
   @Input() enrollList_T: Subject[] = [];
-  numberingArray: boolean[] = [];
+  @Input() numberingArray: boolean[] = [];
   subjectNumbering: number;
-  // 요일별 배열을 만들어서 시간표 중복을 검사
-  Monday: TableItem[] = [];
-  Tuesday: TableItem[] = [];
-  Wednesday: TableItem[] = [];
-  Thursday: TableItem[] = [];
-  Friday: TableItem[] = [];
+  // 요일별 배열을 만들어서 시간표 중복을 검사 -> AppComponent 에서 가져오자
+  @Input() Monday: TableItem[] = [];
+  @Input() Tuesday: TableItem[] = [];
+  @Input() Wednesday: TableItem[] = [];
+  @Input() Thursday: TableItem[] = [];
+  @Input() Friday: TableItem[] = [];
   // 월C 금C 같이 요일과교시가 결합되어 있는 형태로 저장
   splitSubjectTime: string[] = [];
   // html 과 2-way binding (ngModel)
@@ -85,14 +85,9 @@ export class SearchEngineComponent implements OnInit {
           console.log('searchSubject[i]', searchSubject[i]);
           this.tempList.push(searchSubject[i]);
         }
-        //this.searchList_T = searchSubject[0];
           console.log('this.tempList', this.tempList);
           this.searchList_T = this.tempList;
-
       });
-  }
-  parseSubject(res: Response) {
-    return res['searchSubject'];
   }
   // 수강신청항목에 추가하려고 하는 과목이 기존에 수강신청항목에 있던 과목들과 겹치는지 검사만 한다.
   // 중복이 없으면 true 를 반환하고
@@ -243,6 +238,7 @@ export class SearchEngineComponent implements OnInit {
     this.reflectEnrollListEvent.emit(this.enrollList_T);
     // 디비에 반영시킨다.
     this.addSubjectToDB(subject);
+    this.updateDayArray(this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday, this.numberingArray);
   }
   // 삭제할 과목을 수강신청항목에서 지우고
   // 요일 배열의 값을 수정한다.(subjectNumbering 값 -> 0)
@@ -275,6 +271,7 @@ export class SearchEngineComponent implements OnInit {
         this.reflectEnrollListEvent.emit(this.enrollList_T);
         // DB에 반영
         this.deleteSubjectToDB(subject.subjectNumber);
+        this.updateDayArray(this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday, this.numberingArray);
         console.log('요일 배열 삭제 끝난 시점', this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday);
       }
     }
@@ -282,6 +279,10 @@ export class SearchEngineComponent implements OnInit {
   addSubjectToDB(subject: Subject) {
     this.httpService.addSubject(false, subject.subjectName, subject.subjectNumber).subscribe(result => {
         this.updateSugangList.emit();
+    });
+  }
+  updateDayArray(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]) {
+    this.httpService.updateArray(Monday_R, Tuesday_R, Wednesday_R, Thursday_R, Friday_R, numberingArray).subscribe(result => {
     });
   }
   deleteSubjectToDB(subjectNumber: string) { // no 가 뭐지?
