@@ -21,9 +21,9 @@
             <input class="sugangInput" margin-top=5px type="text" size="10" [value]="sugang.sugangName" readonly>
           </div>
           <div id="sugangInner2Div">
-            <input class="sugangInput" [attr.id]="'copy-' + sugang.priority" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
+            <input class="sugangInput" [attr.id]="'copy-' + ii" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
           </div>
-          <img id="sugangCopy" src="assets/copy.png" width=15px height=15px (click)="copyClick(sugang.priority)">
+          <img id="sugangCopy" src="assets/copy.png" width=15px height=15px (click)="copyClick(ii)">
         </div>
       </div>
     </div>

@@ -80,6 +80,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   alarmSec: number;
   currentTotalSec: number;
   alarmTotalSec: number;
+  alarmTimer: any;
   alarmOn() {
     if ((this.alarmHour < 0 || this.alarmHour > 24) ||
       (this.alarmMin < 0 || this.alarmMin > 60) ||
@@ -94,7 +95,8 @@ export class SugangListComponent implements AfterViewInit, OnInit {
       if ((this.alarmTotalSec - this.currentTotalSec) < 0) {
         alert('미래 시간값을 입력하세요.');
       }else {
-        setTimeout(function(){
+        clearTimeout(this.alarmTimer);
+        this.alarmTimer = setTimeout(function(){
           alert('알람 설정 시간이 지났습니다.');
         }, (this.alarmTotalSec - this.currentTotalSec) * 1000);
       }
