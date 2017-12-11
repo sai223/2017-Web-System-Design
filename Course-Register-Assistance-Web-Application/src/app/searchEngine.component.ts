@@ -44,23 +44,23 @@ export class SearchEngineComponent implements OnInit {
     this.subjectNumbering = 1;
     this.selectedSubject = new Subject();
     // 조회버튼을 누를 때 서버에 전송되는 Subject 객체
-    this.searchList_T = Subjects;
+    // this.searchList_T = Subjects;
     console.log(this.searchList_T);
     // 각 요일 배열이 48칸인 이유
     // 한 칸당 15분(쉬는 시간 고려)
     // 아침 9시부터(A교시) 저녁 9시(H교시)까지 생각
     // 15(1칸) * 4(1시간) * 12(9am ~ 9pm) = 1칸 짜리 48개 필요 즉, 48칸
-    for (let i = 0; i < 48; i++) {
+    /*for (let i = 0; i < 48; i++) {
       this.Monday.push({numbering: 0, isFirst: false, itemName: ''});
       this.Tuesday.push({numbering: 0, isFirst: false, itemName: ''});
       this.Wednesday.push({numbering: 0, isFirst: false, itemName: ''});
       this.Thursday.push({numbering: 0, isFirst: false, itemName: ''});
       this.Friday.push({numbering: 0, isFirst: false, itemName: ''});
-    }
+    }*/
     // 넘버링숫자를 1~8 까지만 주기 위함
-    for (let n = 0; n < 8; n++) {
+   /* for (let n = 0; n < 8; n++) {
       this.numberingArray.push(false);
-    }
+    }*/
   }
   // 조회버튼을 누르면 실행되는 메소드
   // 아직 html 상에 넣지 않음
@@ -75,7 +75,7 @@ export class SearchEngineComponent implements OnInit {
         //console.log(searchSubject.major);
           console.log(searchSubject, 'is upload!');
 
-          for(var i =0; i< Object.keys(searchSubject).length;i++){
+          for (var i = 0; i < Object.keys(searchSubject).length; i++){
             console.log(searchSubject[i]);
           }
 

@@ -16,13 +16,14 @@ declare var copyServiceObject: any;
 export class SugangListComponent implements AfterViewInit, OnInit {
   @Input() sugangList: Sugang[];
   @Output() updateSugangList = new EventEmitter();
+  @Output() orderUp = new EventEmitter();
+  @Output() orderDown = new EventEmitter();
   constructor(
     private elementRef: ElementRef,
     private httpService: HttpService
   ) {}
   currentSugangName: string;
   currentSugangNumber: string;
-  currentPriority: number;
   currentTime: string;
   currentHour: number;
   currentMin: number;
@@ -53,17 +54,21 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   }
   addSugang() {
     this.httpService.addSubject(true, this.currentSugangName, this.currentSugangNumber).subscribe(result => {
-      if (result == true) {
+      if (result['msg'] == 'success') {
         // app.component에 보낸다. 그러면 app.component에서 getAllSubject해서 업데이트 함.
         this.currentSugangName = '';
         this.currentSugangNumber = '';
         this.updateSugangList.emit();
-      }else {
+      }else if (result['msg'] == 'wrong') {
         // 안보내고, 오류 메세지 띄운다.
         this.currentSugangNumber = '';
         alert('과목 번호는 올바른 값을 입력해야 합니다.');
+      }else if (result['msg'] == 'duplicate') {
+        this.currentSugangNumber = '';
+        alert('시간 중복입니다.');
       }
     });
+    this.orderSelectedSugang = -100;
   }
   deleteSugang(no: string) {
     this.httpService.deleteSubject(no).subscribe(result => {
@@ -75,6 +80,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   alarmSec: number;
   currentTotalSec: number;
   alarmTotalSec: number;
+  alarmTimer: any;
   alarmOn() {
     if ((this.alarmHour < 0 || this.alarmHour > 24) ||
       (this.alarmMin < 0 || this.alarmMin > 60) ||
@@ -89,19 +95,27 @@ export class SugangListComponent implements AfterViewInit, OnInit {
       if ((this.alarmTotalSec - this.currentTotalSec) < 0) {
         alert('미래 시간값을 입력하세요.');
       }else {
-        console.log(this.currentHour);
-        console.log(this.currentMin);
-        console.log(this.currentSec);
-        console.log(this.currentTotalSec);
-        console.log('-------------------------');
-        console.log(this.alarmHour);
-        console.log(this.alarmMin);
-        console.log(this.alarmSec);
-        console.log(typeof(this.alarmTotalSec));
-        console.log(this.alarmTotalSec);
-        setTimeout(function(){
+        clearTimeout(this.alarmTimer);
+        this.alarmTimer = setTimeout(function(){
           alert('알람 설정 시간이 지났습니다.');
         }, (this.alarmTotalSec - this.currentTotalSec) * 1000);
+      }
+    }
+  }
+  orderSelectedSugang: number;
+  setOrderSelectedSugang(no: number) {
+    this.orderSelectedSugang = no;
+  }
+  orderChange(flag: boolean) {
+    if (flag === true) {
+      if (this.orderSelectedSugang !== 0) {
+        this.orderUp.emit(this.orderSelectedSugang);
+        this.orderSelectedSugang--;
+      }
+    }else {
+      if (this.orderSelectedSugang !== (this.sugangList.length - 1)) {
+        this.orderDown.emit(this.orderSelectedSugang);
+        this.orderSelectedSugang++;
       }
     }
   }

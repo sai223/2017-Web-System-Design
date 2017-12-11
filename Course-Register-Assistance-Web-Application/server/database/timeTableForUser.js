@@ -8,7 +8,7 @@ var timeTableForUserSchema = new Schema({ // 수강신청페이지 리스트
   tuesday: [],
   wednesday: [],
   thursday: [],
-  friday: []
+  friday: [],
 });
 var TimeTableForUser = mongoose.model('TimeTableForUser', timeTableForUserSchema);
 module.exports = TimeTableForUser;

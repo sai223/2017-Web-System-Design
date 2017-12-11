@@ -36,9 +36,20 @@ export class HttpService {
       subjectNumber: subjectNumber
     });
   }
+  createTable(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]){
+    return this.http.post('/createTimeTable', {
+      Monday_R: Monday_R,
+      Tuesday_R: Tuesday_R,
+      Wednesday_R: Wednesday_R,
+      Thursday_R: Thursday_R,
+      Friday_R: Friday_R,
+      numberingArray: numberingArray
+    });
+  }
   updateArray(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]){
     console.log('addDayArray');
-    return this.http.post('/setUserTimeTable' , {
+    console.log('[updateArray]',Monday_R);
+    return this.http.post('/updateUserTimeTable' , {
         Monday_R: Monday_R,
         Tuesday_R: Tuesday_R,
         Wednesday_R: Wednesday_R,

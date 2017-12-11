@@ -9,16 +9,21 @@
         <input class="sugangText" type="text" [(ngModel)]="currentSugangNumber" placeholder="과목 번호">
         <button class="sugangAddButton" (click)="addSugang()">추가</button>
       </div>
+      <div>
+        <img src="assets/upArrow.png" width=50px height=50px (click)="orderChange(true)">
+        <img src="assets/downArrow.png" width=50px height=50px (click)="orderChange(false)">
+      </div>
       <div id="contentDiv">
-        <div id="sugangDiv" *ngFor="let sugang of sugangList">
+        <div id="sugangDiv" *ngFor="let sugang of sugangList; let ii = index" (click)="setOrderSelectedSugang(ii)"
+             [style.background-color]="(ii === orderSelectedSugang) ? 'whitesmoke' : 'mintcream'">
           <span id="sugangX" (click)="deleteSugang(sugang.sugangNumber)">&times;</span>
           <div id="sugangInner1Div">
             <input class="sugangInput" margin-top=5px type="text" size="10" [value]="sugang.sugangName" readonly>
           </div>
           <div id="sugangInner2Div">
-            <input class="sugangInput" [attr.id]="'copy-' + sugang.priority" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
+            <input class="sugangInput" [attr.id]="'copy-' + ii" class="sugangInput" type="text" size="8" [value]="sugang.sugangNumber" readonly>
           </div>
-          <img id="sugangCopy" src="assets/copy.png" width=15px height=15px (click)="copyClick(sugang.priority)">
+          <img id="sugangCopy" src="assets/copy.png" width=15px height=15px (click)="copyClick(ii)">
         </div>
       </div>
     </div>
@@ -35,5 +40,8 @@
       <input class="sugangText" type="text" [(ngModel)]="alarmSec" size="2" placeholder="sec"> 초
       <button class="alarmButton" (click)="alarmOn()">SET</button>
     </div>
+  </div>
+  <div id="Logo">
+    <img src="assets/DOAJOU.png" width=300px height=100px>
   </div>
 </div>
