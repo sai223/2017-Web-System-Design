@@ -4,8 +4,10 @@ import {Subjects} from './mock.subjectList';
 import { HttpService} from './http-service';
 import 'rxjs/add/operator/map';
 import {TableItem} from './tableItem';
+import {NotifyService} from './notify-service';
+import {Subscription} from 'rxjs/Subscription';
 
-  @Component({
+@Component({
     selector: 'app-engine',
     templateUrl: './searchEngine.component.html',
     styleUrls: ['./searchEngine.component.css']
@@ -36,9 +38,17 @@ import {TableItem} from './tableItem';
   initItem: TableItem;
   @Output() reflectEnrollListEvent: EventEmitter<Subject[]> = new EventEmitter();
   @Output() updateSugangList = new EventEmitter();
-  constructor(private httpService: HttpService) {
+  constructor(private httpService: HttpService, private subscription: Subscription, private notifyService: NotifyService) {
   }
   ngOnInit() {
+    this.subscription = this.notifyService.notifyObservable$.subscribe((res) => {
+      if (res.func === 'add'){
+        this.fillDayArrayALL(res.courseInfo);
+      }
+      else if(res.func === 'delete'){
+        this.deleteSubject(res.courseInfo);
+      }
+    });
     // 과목 등록할 때 그 과목에 대해 부여하는 숫자
     // 요일 배열을 채울 때 사용
     this.subjectNumbering = 1;
