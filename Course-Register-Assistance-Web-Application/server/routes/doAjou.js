@@ -78,20 +78,8 @@ new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터�
     return console.error(err);
   console.log('강의 생성');
 });
-new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '월D 목D', time: 3, subjectName: '도메인분석및SW설계',
-  professorName: '이정태', credit: 3, subjectNumber: 'X125'}).save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('강의 생성');
-});
 new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '화C 금C', time: 3, subjectName: '웹시스템설계',
   professorName: '오상윤', credit: 3, subjectNumber: 'X126'}).save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('강의 생성');
-});
-new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '월4 목3', time: 3, subjectName: '객체지향프로그래밍',
-  professorName: '오상윤', credit: 3, subjectNumber: 'X127'}).save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('강의 생성');
@@ -205,12 +193,7 @@ new SugangInfo({subjectType: '공학기초',major: '미디어콘텐전공(과)',
     return console.error(err);
   console.log('강의 생성');
 });
-new SugangInfo({subjectType: '공학인증교양',major: '미디어콘텐전공(과)', subjectTime: '화A 금A', time: 3, subjectName: '영상매체란무엇인가',
-  professorName: '박미디', credit: 3, subjectNumber: 'M126'}).save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('강의 생성');
-});
+
 
 //경영학전공(과)
 new SugangInfo({subjectType: '전공과목',major: '경영학전공(과)', subjectTime: '월4 목4', time: 3, subjectName: '경영학개론',
@@ -231,12 +214,7 @@ new SugangInfo({subjectType: '공학기초',major: '경영학전공(과)', subje
     return console.error(err);
   console.log('강의 생성');
 });
-new SugangInfo({subjectType: '공학인증교양',major: '경영학전공(과)', subjectTime: '화C 금A', time: 3, subjectName: '경영이란무엇인가',
-  professorName: '박영학', credit: 3, subjectNumber: 'T126'}).save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('강의 생성');
-});
+
 
 //교양과목
 new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '월4 화3', time: 3, subjectName: '과학과철학',
@@ -245,12 +223,7 @@ new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '월4 화3',
     return console.error(err);
   console.log('강의 생성');
 });
-new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '수B 목B', time: 3, subjectName: '스토리텔링이란무엇인가',
-  professorName: '박정식', credit: 3, subjectNumber: 'G124'}).save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('강의 생성');
-});
+
 new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '월E 화E', time: 3, subjectName: '신화와철학',
   professorName: '김신화', credit: 3, subjectNumber: 'G125'}).save(function(err,document) {
   if (err)
