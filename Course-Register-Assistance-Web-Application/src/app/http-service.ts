@@ -20,60 +20,29 @@ export class HttpService {
   pageSession(p) { // 세션에 마지막 페이지  알려주기
     return this.http.post('/sessionPage', { page: p });
   }
-  getAllSubjects() {
-    console.log('겟올섭젝');
-    return this.http.get('/getAllSubjects');
-  }
+  // [첫 번째 페이지] 수강신청리스트 가져오기
   getAllSubjects2() {
-    console.log('겟올섭젝');
     return this.http.get('/getAllSubjects2');
   }
-  getAllDayArray() {
-    console.log('겟올데이어레이');
-    return this.http.get('/getUserTimeTable');
-  }
+  // [첫 번째 페이지,두 번째 페이지]수강신청리스트와 수강신청항목에 수강과목 추가하기
   addSubject(isNickname: boolean, subjectName: string, subjectNumber: string) {
-    console.log('애드섭젝');
     return this.http.post('/addSubject', {
       isNickname: isNickname,
       subjectName: subjectName,
       subjectNumber: subjectNumber
     });
   }
-  createTable(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]){
-    return this.http.post('/createTimeTable', {
-      Monday_R: Monday_R,
-      Tuesday_R: Tuesday_R,
-      Wednesday_R: Wednesday_R,
-      Thursday_R: Thursday_R,
-      Friday_R: Friday_R,
-      numberingArray: numberingArray
-    });
-  }
-  updateArray(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]){
-    console.log('addDayArray');
-    console.log('[updateArray]',Monday_R);
-    return this.http.post('/updateUserTimeTable' , {
-        Monday_R: Monday_R,
-        Tuesday_R: Tuesday_R,
-        Wednesday_R: Wednesday_R,
-        Thursday_R: Thursday_R,
-        Friday_R: Friday_R,
-        numberingArray: numberingArray
-    });
-  }
-  deleteSubject(subjectNumber: string) {
-    console.log('딜릿섭젝');
-    return this.http.post('deleteSubject', {
-      subjectNumber: subjectNumber
-    });
-  }
+  // [첫 번째 페이지]수강신청리스트에서 수강과목 삭제하기
   deleteSubject2(subjectNumber: string) {
-    console.log('딜릿섭젝');
     return this.http.post('deleteSubject2', {
       subjectNumber: subjectNumber
     });
   }
+  // [두 번째 페이지] 수강신청항목 리스트 가져오기
+  getAllSubjects() {
+    return this.http.get('/getAllSubjects');
+  }
+  // [두 번째 페이지] 수강과목 조회하기
   searchSubject(subjectType: string, major: string, day: string,
                 time: string, subjectName: string, professorName: string){
     return this.http.post('/searchSubject', {
@@ -83,6 +52,29 @@ export class HttpService {
       time_2B: time,
       subjectName_2B: subjectName,
       professorName_2B: professorName
+    });
+  }
+  // [두 번째 페이지] 시간표(요일배열)정보 가져오기
+  getAllDayArray() {
+    return this.http.get('/getUserTimeTable');
+  }
+
+  // [두 번째 페이지]수강신청항목에서 수강과목 삭제하기
+  deleteSubject(subjectNumber: string) {
+    return this.http.post('deleteSubject', {
+      subjectNumber: subjectNumber
+    });
+  }
+
+  // [두 번째 페이지] 시간표(요일배열)정보 수정하기(추가 및 삭제)
+  updateArray(Monday_R: TableItem[], Tuesday_R: TableItem[], Wednesday_R: TableItem[], Thursday_R: TableItem[], Friday_R: TableItem[], numberingArray: boolean[]){
+    return this.http.post('/updateUserTimeTable' , {
+        Monday_R: Monday_R,
+        Tuesday_R: Tuesday_R,
+        Wednesday_R: Wednesday_R,
+        Thursday_R: Thursday_R,
+        Friday_R: Friday_R,
+        numberingArray: numberingArray
     });
   }
   requestSignUp(signID: string, signName: string, signPW: string) {

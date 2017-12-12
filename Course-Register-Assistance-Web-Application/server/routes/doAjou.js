@@ -585,45 +585,8 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
       }
       console.log('Delete 완료');
     });
-    /*
-    SugangListbyUserModel.findOne({ subjectInfo2: {subjectNumber: req.body.subjectNumber}},function (err,subject) {
-      if (err) {
-        return console.log("err " + err);
-      }
-      console.log('3');
-      //첫번째페이지에 과목이 없다면 아무 것도 안하고
-      if(!subject){
-        console.log('첫 번째 페이지에 해당 과목',subject,'이 없음');
-      }
-      else{
-        console.log('첫 번째 페이지에 해당 과목',subject,'이 있음');
-        //첫번째페이지에서 과목이 있으면 지움
-        SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo2: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
-          if (err) {
-            return console.log("err " + err);
-          }
-          console.log('Delete 완료');
-        });
-      }
-    });
-    */
     res.send({});
   });
-  /*
-  SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
-    if (err) {
-      return console.log("err " + err);
-    }
-    console.log('Delete 완료')
-    //res로 뭘줘야지
-    SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err,courseInfo) {
-      if (err) {
-        return console.log("err " + err);
-      }
-      console.log("과목정보존재");
-      res.send({CourseInfo: courseInfo});
-    })
-  })*/
 });
 // 첫번째 페이지에서 지우는 거는 그냥 마음대로 지우면 된다.
 router.post('/deleteSubject2',function (req,res) { // req(subjectNumber)
