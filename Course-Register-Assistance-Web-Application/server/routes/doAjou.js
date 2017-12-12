@@ -1,11 +1,11 @@
 const express = require ('express');
 const router = express.Router();
 var mongoose = require('mongoose');
-const ClientInfo = require('../database/clientInfoModel');
-const SugangInfo = require('../database/sugangInfoModel');
-const SugangListbyUserModel = require('../database/sugangListbyUserModel');
+const ClientInfo = require('../database/clientInfoModel'); //고객정보 DB
+const SugangInfo = require('../database/sugangInfoModel'); //과목정보 DB
+const SugangListbyUserModel = require('../database/sugangListbyUserModel'); //사용자리스트 계정 DB
 const SugangListbyUserModel2 =  require('../database/sugangListbyUserModel');
-const TimeTableForUser = require('../database/timeTableForUser');
+const TimeTableForUser = require('../database/timeTableForUser'); // 시간표 배열 DB
 
 
 
@@ -22,7 +22,8 @@ db.on('connected', function() {
 });
 
 
-//DB 초기화 하실때 사용하세요 지울때
+/// DB에 Test Data 비우실때 사용하세요----------------------------------------------------------------------------------------
+//DB 내용 삭제
 /*
 ClientInfo.remove({}, function(err) {
     if (err) {
@@ -32,7 +33,6 @@ ClientInfo.remove({}, function(err) {
     }
   }
 );
-
 SugangListbyUserModel.remove({}, function(err) {
     if (err) {
       console.log(err)
@@ -49,173 +49,254 @@ SugangInfo.remove({}, function(err) {
     }
   }
 );
-
-
-// 시간표 테이블 비우기
 TimeTableForUser.remove({}, function(err) {
     if (err) {
       console.log(err)
     } else {
-      console.log('ClientInfo 삭제 완료');
+      console.log('TimeTableForUser 삭제 완료');
     }
   }
 );
-
 */
-// DB에 Test Data 넣으실때 사용하세요
 
-//추가 과목 생성
+
+
+// DB에 Test Data 넣으실때 사용하세요----------------------------------------------------------------------------------------
+//DB에 과목 생성
 /*
-new SugangInfo({subjectType: '교양선택',major: '심리학과', subjectTime: '월D 목D', time: 3, subjectName: '발표와 토의',
-  professorName: '최용찬', credit: 3, subjectNumber: 'X100'}).save(function(err,document) {
+
+//소프트웨어및컴퓨터공학전공(과)
+new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '화D 목C', time: 3, subjectName: '알고리즘',
+  professorName: '손경아', credit: 3, subjectNumber: 'X123'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '월A 목A', time: 3, subjectName: '데이터마이닝',
+  professorName: '손경아', credit: 3, subjectNumber: 'X124'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '월D 목D', time: 3, subjectName: '도메인분석및SW설계',
+  professorName: '이정태', credit: 3, subjectNumber: 'X125'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '화C 금C', time: 3, subjectName: '웹시스템설계',
+  professorName: '오상윤', credit: 3, subjectNumber: 'X126'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '월4 목3', time: 3, subjectName: '객체지향프로그래밍',
+  professorName: '오상윤', credit: 3, subjectNumber: 'X127'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '화A 금F', time: 3, subjectName: '선형대수1',
+  professorName: '김응기', credit: 3, subjectNumber: 'X128'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '수D 금D', time: 3, subjectName: '확률및통계1',
+  professorName: '조영종', credit: 3, subjectNumber: 'X129'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '화F 목F', time: 3, subjectName: '확률및통계2',
+  professorName: '김수진', credit: 3, subjectNumber: 'X130'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '수A 목D', time: 3, subjectName: '수학2',
+  professorName: '김응기', credit: 3, subjectNumber: 'X131'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학인증교양',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '월B 목B', time: 3, subjectName: '과학기술과법',
+  professorName: '오승한', credit: 3, subjectNumber: 'X132'}).save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('강의 생성');
 });
 
-new SugangInfo({subjectType: '전공필수',major: '소프트웨어학과', subjectTime: '화A 수A', time: 3, subjectName: '인공지능',
-  professorName: '김민구', credit: 3, subjectNumber: 'X101'}).save(function(err,document) {
+//전자공학전공(과)
+new SugangInfo({subjectType: '전공과목',major: '전자공학전공(과)', subjectTime: '화C 금C', time: 3, subjectName: '전자회로1',
+  professorName: '이기근', credit: 3, subjectNumber: 'J123'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '전자공학전공(과)', subjectTime: '월C 목A', time: 3, subjectName: '전자장론',
+  professorName: '김상인', credit: 3, subjectNumber: 'J124'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '전자공학전공(과)', subjectTime: '월4 수3', time: 3, subjectName: '공업수학1',
+  professorName: '김공업', credit: 3, subjectNumber: 'J125'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '전자공학전공(과)', subjectTime: '화E 수D', time: 3, subjectName: '공업수학2',
+  professorName: '박공업', credit: 3, subjectNumber: 'J126'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학인증교양',major: '전자공학전공(과)', subjectTime: '월B 목B', time: 3, subjectName: '전자란무엇인가',
+  professorName: '김전자', credit: 3, subjectNumber: 'J127'}).save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('강의 생성');
 });
 
 
-new SugangInfo({subjectType: '전공필수',major: '소프트웨어학과', subjectTime: '화F 목F', time: 3, subjectName: '컴퓨터 비전',
-  professorName: '황원준', credit: 3, subjectNumber: 'X102'}).save(function(err,document) {
+//화학공학전공(과)
+new SugangInfo({subjectType: '전공과목',major: '화학공학전공(과)', subjectTime: '수D 금D', time: 3, subjectName: '화학1',
+  professorName: '김화학', credit: 3, subjectNumber: 'H123'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '화학공학전공(과)', subjectTime: '화C 수E', time: 3, subjectName: '화학2',
+  professorName: '김학화', credit: 3, subjectNumber: 'H124'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '화학공학전공(과)', subjectTime: '월B 수B', time: 3, subjectName: '화학실험',
+  professorName: '박분자', credit: 3, subjectNumber: 'H125'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학인증교양',major: '화학공학전공(과)', subjectTime: '월B 목B', time: 3, subjectName: '분자란무엇인가',
+  professorName: '김분자', credit: 3, subjectNumber: 'H126'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+//미디어콘텐전공(과)
+new SugangInfo({subjectType: '전공과목',major: '미디어콘텐전공(과)', subjectTime: '월2 수2', time: 3, subjectName: '게임디자인',
+  professorName: '오규환', credit: 3, subjectNumber: 'M123'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '미디어콘텐전공(과)', subjectTime: '월D 금D', time: 3, subjectName: '게임프로그래밍',
+  professorName: '김게임', credit: 3, subjectNumber: 'M124'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '미디어콘텐전공(과)', subjectTime: '월B 목C', time: 3, subjectName: '게임수학',
+  professorName: '김미디', credit: 3, subjectNumber: 'M125'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학인증교양',major: '미디어콘텐전공(과)', subjectTime: '화A 금A', time: 3, subjectName: '영상매체란무엇인가',
+  professorName: '박미디', credit: 3, subjectNumber: 'M126'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+//경영학전공(과)
+new SugangInfo({subjectType: '전공과목',major: '경영학전공(과)', subjectTime: '월4 목4', time: 3, subjectName: '경영학개론',
+  professorName: '김경영', credit: 3, subjectNumber: 'T123'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '전공과목',major: '경영학전공(과)', subjectTime: '월D 금D', time: 3, subjectName: '경영학1',
+  professorName: '최영경', credit: 3, subjectNumber: 'T124'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학기초',major: '경영학전공(과)', subjectTime: '수B 목C', time: 3, subjectName: '기초경영',
+  professorName: '김경경', credit: 3, subjectNumber: 'T125'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '공학인증교양',major: '경영학전공(과)', subjectTime: '화C 금A', time: 3, subjectName: '경영이란무엇인가',
+  professorName: '박영학', credit: 3, subjectNumber: 'T126'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+//교양과목
+new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '월4 화3', time: 3, subjectName: '과학과철학',
+  professorName: '이진희', credit: 3, subjectNumber: 'G123'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '수B 목B', time: 3, subjectName: '스토리텔링이란무엇인가',
+  professorName: '박정식', credit: 3, subjectNumber: 'G124'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '월E 화E', time: 3, subjectName: '신화와철학',
+  professorName: '김신화', credit: 3, subjectNumber: 'G125'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '교양과목',major: '', subjectTime: '수F 목F', time: 3, subjectName: '정치와철학',
+  professorName: '최정치', credit: 3, subjectNumber: 'G126'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+
+//기초과목
+new SugangInfo({subjectType: '기초과목',major: '', subjectTime: '목2 금2', time: 3, subjectName: '물리학',
+  professorName: '김물리', credit: 3, subjectNumber: 'K123'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '기초과목',major: '', subjectTime: '수D 목D', time: 3, subjectName: '생명과학',
+  professorName: '최생명', credit: 3, subjectNumber: 'K124'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '기초과목',major: '', subjectTime: '월D 목D', time: 3, subjectName: '지구과학',
+  professorName: '고지구', credit: 3, subjectNumber: 'K125'}).save(function(err,document) {
+  if (err)
+    return console.error(err);
+  console.log('강의 생성');
+});
+new SugangInfo({subjectType: '기초과목',major: '', subjectTime: '화A 목A', time: 3, subjectName: '생명과학2',
+  professorName: '이생명', credit: 3, subjectNumber: 'K126'}).save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('강의 생성');
 });
 
 
-new SugangInfo({subjectType: '교양선택',major: '소프트웨어학과', subjectTime: '월5 목9', time: 3, subjectName: '데이터베이스',
-  professorName: '최용찬', credit: 3, subjectNumber: 'X103'}).save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('강의 생성');
-});
-
-new SugangInfo({subjectType: '교양선택',major: '심리학과', subjectTime: '금7 금8', time: 3, subjectName: '데이터 마이닝',
-  professorName: '손경아', credit: 3, subjectNumber: 'X104'}).save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('강의 생성');
-});
 
 
-// 과목 생성
-
-var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
-  professorName: '김응기', credit: 3, subjectNumber: 'A123'});
-var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
-  professorName: '손경아', credit: 3, subjectNumber: 'B123'});
-var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화A 금C', time: 60, subjectName: '컴퓨터네트워크',
-  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
-var si3 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '수C 수D', time: 60, subjectName: '과목1',
-  professorName: '노병희', credit: 3, subjectNumber: 'C124'});
-
-si.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('선형대수 강의 생성');
-});
-si1.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('알고리즘 강의 생성');
-});
-si2.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('컴네 강의 생성');
-});
-si3.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('과목1 강의 생성');
-});
-*/
-//-------------------------------------------------
-
+// DB에 Test Data 조회하실때 사용하세요----------------------------------------------------------------------------------------
+//DB 조회
 /*
-// DB에 Test Data 넣으실때 사용하세요
-// 계정 생성
-var ci = new ClientInfo();
-ci.userID = 'psh';
-ci.userPassword = '2013';
-ci.userName = '박승현';
-ci.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('계정 박승현 생성');
-});
-var ci1 = new ClientInfo();
-ci1.userID = 'kbw';
-ci1.userPassword = '2014';
-ci1.userName = '고보원';
-ci1.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('계정 고보원 생성');
-});
-var ci2 = new ClientInfo();
-ci2.userID = 'kkh';
-ci2.userPassword = '2012';
-ci2.userName = '김기홍';
-ci2.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('계정 김기홍 생성');
-});
-var ci3 = new ClientInfo();
-ci3.userID = 'lit';
-ci3.userPassword = '2012';
-ci3.userName = '이인태';
-ci3.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('계정 이인태생성');
-})
 
-
-// DB에 Test Data 넣으실때 사용하세요
-// 과목 생성
-
-var si = new SugangInfo({subjectType: '전공필수',major: '소프트웨어과', subjectTime: '월C 금C', time: 60, subjectName: '선형대수',
-  professorName: '김응기', credit: 3, subjectNumber: 'A123'});
-var si1 = new SugangInfo({subjectType: '전공선택',major: '소프트웨어과', subjectTime: '화B 금B', time: 60, subjectName: '알고리즘',
-  professorName: '손경아', credit: 3, subjectNumber: 'B123'});
-var si2 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화A 금C', time: 60, subjectName: '컴퓨터네트워크',
-  professorName: '노병희', credit: 3, subjectNumber: 'C123'});
-var si3 = new SugangInfo({subjectType: '교양선택',major: '경영학과', subjectTime: '화1 금5', time: 40, subjectName: '연애학개론',
-  professorName: '강경란', credit: 3, subjectNumber: 'D123'});
-si.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('선형대수 강의 생성');
-});
-si1.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('알고리즘 강의 생성');
-});
-si2.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('컴네 강의 생성');
-});
-si3.save(function(err,document) {
-  if (err)
-    return console.error(err);
-  console.log('연애 강의 생성');
-});
-
-/*
-//-------------------------------------------------
-// DB에 Test Data 조회할때 사용하세요
-// 고객정보 조회
-/*
 ClientInfo.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
@@ -223,115 +304,96 @@ ClientInfo.find(function (err,info) {
     console.log('현재 ClientInfo 저장되어있는 Data: '+info);
   }
 });
-//-------------------------------------------------
-/*
-// 리스트에 계정생성 test
-var slu = new SugangListbyUserModel({userID: 'psh'})
-slu.save(function (err,document) {
-  if (err)
-    return console.error(err);
-  console.log('리스트계정 생성');
-})
-//-------------------------------------------------
-/*
-// 계정 psh의 리스트에 X123 과목 넣어보기 test (이름과 과목코드는 유동적으로 바꿔주세요)
-SugangListbyUserModel.findOne({userID: 'psh'},function (err, info1) {
-  if (err) {
-    return console.log(err);
-  }
-  SugangInfo.findOne({subjectNumber: 'D123'},function (err,info2) {
-    if (err) {
-      return console.log("err " + err);
-    } else {
-      info1.subjectInfo.push(info2);
-      info1.save(function(err,document) {
-        if (err)
-          return console.error(err);
-        console.log(document)
-      });
-
-    }
-  })
-})
-//-------------------------------------------------
-*/
-/*
-//-------------------------------------------------
-// list 정보 불러오기 test
-SugangListbyUserModel.find(function (err, info1){
-  if (err) {
-    return console.log(err);
-  }
-  else console.log(info1);
-});
-TimeInfo.remove({}, function(err) {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log('TimeInfo삭제 완료');
-    }
-  }
-);
-*/
-//-------------------------------------------------
-/*
-// list에서 과목 삭제하기 test  // '계정 psh의 리스트에서 과목코드로 해당 과목만 삭제'
-SugangListbyUserModel.findOneAndUpdate({userID: 'psh'},{$pull: { subjectInfo: {subjectNumber: 'X123'}}}, function (err, infoList){
+SugangListbyUserModel.find(function (err,info) {
   if (err) {
     return console.log("err " + err);
+  } else {
+    console.log('현재 SugangListbyUserModel 저장되어있는 Data: '+info);
   }
-  console.log('Delete 완료')
-})
+});
+SugangInfo.find(function (err,info) {
+  if (err) {
+    return console.log("err " + err);
+  } else {
+    console.log('현재 SugangInfo 저장되어있는 Data: '+info);
+  }
+});
+TimeTableForUser.find(function (err,info) {
+  if (err) {
+    return console.log("err " + err);
+  } else {
+    console.log('현재 TimeTableForUser 저장되어있는 Data: '+info);
+  }
+});
 */
 
-//-------------------------------------------------
-// 페이지 시작할때 마다 세션 체크 -------------------------------------------------------------------
+
+
+/* Session Check -------------------------------------------------------------------
+* 페이지를 로딩시키는 동시에 실행 -> app.component.ts의 ngOnInit에서 실행됨.
+* session에 사용자의 user_ID 가 있으면 새로운 창을 띄우거나 새로고침을 눌러도 session에 들어있는 사용자의 정보를 유지할 수 있다.
+*
+*/
 router.get('/sessionCheck',function (req,res) {
-  ClientInfo.findOne({userID: req.session.user_ID}, function (err, info){
+  ClientInfo.findOne({userID: req.session.user_ID}, function (err, info){ // 현재 session에 저장되어있는 user_ID로 DB의 ClientInfo에 일치하는 정보가 있는지 확인한다.
     if (err) {
       return console.log("err " + err);
     }
-    if(!info){
+    if(!info){ // 현재 세션에 user_ID 정보가 DB의 ClientInfo 와 일치하지 않는경우 (로그인 되지 않은 경우)
       res.send({userName: '', boolean: false, page: 1});
-    } else {
+    } else { // 현재 session에 사용자 user_ID 정보가 DB의 ClientInfo 와 일치하는 경우 사용자의 이름과 현재 페이지(수강신청페이지 =1or 시간표페이지=2)를 돌려준다
       res.send({userName: info.userName, boolean: true, page: sess.page});
     }
   })
 });
-router.post('/sessionPage',function (req,res) { //req(page넘김)
+/* Session Page -------------------------------------------------------------------
+* 현재 페이지를 session에 저장한다.
+* 사용자가 새로운 창을 띄우거나 새로고침을 했을때 전에 보고 있던 페이지를 유지할 수 있다
+*/
+router.post('/sessionPage',function (req,res) { //req(page) -> req로 수강신청페이지인지 시간표페이지인지 받아서 session에 저장한다.
   sess.page = req.body.page; // session에 페이지 저장
   res.send({});
 });
-// log-in 기능 --------------------------------------------------------------------------------
+/* Log-In-------------------------------------------------------------------
+* 로그인이 되면 req로 받은 userID를 session에 저장해서 새로운 창을 띄우거나 새로고침했을 경우에도 session 유지가 되도록 해준다.
+* 위에 Session Check를 통해 session이 유지 될 수 있다.
+*/
 router.post('/login',function(req,res){ //req(id,pw) res(userName,boolean)
   sess = req.session;
   ClientInfo.findOne({userID: req.body.id, userPassword: req.body.pw}, function (err, info) {
     if (err) {
       return console.log("err " + err);
     }
+    //console.log(info);
     if(!info){ //로그인 정보가 틀렸을 경우
       const cliInfo= {userName: '', boolean: false};
       res.send(cliInfo);
     } else { // 로그인 정보가 맞는 경우
       sess.user_ID = info.userID; // 현 세션에 로그인한사람의 이름을 넣음
+      console.log('로그인한 사용자의 이름: '+info.userName);
+      console.log('세션 사용자의 이름: '+sess.user_ID);
       const cliInfo = {userName: info.userName, boolean: true} ;
       res.send(cliInfo);
     }
 
   })
 });
-// log-out 기능 --------------------------------------------------------------------------------
-router.get('/logout',function (req,res) { //세션 파괴만하면 될듯 //
-  req.session.destroy();
+/* Log-Out-------------------------------------------------------------------
+* 사용자가 로그아웃을 하게 되면 session을 유지를 해제하기 위해 req의 session을 파괴한다
+*/
+router.get('/logout',function (req,res) {
+  req.session.destroy(); //session 파괴
   res.send({});
 });
-// 접속자의 과목리스트 불러오기 -----------------------------------------------------------------------
+/* getAllSubjects-------------------------------------------------------------------
+* 사용자의 정보를 session으로 접근해 sugangListbyUserModel DB에서 해당하는 사용자의 과목들을 돌려준다.
+*/
 router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
   SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
     if (err) {
       return console.log("err " + err);
     }
-    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 리스트에 새로운 계정 생성
+    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 사용자 리스트에 새로운 계정 생성
       var newUser = new SugangListbyUserModel({userID: req.session.user_ID})
       newUser.save(function (err,document) {
         if (err)
@@ -339,10 +401,11 @@ router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
         console.log('리스트계정 생성: '+document);
       })
       var allSubject = newUser.subjectInfo;
-      res.send(allSubject); // [] 이런식을 전송되면 되나 물어보기
-    } else { //SugangListbyUserModel에 내 정보가 있을때
+      res.send(allSubject); //
+    } else { //SugangListbyUserModel에 사용자의 정보가 있을 경우
       var allSubject = infoList.subjectInfo; //
-      res.send(allSubject); // [{},{},{}]이런식으로 전송되는지 확인해야됨
+      console.log(allSubject);
+      res.send(allSubject); //사용자 계정에 담긴 과목들을 돌려준다
     }
   })
 });
@@ -359,16 +422,16 @@ router.get('/getAllSubjects_F',function (req,res) { // req() res(Subject[])
           return console.error(err);
       })
       var allSubject = newUser.subjectInfo2;
-      res.send(allSubject); // [] 이런식을 전송되면 되나 물어보기
-    } else { //SugangListbyUserModel에 내 정보가 있을때
+      res.send(allSubject);
+    } else {
       var allSubject = infoList.subjectInfo2; //
-      res.send(allSubject); // [{},{},{}]이런식으로 전송되는지 확인해야됨
+      res.send(allSubject);
     }
   });
 });
-
-// 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
-
+/* addSubject-------------------------------------------------------------------
+* 사용자가 과목추가 버튼을 누르면 해당 과목을 수강신청페이지와 시간표페이지를 구분해서 DB에 저장한다.
+*/
 router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
 
   var timetable = new Array(new Array(24), new Array(24), new Array(24), new Array(24), new Array(24) );
@@ -446,7 +509,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
   }
 
 
-  SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //세션ID 로 확인
+  SugangListbyUserModel.findOne({userID: req.session.user_ID}, function (err, infoList){ //session으로 사용자리스트 에 사용자의 계정이 있는지 확인한다.
     if (err) {
       return console.log("err " + err);
     }
@@ -458,11 +521,11 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
         if(!courseInfo){ // 잘못된 입력값(과목코드)
           var isAddSuccess = 'wrong';
 
-          res.send({msg: isAddSuccess}); // 클라이언트쪽에서 alert호출 요망
+          res.send({msg: isAddSuccess}); // 과목코드가 틀렸다고 보내준다.
         } else { //올바른 입력값(과목코드)
           var isAddSuccess = 'success';
 
-          courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)
+          courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)  ex) 도메인분석과설계 -> 도분설
           // 첫 번째 페이지 디비에만 저장
           infoList.subjectInfo2.push(courseInfo);
 
@@ -519,10 +582,12 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
         }
       })
     }
-
   })
 })
-// 수강신청페이지에서 삭제버튼 -----------------------------------------------------------------------
+/* deleteSubject-------------------------------------------------------------------
+* 사용자가 과목삭제 버튼을 누르면 해당 과목을 수강신청페이지와 시간표페이지를 구분해 DB에서 삭제한다.
+* req에 들어있는 과목코드로 사용자리스트 계정의 해당 과목을 삭제한다.
+*/
 router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
   SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
     if (err) {
@@ -562,7 +627,9 @@ router.post('/deleteSubject_F',function (req,res) { // req(subjectNumber)
     })
   })
 })
-// 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
+/* searchSubject-------------------------------------------------------------------
+* 사용자가 시간표페이지에서 조회버튼을 누르면 req에 담긴 조건에 맞는 정보들을 조회한다.
+*/
 router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,day_2B,time_2B,subjectName_2B,professorName_2B) res(Subject[])
 
   var ar = new Array();
@@ -574,7 +641,7 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
   ar[4] = req.body.subjectName_2B;
   ar[5] = req.body.professorName_2B;
   for(var i=0;i<6;i++) {
-    if (ar[i] == undefined || ar[i]=="undefined") {
+    if (ar[i] == undefined || ar[i]=="undefined") {// js JSON에 해당 조건을 추가한다.
       ar[i] = "";
     }
     else {
@@ -586,22 +653,25 @@ router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B
           js.major = ar[1];
           break;
         case 4:
-          js.subjectName = new RegExp(ar[4]);
+          js.subjectName = new RegExp(ar[4]);  //과목이름은 전부안쓰고 일부만 써도 조회가 되도록 해놨다.
           break;
         case 5:
-          js.professorName = new RegExp(ar[5]);
+          js.professorName = new RegExp(ar[5]);  //교수명도 전부안쓰고 일부만 써도 조회가 되도록 해놨다.
       }
     }
   }
-  js.subjectTime = new RegExp(ar[2]+ar[3]);
-  SugangInfo.find(js,function (err, courseInfo){
+  js.subjectTime = new RegExp(ar[2]+ar[3]);// 시간은 월 이면 월요일에해당하는 모든 과목 , 월C면 월요일C에 해당하는 모든 과목을 불러오도록 하였다.
+  SugangInfo.find(js,function (err, courseInfo){ //위의 조건 (js)로 해당하는 과목을 찾는다.
     if (err) {
       return console.log("err " + err);
     }
-    res.send(courseInfo);
+    res.send(courseInfo); // 찾은 과목을 돌려준다.
   });
 })
-// 사용자 시간표 불러올 경우  -----------------------------------------------------------------------
+/* getUserTimeTable-------------------------------------------------------------------
+* 사용자가 시간표페이지에서 자신의 과목들을 시간표로 볼수 있도록 서버에 요청한다.
+* 서버는 요일마다 과목들이 담긴 배열들을 돌려줘서 사용자가 시간표상에서 볼 수 있도록 해준다.
+*/
 router.get('/getUserTimeTable',function (req,res) { //req(userID)
   TimeTableForUser.findOne({userID: req.session.user_ID},function (err, timetableInfo) {
     if (err) {
@@ -636,7 +706,7 @@ router.get('/getUserTimeTable',function (req,res) { //req(userID)
       newUser.thursday = Thur;
       newUser.friday = Fri;
       newUser.numberingArray = numbering;
-      newUser.save(function (err) {
+      newUser.save(function (err) { // 계정이 없는 경우 자동으로 생성해서 DB에 새로 저장해준다.
         if (err) return console.error(err);
         console.log(' 계정 추가');
       });
@@ -656,7 +726,9 @@ router.get('/getUserTimeTable',function (req,res) { //req(userID)
 
   });
 });
-// 사용자가 과목 처음 추가할 때 TimeTableForUser 초기화 시키기
+/* createTimeTable-------------------------------------------------------------------
+*  timeTableForUser DB에 새로운 계정을 생성한다.
+*/
 router.post('/createTimeTable', function (req,res) {
   var userTimeTable = new TimeTableForUser();
   userTimeTable.userID = req.session.user_ID;
@@ -671,9 +743,10 @@ router.post('/createTimeTable', function (req,res) {
   });
   res.send({}); // 아무 의미 없음
 });
-
-// 사용자 과목 추가할때  TimeTableForUser에 과목 추가 -----------------------------------------------------------------------
-router.post('/updateUserTimeTable',function (req,res) {
+/* updateUserTimeTable-------------------------------------------------------------------
+*  시간표 페이지에서 과목의 업데이트가 필요할때 사용자가 서버에게 요청한다.
+*/
+router.post('/updateUserTimeTable',function (req,res) { //기존의 과목이 있고 업데이트가 필요할경우 업데이트해준다.
   //req(suject, day)
   // 기존의 과목이 있고 업데이트가 필요할때
   TimeTableForUser.findOneAndUpdate({userID: req.session.user_ID},
