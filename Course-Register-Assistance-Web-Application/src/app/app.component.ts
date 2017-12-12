@@ -52,7 +52,7 @@ export class  AppComponent implements OnInit {
         this.loginState = true; // 세션이 있다면 로그인 상태이다.
         this.currentPage = JSON.parse(JSON.stringify(result)).page; // 세션이 있다면 마지막 페이지를 기억한다.
         this.changeTemplate();
-        this.getAllSubject2();
+        this.getAllSubjects_F();
         this.getAllSubject();
         this.getAllDayArray();
       }
@@ -107,7 +107,7 @@ export class  AppComponent implements OnInit {
   }
   changeTemplate() {
     if (this.currentPage === 1) {
-      this.getAllSubject2();
+      this.getAllSubjects_F();
     }
     if (this.currentPage === 2) {
       this.getAllDayArray();
@@ -138,8 +138,8 @@ export class  AppComponent implements OnInit {
       });
     });
   }
-  getAllSubject2() {
-    this.httpService.getAllSubjects2().subscribe(result => {
+  getAllSubjects_F() {
+    this.httpService.getAllSubjects_F().subscribe(result => {
       this.sugangList = []; // 수강 리스트를 비우고 다시 새로 생성한다.
       Object.keys(result).forEach(key => {
         let sugang = new Sugang(result[key].subjectName, result[key].subjectNumber);

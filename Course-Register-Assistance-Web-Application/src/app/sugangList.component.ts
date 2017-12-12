@@ -80,7 +80,7 @@ export class SugangListComponent implements AfterViewInit, OnInit {
   }
   deleteSugang(no: string) {
     // 수강리스트의 항목의 삭제 버튼을 눌렀을 때 실행되는 함수.
-    this.httpService.deleteSubject(no).subscribe(result => {
+    this.httpService.deleteSubject_F(no).subscribe(result => {
       this.updateSugangList.emit(); // app 컴포넌트에 수강리스트 업데이트 신호를 보낸다.
     });
   }

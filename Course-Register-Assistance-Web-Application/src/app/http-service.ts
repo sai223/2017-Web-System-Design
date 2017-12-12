@@ -44,6 +44,13 @@ export class HttpService {
     });
   }
 
+  deleteSubject_F(subjectNumber: string) {
+    console.log('딜릿섭젝');
+    return this.http.post('deleteSubject_F', {
+      subjectNumber: subjectNumber
+    });
+  }
+
   getAllDayArray() {   // [두 번째 페이지] 시간표(요일배열)정보 가져오기
     return this.http.get('/getUserTimeTable');
   }

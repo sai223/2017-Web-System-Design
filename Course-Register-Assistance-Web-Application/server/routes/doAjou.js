@@ -544,6 +544,24 @@ router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
     res.send({});
   });
 });
+
+// 첫번째 페이지에서 지우는 거는 그냥 마음대로 지우면 된다.
+router.post('/deleteSubject_F',function (req,res) { // req(subjectNumber)
+  SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo2: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
+    if (err) {
+      return console.log("err " + err);
+    }
+    console.log('Delete 완료')
+    //res로 뭘줘야지
+    SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err,courseInfo) {
+      if (err) {
+        return console.log("err " + err);
+      }
+      console.log("과목정보존재");
+      res.send({CourseInfo: courseInfo});
+    })
+  })
+})
 // 시간표조회페이지에서 조회 버튼 -----------------------------------------------------------------------
 router.post('/searchSubject',function (req,res) { // req(subjectType_2B,major_2B,day_2B,time_2B,subjectName_2B,professorName_2B) res(Subject[])
 
