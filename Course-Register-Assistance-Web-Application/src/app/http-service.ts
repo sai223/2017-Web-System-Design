@@ -33,8 +33,8 @@ export class HttpService {
     });
   }
   // [첫 번째 페이지]수강신청리스트에서 수강과목 삭제하기
-  deleteSubject2(subjectNumber: string) {
-    return this.http.post('deleteSubject2', {
+  deleteFirstPageSubject(subjectNumber: string) {
+    return this.http.post('deleteFirstPageSubject', {
       subjectNumber: subjectNumber
     });
   }

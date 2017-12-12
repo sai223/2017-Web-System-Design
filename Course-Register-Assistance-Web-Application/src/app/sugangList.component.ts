@@ -52,25 +52,25 @@ export class SugangListComponent implements AfterViewInit, OnInit {
     copyServiceObject.copyFunc(no);
   }
   addSugang() {
-    // 과목명과 과목번호를 입력한 후 추가버튼을 눌렀을 때 실행되는 함수.
-    if (this.currentSugangName !== '' && this.currentSugangNumber !== '') {
-      this.httpService.addSubject(true, this.currentSugangName, this.currentSugangNumber).subscribe(result => {
-        if (result['msg'] === 'success') { // 추가에 성공했을 경우
-          this.currentSugangName = '';
-          this.currentSugangNumber = '';
-          this.updateSugangList.emit(); // app 컴포넌트에 수강리스트 업데이트 신호를 보낸다.
-        }else if (result['msg'] === 'wrong') { // 과목 번호가 존재하지 않을 경우
-          this.currentSugangNumber = '';
-          alert('과목 번호는 올바른 값을 입력해야 합니다.');
-        }else if (result['msg'] === 'duplicate') { // 추가한 과목의 시간이, 기존에 추가했던 과목과 중복될 경우.
-          this.currentSugangNumber = '';
-          alert('시간 중복입니다.');
-        }
-      });
-    }
+    this.httpService.addSubject(true, this.currentSugangName, this.currentSugangNumber).subscribe(result => {
+      if (result['msg'] == 'success') {
+        // app.component에 보낸다. 그러면 app.component에서 getAllSubject해서 업데이트 함.
+        this.currentSugangName = '';
+        this.currentSugangNumber = '';
+        this.updateSugangList.emit();
+      }else if (result['msg'] == 'wrong') {
+        // 안보내고, 오류 메세지 띄운다.
+        this.currentSugangNumber = '';
+        alert('과목 번호는 올바른 값을 입력해야 합니다.');
+      }else if (result['msg'] == 'duplicate') {
+        this.currentSugangNumber = '';
+        alert('시간 중복입니다.');
+      }
+    });
+    this.orderSelectedSugang = -100;
   }
   deleteSugang(no: string) {
-    this.httpService.deleteSubject2(no).subscribe(result => {
+    this.httpService.deleteSubject(no).subscribe(result => {
       this.updateSugangList.emit();
     });
   }
