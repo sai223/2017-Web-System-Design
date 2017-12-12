@@ -174,20 +174,20 @@ new SugangInfo({subjectType: '공학인증교양',major: '화학공학전공(과
   console.log('강의 생성');
 });
 
-//미디어콘텐전공(과)
-new SugangInfo({subjectType: '전공과목',major: '미디어콘텐전공(과)', subjectTime: '월2 수2', time: 3, subjectName: '게임디자인',
+//미디어콘텐츠전공(과)
+new SugangInfo({subjectType: '전공과목',major: '미디어콘텐츠전공(과)', subjectTime: '월2 수2', time: 3, subjectName: '게임디자인',
   professorName: '오규환', credit: 3, subjectNumber: 'M123'}).save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('강의 생성');
 });
-new SugangInfo({subjectType: '전공과목',major: '미디어콘텐전공(과)', subjectTime: '월D 금D', time: 3, subjectName: '게임프로그래밍',
+new SugangInfo({subjectType: '전공과목',major: '미디어콘텐츠전공(과)', subjectTime: '월D 금D', time: 3, subjectName: '게임프로그래밍',
   professorName: '김게임', credit: 3, subjectNumber: 'M124'}).save(function(err,document) {
   if (err)
     return console.error(err);
   console.log('강의 생성');
 });
-new SugangInfo({subjectType: '공학기초',major: '미디어콘텐전공(과)', subjectTime: '월B 목C', time: 3, subjectName: '게임수학',
+new SugangInfo({subjectType: '공학기초',major: '미디어콘텐츠전공(과)', subjectTime: '월B 목C', time: 3, subjectName: '게임수학',
   professorName: '김미디', credit: 3, subjectNumber: 'M125'}).save(function(err,document) {
   if (err)
     return console.error(err);
