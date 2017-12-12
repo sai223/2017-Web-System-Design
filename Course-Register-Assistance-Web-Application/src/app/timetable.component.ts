@@ -9,7 +9,8 @@ import {TableItem} from './tableItem';
 })
 
 export class TimetableComponent implements OnInit{
-  // searchEngine 에서 가져온 수강신청항목
+  // 시간표는 요일 배열 5개의 집합
+  // from searchEngine.component
   @Input() Monday_R: TableItem[] = [];
   @Input() Tuesday_R: TableItem[] = [];
   @Input() Wednesday_R: TableItem[] = [];
@@ -17,9 +18,7 @@ export class TimetableComponent implements OnInit{
   @Input() Friday_R: TableItem[] = [];
   empty: string[] = [];
   emptyString: string;
-  // 시간표 css 변경 로직은 Typescript 에서 짜고
-  // 적용은 [ngClass]="메소드이름()"으로 한다
-  // 삭제버튼이 눌렸을 때 실행되는 메소드
+  // 수강신청항목에 등록되어 있는 각 과목들에 대해서 다른 색 부여
   selectColor(slot: TableItem) {
     if (slot.numbering === 1) {
       return {color1: true};
@@ -51,6 +50,7 @@ export class TimetableComponent implements OnInit{
   }
 
   ngOnInit() {
+    // 시간표 좌측에 시간을 표시하기 위한 작업 (9시~20시)
     this.emptyString = ' ';
     let time = 9;
   for (let i = 0; i < 48; i++) {
@@ -62,7 +62,5 @@ export class TimetableComponent implements OnInit{
       this.empty.push(' ');
     }
   }
-    console.log('this.Monday_R 길이는', this.Monday_R.length);
-    console.log('this.empty 길이는', this.empty.length);
  }
 }

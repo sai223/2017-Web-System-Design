@@ -703,6 +703,7 @@ router.get('/getUserTimeTable',function (req,res) { //req(userID)
       Thur = new Array();
       Fri = new Array();
       numbering = new Array();
+
       for (var i = 0; i < 48; i++) {
         Mon.push({numbering: 0, isFirst: false, itemName: ''});
         Tue.push({numbering: 0, isFirst: false, itemName: ''});

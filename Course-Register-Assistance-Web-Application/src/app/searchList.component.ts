@@ -15,10 +15,9 @@ export class SearchListComponent implements OnInit {
     console.log(this.searchList_R);
     this.selectedSubject = new Subject();
   }
-  // 표를 클릭하면 selectedSubject 에 클릭한 과목 넣어
+  // 수강과목 조회에 있는 과목 선택시 선택한 과목을 searchEngine.component 에 전달
   choice(subject: Subject) {
     this.selectedSubject = subject;
     this.subjectClickEvent.emit(this.selectedSubject);
-    console.log('선택된 과목은 ', this.selectedSubject, '입니다');
   }
 }
