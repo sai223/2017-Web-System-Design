@@ -13,9 +13,12 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./app.component.css']
 })
 export class  AppComponent implements OnInit {
-  @ViewChild('logInSugangTemplate') logInSugangTemplate: TemplateRef<any>;
-  @ViewChild('logInTimetableTemplate') logInTimetableTemplate: TemplateRef<any>;
-  @ViewChild('logOutTemplate') logOutTemplate: TemplateRef<any>;
+  @ViewChild('logInSugangTemplate') logInSugangTemplate: TemplateRef<any>;         // 로그인 상태 - '수강신청' 페이지 탬플릿
+  @ViewChild('logInTimetableTemplate') logInTimetableTemplate: TemplateRef<any>;  // 로그인 상태 - '시간표 조회' 페이지 탬플릿
+  @ViewChild('logOutTemplate') logOutTemplate: TemplateRef<any>;                    // 로그아웃 상태 탬플릿
+  currentTemplate: TemplateRef<any>;  // 현재 페이지에서 보이도록 할 템플릿을 할당
+  currentView: EmbeddedViewRef<any>;  // 템플릿의 뷰를 컨트롤하기 위한 변수.
+
   Monday: TableItem[] = [];
   Tuesday: TableItem[] = [];
   Wednesday: TableItem[] = [];
@@ -23,87 +26,94 @@ export class  AppComponent implements OnInit {
   Friday: TableItem[] = [];
   numberingArray: boolean[] = [];
   enrollList_T: Subject[] = [];
-  enrollList_T2: Subject[] = [];
-  sugangList: Sugang[] = [];
-  currentPage: number; // 1: 수강신청 페이지, 2: 시간표 조회 페이지
-  loginState: boolean; // true: 로그인 상태, false: 로그아웃 상태
-  userID: string;
-  userPassword: string;
-  userName: string;
-  currentTemplate: TemplateRef<any>;
-  currentView: EmbeddedViewRef<any>;
+  sugangList: Sugang[] = [];  // '수강신청' 페이지의 수강신청 리스트 값.
+  currentPage: number;  // 1: '수강신청' 페이지, 2: '시간표 조회' 페이지
+  loginState: boolean;  // true: 로그인 상태, false: 로그아웃 상태
+  userID: string; // 로그인할 때 사용자의 아이디 입력값
+  userPassword: string; // 로그인할 때 사용자의 비밀번호 입력값
+  userName: string; // 로그인 후 서버가 리턴하는 사용자 이름값
+  signUpID: string; // 회원가입시 사용자의 아이디 입력값
+  signUpName: string; // 회원가입시 사용자의 이름 입력값
+  signUpPw: string; // 회원가입시 사용자의 비밀번호 입력값
+  re_signUpPw: string; // 회원가입시 사용자의 비밀번호 재 입력값
+
   constructor(
     private vcr: ViewContainerRef,
     private httpService: HttpService,
   ) {}
+
   ngOnInit() {
-    console.log('ngOnINIT GETALLDAYARRAY!!');
+    this.currentTemplate = this.logOutTemplate; // 초기 템플릿은 로그아웃 상태.
+    this.currentView = this.vcr.createEmbeddedView(this.currentTemplate); // 현재 템플릿을 뷰를 통해 생성.
 
-    this.currentTemplate = this.logOutTemplate;
-    this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
-    this.httpService.analyzeSession().subscribe(result => {
+    this.httpService.analyzeSession().subscribe(result => { // 로그인된 상태일 경우 세션을 가져온다.
       if (JSON.parse(JSON.stringify(result)).boolean === true) {
-        console.log('세션 유지 같은 브라우저 접속자: ' + JSON.parse(JSON.stringify(result)).userName);
-        this.userName = JSON.parse(JSON.stringify(result)).userName;
-        this.loginState = true;
-
-        this.currentPage = JSON.parse(JSON.stringify(result)).page;
+        this.userName = JSON.parse(JSON.stringify(result)).userName; // 세션을 통해 사용자의 이름을 가져온다.
+        this.loginState = true; // 세션이 있다면 로그인 상태이다.
+        this.currentPage = JSON.parse(JSON.stringify(result)).page; // 세션이 있다면 마지막 페이지를 기억한다.
         this.changeTemplate();
         this.getAllSubject2();
         this.getAllSubject();
         this.getAllDayArray();
-      } else {
-        console.log('첫접속 브라우저');
       }
     });
   }
   handleLogInOut(flag: boolean) {
-    if (flag === true) { // logout -> login
+    /*
+    * 사용자가 로그인/로그아웃 버튼을 눌렀을 때 실행되는 함수.
+    * 파라미터 flag가 true면 로그인을, false면 로그아웃을 처리한다.
+    * */
+    if (flag === true) {
+      // 로그인 처리
       this.httpService.logIn(this.userID, this.userPassword).subscribe(result => {
-        if (result['boolean'] === true) { // login success
-          this.userID = '';
-          this.userPassword = '';
+        if (result['boolean'] === true) {
+          // 로그인 성공
+          this.userID = ''; // 이제 필요없기 때문에 빈 값으로 초기화
+          this.userPassword = ''; // 이제 필요없기 때문에 빈 값으로 초기화
           this.userName = result['userName'];
           this.loginState = true;
           this.changeTemplate();
           this.getAllSubject();
           this.getAllDayArray();
-        }else { // login fail
+        }else {
+          // 로그인 실패
           alert('계정 정보가 존재하지 않습니다.');
           this.userID = '';
           this.userPassword = '';
         }
       });
-    }else if (flag === false) { // login -> logout
+    }else if (flag === false) {
+      // 로그아웃 처리
       this.httpService.logOut().subscribe(result => {
         this.userName = '';
-        this.enrollList_T = [];
-        this.sugangList = [];
+        this.enrollList_T = []; // 계정별로 필요한 값이기 때문에 빈 값으로 초기화
+        this.sugangList = [];   // 계정별로 필요한 값이기 때문에 빈 값으로 초기화
         this.loginState = false;
         this.changeTemplate();
       });
     }
   }
   clearLoginModal() {
+    // 로그인 모달을 닫을 경우 입력란을 비워주기 위한 함수
     this.userID = '';
     this.userPassword = '';
   }
   clearSignupModal() {
+    // 회원가입 모달을 닫을 경우 입력란을 비워주기 위한 함수
     this.signUpID = '';
     this.signUpName = '';
     this.signUpPw = '';
     this.re_signUpPw = '';
   }
   changeTemplate() {
-    if(this.currentPage === 1){
-      console.log('ngOnINIT GETALLDAYARRAY!!');
+    if (this.currentPage === 1) {
       this.getAllSubject2();
     }
-    if(this.currentPage === 2){
-      console.log('ngOnINIT GETALLDAYARRAY!!');
+    if (this.currentPage === 2) {
       this.getAllDayArray();
     }
 
+    // 로그인 상태와 현재 페이지값에 따라 표시할 템플릿을 설정해준다.
     if (this.loginState === false) {
       this.currentTemplate = this.logOutTemplate;
     }else {
@@ -116,13 +126,13 @@ export class  AppComponent implements OnInit {
         this.currentTemplate = this.logInSugangTemplate;
       }
     }
+    // 현재 템플릿 파괴 후 생성
     this.currentView.destroy();
-    console.log('change5');
     this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
   }
   getAllSubject() {
     this.httpService.getAllSubjects().subscribe(result => {
-      this.enrollList_T = [];
+      this.enrollList_T = []; // 등록된 리스트를 비우고 다시 새로 가져온다.
       Object.keys(result).forEach(key => {
         this.enrollList_T.push(result[key]);
       });
@@ -130,7 +140,7 @@ export class  AppComponent implements OnInit {
   }
   getAllSubject2() {
     this.httpService.getAllSubjects2().subscribe(result => {
-      this.sugangList = [];
+      this.sugangList = []; // 수강 리스트를 비우고 다시 새로 생성한다.
       Object.keys(result).forEach(key => {
         let sugang = new Sugang(result[key].subjectName, result[key].subjectNumber);
         this.sugangList.push(sugang);
@@ -138,6 +148,10 @@ export class  AppComponent implements OnInit {
     });
   }
   subjectOrderUp(orderSelectedSugang: number) {
+    /*
+    * 수강신청 페이지에서 리스트의 항목 순서를 위로 올리기 위한 함수.
+    * 파라미터로 받은 인덱스가 대상이다.
+    * */
     let tmp = this.sugangList[orderSelectedSugang];
     this.sugangList[orderSelectedSugang] = this.sugangList[orderSelectedSugang - 1];
     this.sugangList[orderSelectedSugang - 1] = tmp;
@@ -147,6 +161,10 @@ export class  AppComponent implements OnInit {
     this.sugangList = tmptmp;
   }
   subjectOrderDown(orderSelectedSugang: number) {
+    /*
+    * 수강신청 페이지에서 리스트의 항목 순서를 아래로 내리기 위한 함수.
+    * 파라미터로 받은 인덱스가 대상이다.
+    * */
     let tmp = this.sugangList[orderSelectedSugang];
     this.sugangList[orderSelectedSugang] = this.sugangList[orderSelectedSugang + 1];
     this.sugangList[orderSelectedSugang + 1] = tmp;
@@ -158,40 +176,14 @@ export class  AppComponent implements OnInit {
   getAllDayArray() {
     this.httpService.getAllDayArray()
       .subscribe(dayArray => {
-        console.log('DayArray는', dayArray);
-       // 수정 시작
-        /*
-        if(JSON.stringify(dayArray) === '{}') { // 서버에 요일배열이나 넘버링 배열에 대한 정보가 없다면
-          console.log('CREATE!');
-          /*for (let i = 0; i < 48; i++) {
-             this.Monday.push({numbering: 0, isFirst: false, itemName: ''});
-             this.Tuesday.push({numbering: 0, isFirst: false, itemName: ''});
-             this.Wednesday.push({numbering: 0, isFirst: false, itemName: ''});
-             this.Thursday.push({numbering: 0, isFirst: false, itemName: ''});
-             this.Friday.push({numbering: 0, isFirst: false, itemName: ''});
-          }
-          console.log('this.Monday',this.Monday);
-          console.log('만들어진 dayArray는', dayArray);
-          for (let n = 0; n < 8; n++) { // 초기화 해
-          this.numberingArray.push(false);
-          }
-        console.log('만들어진 numberingnArray는', this.numberingArray);
-          this.httpService.createTable(this.Monday, this.Tuesday, this.Wednesday, this.Thursday, this.Friday, this.numberingArray)
-            .subscribe();
-        return;
-      }*/
-      //수정 끝
       // 서버에 데이터가 있으면 (dayArray에 정보가 있으면)
-     console.log('NOT CREATE / GET!');
      let tmp1: TableItem[] = [];
      let tmp2: TableItem[] = [];
      let tmp3: TableItem[] = [];
      let tmp4: TableItem[] = [];
      let tmp5: TableItem[] = [];
      let numberingTmp: boolean[] = [];
-      console.log('서버에서 요일 배열가져오기(dayArray)',dayArray);
       Object.keys(dayArray).forEach(key => {
-        console.log('key is', key);
         for (let i = 0; i < Object.keys(dayArray[key]).length; i++){
           // console.log('key is', dayArray[key][i]);
           if(key === 'monday'){
@@ -207,32 +199,28 @@ export class  AppComponent implements OnInit {
             tmp4.push(dayArray[key][i]);
           }
           else if (key === 'friday'){
-            console.log('F');
             tmp5.push(dayArray[key][i]);
           }
           else if (key === 'numberingArray'){
-            console.log('N');
-            console.log('[numberingArray]dayArray[key][i]', dayArray[key][i]);
             numberingTmp.push(dayArray[key][i]);
           }
         }
       });
-     // console.log('tmp 출력',tmp1,tmp2,tmp3,tmp4,tmp5);
      this.Monday = tmp1;
      this.Tuesday = tmp2;
      this.Wednesday = tmp3;
      this.Thursday = tmp4;
      this.Friday = tmp5;
      this.numberingArray = numberingTmp;
-     console.log('서버에서 요일 배열 가져오기(요일5개배열)',this.Monday,this.Tuesday,this.Wednesday,this.Thursday,this.Friday);
-     console.log('서버에서 넘버링 배열 가져오기',this.numberingArray);
     });
   }
-  signUpID: string;
-  signUpName: string;
-  signUpPw: string;
-  re_signUpPw: string;
+  reflectEnrollList_T(enrollList: Subject[]) {
+    this.enrollList_T = enrollList;
+  }
   signUp() {
+    /*
+    * 사용자가 입력한 아이디, 이름, 비밀번호, 비밀번호 재입력값을 이용하여 회원가입을 처리하는 함수.
+    * */
     if (this.signUpPw === this.re_signUpPw) {
       this.httpService.requestSignUp(this.signUpID, this.signUpName, this.signUpPw).subscribe(result => {
         if (result['boolean'] === false) {
@@ -240,7 +228,7 @@ export class  AppComponent implements OnInit {
         }else {
           alert('회원가입 완료');
           this.currentView.destroy();
-          this.currentTemplate = this.logOutTemplate;
+          this.currentTemplate = this.logOutTemplate; // 회원가입 완료 후에는 로그아웃 템플릿이 뜬다.
           this.currentView = this.vcr.createEmbeddedView(this.currentTemplate);
         }
       });
@@ -250,24 +238,24 @@ export class  AppComponent implements OnInit {
     this.clearSignupModal();
   }
   changeCurrentPage(no: number) {
+    /*
+    * 사용자가 '수강신청', '시간표 조회' 페이지를 클릭한 값을 처리하는 함수.
+    * */
     if (this.currentPage === 1) {
       if (no !== 1) {
         this.currentPage = 2;
         this.getAllDayArray();
-        this.httpService.pageSession(this.currentPage).subscribe();
+        this.httpService.pageSession(this.currentPage).subscribe(); // 페이지를 바꾼 후, 세션에 기억시킨다.
         this.currentView.destroy();
         this.changeTemplate();
       }
     }else if (this.currentPage === 2) {
       if (no !== 2) {
         this.currentPage = 1;
-        this.httpService.pageSession(this.currentPage).subscribe();
+        this.httpService.pageSession(this.currentPage).subscribe(); // 페이지를 바꾼 후, 세션에 기억시킨다.
         this.currentView.destroy();
         this.changeTemplate();
       }
     }
-  }
-  reflectEnrollList_T(enrollList: Subject[]) {
-    this.enrollList_T = enrollList;
   }
 }
