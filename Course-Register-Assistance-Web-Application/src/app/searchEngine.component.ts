@@ -45,10 +45,6 @@ export class SearchEngineComponent implements OnInit {
     // 1부터 8까지 차례로 부여하기 때문에 1부터 부여
     this.subjectNumbering = 1;
     this.selectedSubject = new Subject();
-    // 각 요일 배열이 48칸인 이유
-    // 한 칸당 15분(쉬는 시간 고려)
-    // 아침 9시부터(A교시) 저녁 9시(H교시)까지 생각
-    // 15(1칸) * 4(1시간) * 12(9am ~ 9pm) =  48칸이 필요
   }
 
   // 조회버튼을 누르면 실행되는 메소드

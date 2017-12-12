@@ -20,27 +20,32 @@ export class HttpService {
   pageSession(p) { // 세션에 마지막 페이지  알려주기
     return this.http.post('/sessionPage', { page: p });
   }
-  // [첫 번째 페이지] 수강신청리스트 가져오기
-  getAllSubjects2() {
-    return this.http.get('/getAllSubjects2');
+
+  getAllSubjects_F() { // [첫 번째 페이지] 수강신청리스트 가져오기
+    return this.http.get('/getAllSubjects_F');
   }
-  // [첫 번째 페이지,두 번째 페이지]수강신청리스트와 수강신청항목에 수강과목 추가하기
-  addSubject(isNickname: boolean, subjectName: string, subjectNumber: string) {
+
+  getAllSubjects() { // [두 번째 페이지] 수강신청항목 리스트 가져오기
+    return this.http.get('/getAllSubjects');
+  }
+
+  addSubject(isNickname: boolean, subjectName: string, subjectNumber: string) { // [첫 번째 페이지,두 번째 페이지]수강신청리스트와 수강신청항목에 수강과목 추가하기
     return this.http.post('/addSubject', {
       isNickname: isNickname,
       subjectName: subjectName,
       subjectNumber: subjectNumber
     });
   }
-  // [첫 번째 페이지]수강신청리스트에서 수강과목 삭제하기
-  deleteFirstPageSubject(subjectNumber: string) {
-    return this.http.post('deleteFirstPageSubject', {
+
+
+  deleteSubject(subjectNumber: string) {   // [첫 번째 페이지]수강신청리스트에서 수강과목 삭제하기  // 두 번째 페이지]수강신청항목에서 수강과목 삭제하기
+    return this.http.post('deleteSubject', {
       subjectNumber: subjectNumber
     });
   }
-  // [두 번째 페이지] 수강신청항목 리스트 가져오기
-  getAllSubjects() {
-    return this.http.get('/getAllSubjects');
+
+  getAllDayArray() {   // [두 번째 페이지] 시간표(요일배열)정보 가져오기
+    return this.http.get('/getUserTimeTable');
   }
   // [두 번째 페이지] 수강과목 조회하기
   searchSubject(subjectType: string, major: string, day: string,
@@ -52,17 +57,6 @@ export class HttpService {
       time_2B: time,
       subjectName_2B: subjectName,
       professorName_2B: professorName
-    });
-  }
-  // [두 번째 페이지] 시간표(요일배열)정보 가져오기
-  getAllDayArray() {
-    return this.http.get('/getUserTimeTable');
-  }
-
-  // [두 번째 페이지]수강신청항목에서 수강과목 삭제하기
-  deleteSubject(subjectNumber: string) {
-    return this.http.post('deleteSubject', {
-      subjectNumber: subjectNumber
     });
   }
 
