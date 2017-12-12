@@ -24,7 +24,7 @@ db.on('connected', function() {
 
 /// DB에 Test Data 비우실때 사용하세요----------------------------------------------------------------------------------------
 //DB 내용 삭제
-
+/*
 ClientInfo.remove({}, function(err) {
     if (err) {
       console.log(err)
