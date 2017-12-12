@@ -24,7 +24,7 @@ db.on('connected', function() {
 
 /// DB에 Test Data 비우실때 사용하세요----------------------------------------------------------------------------------------
 //DB 내용 삭제
-/*
+
 ClientInfo.remove({}, function(err) {
     if (err) {
       console.log(err)
@@ -57,14 +57,14 @@ TimeTableForUser.remove({}, function(err) {
     }
   }
 );
-*/
+
 
 
 
 // DB에 Test Data 넣으실때 사용하세요----------------------------------------------------------------------------------------
 //DB에 과목 생성
-/*
 
+/*
 //소프트웨어및컴퓨터공학전공(과)
 new SugangInfo({subjectType: '전공과목',major: '소프트웨어및컴퓨터공학전공(과)', subjectTime: '화D 목C', time: 3, subjectName: '알고리즘',
   professorName: '손경아', credit: 3, subjectNumber: 'X123'}).save(function(err,document) {
@@ -434,13 +434,14 @@ router.get('/getAllSubjects_F',function (req,res) { // req() res(Subject[])
 */
 router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
 
+  //timetable을 5*24 배열로 구성하여, 각각의 칸마다 과목이 들어있으면 +1을 하면서 시간표 중복을 체크한다.
   var timetable = new Array(new Array(24), new Array(24), new Array(24), new Array(24), new Array(24) );
   for(var i = 0; i < timetable.length; i++) {
     for(var j = 0; j < timetable[i].length; j++) {
       timetable[i][j] = 0;
     }
   }
-
+  //time은 '수C' or '금1'과 같은 형식으로 넘어온다. 해당 값을 파싱하여 timetable에 표시한다. 
   function markTime(time) {
     var day;
     switch(time[0]) {
@@ -529,6 +530,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
           // 첫 번째 페이지 디비에만 저장
           infoList.subjectInfo2.push(courseInfo);
 
+          //DB에 저장되어있는 수강정보의 시간을 가지고 Timatable에 마킹한다
           for(var i=0; i < infoList.subjectInfo2.length; i++) {
             var timeString = infoList.subjectInfo2[i].subjectTime;
             for(var j=0; j < timeString.length / 2 - 1; j++) {
@@ -537,6 +539,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
             }
           }
 
+          //중복인 경우 체크
           for(var i = 0; i < timetable.length; i++) {
             for(var j = 0; j < timetable[i].length; j++) {
               if(timetable[i][j] > 1) {
