@@ -23,6 +23,7 @@ export class  AppComponent implements OnInit {
   Friday: TableItem[] = [];
   numberingArray: boolean[] = [];
   enrollList_T: Subject[] = [];
+  enrollList_T2: Subject[] = [];
   sugangList: Sugang[] = [];
   currentPage: number; // 1: 수강신청 페이지, 2: 시간표 조회 페이지
   loginState: boolean; // true: 로그인 상태, false: 로그아웃 상태
@@ -47,11 +48,8 @@ export class  AppComponent implements OnInit {
         this.loginState = true;
 
         this.currentPage = JSON.parse(JSON.stringify(result)).page;
-
-
-
         this.changeTemplate();
-
+        this.getAllSubject2();
         this.getAllSubject();
         this.getAllDayArray();
       } else {
@@ -97,6 +95,10 @@ export class  AppComponent implements OnInit {
     this.re_signUpPw = '';
   }
   changeTemplate() {
+    if(this.currentPage === 1){
+      console.log('ngOnINIT GETALLDAYARRAY!!');
+      this.getAllSubject2();
+    }
     if(this.currentPage === 2){
       console.log('ngOnINIT GETALLDAYARRAY!!');
       this.getAllDayArray();
@@ -120,10 +122,16 @@ export class  AppComponent implements OnInit {
   }
   getAllSubject() {
     this.httpService.getAllSubjects().subscribe(result => {
-      this.sugangList = [];
       this.enrollList_T = [];
       Object.keys(result).forEach(key => {
         this.enrollList_T.push(result[key]);
+      });
+    });
+  }
+  getAllSubject2() {
+    this.httpService.getAllSubjects2().subscribe(result => {
+      this.sugangList = [];
+      Object.keys(result).forEach(key => {
         let sugang = new Sugang(result[key].subjectName, result[key].subjectNumber);
         this.sugangList.push(sugang);
       });

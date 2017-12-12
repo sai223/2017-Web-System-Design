@@ -36,7 +36,6 @@ export class SugangListComponent implements AfterViewInit, OnInit {
     let time;
     setInterval(() => {
       time = new Date();
-      time.setMilliseconds(time.getMilliseconds() - 700);
       this.currentHour = time.getHours();
       this.currentMin = time.getMinutes();
       this.currentSec = time.getSeconds();

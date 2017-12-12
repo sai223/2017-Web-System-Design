@@ -27,7 +27,7 @@ import {EnrollListComponent} from './enrollList.component';
     HttpClientModule
   ],
   providers: [
-    HttpService,
+    HttpService
   ],
   bootstrap: [AppComponent]
 })

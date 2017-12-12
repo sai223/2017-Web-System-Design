@@ -24,6 +24,10 @@ export class HttpService {
     console.log('겟올섭젝');
     return this.http.get('/getAllSubjects');
   }
+  getAllSubjects2() {
+    console.log('겟올섭젝');
+    return this.http.get('/getAllSubjects2');
+  }
   getAllDayArray() {
     console.log('겟올데이어레이');
     return this.http.get('/getUserTimeTable');
@@ -61,6 +65,12 @@ export class HttpService {
   deleteSubject(subjectNumber: string) {
     console.log('딜릿섭젝');
     return this.http.post('deleteSubject', {
+      subjectNumber: subjectNumber
+    });
+  }
+  deleteSubject2(subjectNumber: string) {
+    console.log('딜릿섭젝');
+    return this.http.post('deleteSubject2', {
       subjectNumber: subjectNumber
     });
   }

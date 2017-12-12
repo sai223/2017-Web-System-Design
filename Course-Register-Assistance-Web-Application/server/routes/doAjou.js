@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 const ClientInfo = require('../database/clientInfoModel');
 const SugangInfo = require('../database/sugangInfoModel');
 const SugangListbyUserModel = require('../database/sugangListbyUserModel');
+const SugangListbyUserModel2 =  require('../database/sugangListbyUserModel');
 const TimeTableForUser = require('../database/timeTableForUser');
 
 
@@ -371,6 +372,31 @@ router.get('/getAllSubjects',function (req,res) { // req() res(Subject[])
     }
   })
 });
+
+router.get('/getAllSubjects2',function (req,res) { // req() res(Subject[])
+  console.log('[getSubject2]req.session.user_ID',req.session.user_ID);
+  console.log('getallsubject2');
+  SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
+    if (err) {
+      return console.log("err " + err);
+    }
+    if(!infoList){ //SugangListbyUserModel에 내 정보가 없을때 리스트에 새로운 계정 생성
+      var newUser = new SugangListbyUserModel({userID: req.session.user_ID})
+      newUser.save(function (err,document) {
+        if (err)
+          return console.error(err);
+        console.log('리스트계정 생성: '+document);
+      })
+      var allSubject = newUser.subjectInfo2;
+      res.send(allSubject); // [] 이런식을 전송되면 되나 물어보기
+    } else { //SugangListbyUserModel에 내 정보가 있을때
+      var allSubject = infoList.subjectInfo2; //
+      console.log(allSubject);
+      res.send(allSubject); // [{},{},{}]이런식으로 전송되는지 확인해야됨
+    }
+  });
+});
+
 // 수강신청페이지에서 추가버튼 -----------------------------------------------------------------------
 
 router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,subjectName,subjectNumber) res(isAddSuccess)
@@ -468,11 +494,11 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
           var isAddSuccess = 'success';
 
           courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)
+          // 첫 번째 페이지 디비에만 저장
+          infoList.subjectInfo2.push(courseInfo);
 
-          infoList.subjectInfo.push(courseInfo);
-
-          for(var i=0; i < infoList.subjectInfo.length; i++) {
-            var timeString = infoList.subjectInfo[i].subjectTime;
+          for(var i=0; i < infoList.subjectInfo2.length; i++) {
+            var timeString = infoList.subjectInfo2[i].subjectTime;
             for(var j=0; j < timeString.length / 2 - 1; j++) {
               var time = timeString[j * 3] + timeString[j * 3 + 1];
               console.log(time);
@@ -491,6 +517,7 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
           }
 
           if(isAddSuccess === 'success') {
+            // 첫 번째 페이지 디비에만 저장
             infoList.save(function(err,document) {
               if (err)
                 return console.error(err);
@@ -513,12 +540,20 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
           var isAddSuccess = true;
 
           courseInfo.subjectName = req.body.subjectName; // 계정 List에 과목 저장 (계정 List의 subjectName을 nickname으로 변경)
+          // 첫 번째 페이지와 두 번째 페이지 둘 다 저장
           infoList.subjectInfo.push(courseInfo);
+          infoList.subjectInfo2.push(courseInfo);
           infoList.save(function(err,document) {
             if (err)
               return console.error(err);
             console.log('해당과목 저장 성공');
-            console.log(document)
+            //console.log(document)
+          });
+          infoList.save(function(err,document) {
+            if (err)
+              return console.error(err);
+            console.log('해당과목 저장 성공');
+            //console.log(document)
           });
           res.send(isAddSuccess); // 올바른 입력값(과목코드)
         }
@@ -529,7 +564,70 @@ router.post('/addSubject', function (req,res) { //추가버튼 req(isNickname,su
 })
 // 수강신청페이지에서 삭제버튼 -----------------------------------------------------------------------
 router.post('/deleteSubject',function (req,res) { // req(subjectNumber)
+  SugangListbyUserModel.findOne({userID: req.session.user_ID},function (err,infoList) {
+    if (err) {
+      return console.log("err " + err);
+    }
+    console.log('1');
+    //두번째페이지 디비에서 지우고
+    SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
+      if (err) {
+        return console.log("err " + err);
+      }
+      console.log('Delete 완료');
+      console.log('2');
+    });
+    //첫번째페이지에서 과목코드로 찾고
+    SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo2: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
+      if (err) {
+        res.send({});
+        return console.log("err " + err);
+      }
+      console.log('Delete 완료');
+    });
+    /*
+    SugangListbyUserModel.findOne({ subjectInfo2: {subjectNumber: req.body.subjectNumber}},function (err,subject) {
+      if (err) {
+        return console.log("err " + err);
+      }
+      console.log('3');
+      //첫번째페이지에 과목이 없다면 아무 것도 안하고
+      if(!subject){
+        console.log('첫 번째 페이지에 해당 과목',subject,'이 없음');
+      }
+      else{
+        console.log('첫 번째 페이지에 해당 과목',subject,'이 있음');
+        //첫번째페이지에서 과목이 있으면 지움
+        SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo2: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
+          if (err) {
+            return console.log("err " + err);
+          }
+          console.log('Delete 완료');
+        });
+      }
+    });
+    */
+    res.send({});
+  });
+  /*
   SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
+    if (err) {
+      return console.log("err " + err);
+    }
+    console.log('Delete 완료')
+    //res로 뭘줘야지
+    SugangInfo.findOne({subjectNumber: req.body.subjectNumber},function (err,courseInfo) {
+      if (err) {
+        return console.log("err " + err);
+      }
+      console.log("과목정보존재");
+      res.send({CourseInfo: courseInfo});
+    })
+  })*/
+});
+// 첫번째 페이지에서 지우는 거는 그냥 마음대로 지우면 된다.
+router.post('/deleteSubject2',function (req,res) { // req(subjectNumber)
+  SugangListbyUserModel.findOneAndUpdate({userID: req.session.user_ID},{$pull: { subjectInfo2: {subjectNumber: req.body.subjectNumber}}}, function (err, infoList){
     if (err) {
       return console.log("err " + err);
     }
